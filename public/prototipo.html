@@ -7,7 +7,6 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f3; color: #1a1a18; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 2rem; }
-  /* Login */
   #login-screen { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 80vh; }
   .login-card { background: #fff; border: 0.5px solid #dddbd2; border-radius: 12px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
   .login-logo { width: 44px; height: 44px; border-radius: 50%; background: #FBF3DC; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
@@ -16,13 +15,12 @@
   .login-card .subtitle { font-size: 13px; color: #888780; margin-bottom: 1.75rem; }
   .login-card .field { margin-bottom: 14px; }
   .login-card .field label { font-size: 12px; color: #888780; display: block; margin-bottom: 5px; }
-  .login-card .field input { width: 100%; font-size: 14px; padding: 9px 12px; border: 0.5px solid #b4b2a9; border-radius: 8px; outline: none; transition: border-color 0.15s; box-sizing: border-box; }
+  .login-card .field input { width: 100%; font-size: 14px; padding: 9px 12px; border: 0.5px solid #b4b2a9; border-radius: 8px; outline: none; transition: border-color 0.15s; box-sizing: border-box; font-family: inherit; }
   .login-card .field input:focus { border-color: #C9A84C; }
   .btn-login { width: 100%; padding: 10px; font-size: 14px; font-weight: 500; background: #C9A84C; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-top: 6px; transition: background 0.15s; }
   .btn-login:hover { background: #A8832A; }
   .login-error { font-size: 12px; color: #b91c1c; background: #fee2e2; border: 0.5px solid #fca5a5; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; display: none; }
   .app { display: flex; width: 100%; max-width: 1100px; min-height: 620px; border: 0.5px solid #dddbd2; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07); display: none; }
-  /* Sidebar */
   .sidebar { width: 210px; background: #f5f5f3; border-right: 0.5px solid #dddbd2; padding: 1.25rem 0; flex-shrink: 0; display: flex; flex-direction: column; }
   .sidebar-brand { padding: 0 1rem 1.25rem; border-bottom: 0.5px solid #dddbd2; margin-bottom: 0.75rem; border-top: 3px solid #C9A84C; padding-top: 1rem; }
   .sidebar-brand p:first-child { font-size: 13px; font-weight: 500; color: #1a1a18; }
@@ -38,48 +36,37 @@
   .sidebar-footer { padding: 0.75rem 1rem 0; border-top: 0.5px solid #dddbd2; }
   .avatar { width: 28px; height: 28px; border-radius: 50%; background: #d1fae5; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #1D9E75; }
   .sidebar-footer-inner { display: flex; align-items: center; gap: 8px; }
-  /* Main */
   .main { flex: 1; overflow: auto; }
   .page { display: none; padding: 1.5rem; }
   .page.active { display: block; }
-  /* Typography */
   h2 { font-size: 18px; font-weight: 500; }
   p { line-height: 1.5; }
-  /* Cards */
   .card { background: #fff; border: 1px solid #C9A84C; border-radius: 12px; padding: 1rem 1.25rem; }
   .card-sm { background: #fff; border: 0.5px solid #dddbd2; border-radius: 8px; padding: 1rem 1.25rem; }
-  /* Metric cards */
   .metric { background: #f5f5f3; border-radius: 8px; padding: 1rem; border-left: 3px solid #C9A84C; }
   .metric-label { font-size: 12px; color: #888780; }
   .metric-value { font-size: 24px; font-weight: 500; margin-top: 4px; }
-  /* Grid */
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .grid-3-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  /* List items */
   .person-item { background: #fff; border: 0.5px solid #dddbd2; border-radius: 12px; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .person-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; }
   .avatar-green { background: #FBF3DC; color: #7A5C1E; }
   .avatar-blue { background: #d1fae5; color: #1D9E75; }
   .avatar-yellow { background: #FBF3DC; color: #A8832A; }
-  /* Badges */
   .badge-red { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: #fee2e2; color: #b91c1c; font-weight: 500; }
   .badge-yellow { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: #fef9c3; color: #a16207; }
   .badge-green { font-size: 11px; padding: 2px 7px; border-radius: 99px; background: #d1fae5; color: #1D9E75; font-weight: 500; }
   .badge-teal { font-size: 11px; padding: 2px 7px; border-radius: 99px; background: #d1fae5; color: #1D9E75; font-weight: 500; }
-  .badge-orange { font-size: 11px; padding: 2px 7px; border-radius: 99px; background: #fef3c7; color: #b45309; }
-  /* Buttons */
   button { cursor: pointer; font-family: inherit; font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 0.5px solid #b4b2a9; background: transparent; color: #1a1a18; transition: background 0.15s; }
   button:hover { background: #f5f5f3; }
   button.btn-sm { font-size: 12px; padding: 5px 10px; }
   button.btn-success { background: #FBF3DC; color: #7A5C1E; border-color: #E8C96A; }
   button.btn-success:hover { background: #F5E4A8; }
-  /* Form elements */
   input, select, textarea { font-family: inherit; font-size: 13px; padding: 7px 10px; border: 0.5px solid #b4b2a9; border-radius: 8px; width: 100%; color: #1a1a18; background: #fff; outline: none; transition: border-color 0.15s; }
   input:focus, select:focus, textarea:focus { border-color: #C9A84C; }
   label { font-size: 12px; color: #888780; display: block; margin-bottom: 4px; }
-  /* Table */
   .table-wrap { background: #fff; border: 0.5px solid #dddbd2; border-radius: 12px; overflow: hidden; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead tr { background: #f0faf6; }
@@ -90,7 +77,6 @@
   tr:last-child td { border-bottom: none; }
   .check { color: #1D9E75; font-weight: 700; font-size: 16px; }
   .dash { color: #b4b2a9; }
-  /* Spacing helpers */
   .mb-1 { margin-bottom: 10px; }
   .mb-2 { margin-bottom: 1.25rem; }
   .mt-1 { margin-top: 10px; }
@@ -99,19 +85,53 @@
   .muted { color: #888780; }
   .section-label { font-size: 13px; font-weight: 500; color: #1D9E75; margin-bottom: 12px; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  /* Login */
-  #login-screen { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 80vh; }
-  .login-card { background: #fff; border: 0.5px solid #dddbd2; border-radius: 12px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
-  .login-logo { width: 44px; height: 44px; border-radius: 50%; background: #FBF3DC; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
-  .login-card h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  .login-card .subtitle { font-size: 13px; color: #888780; margin-bottom: 1.75rem; }
-  .login-card .field { margin-bottom: 14px; }
-  .login-card .field label { font-size: 12px; color: #888780; display: block; margin-bottom: 5px; }
-  .login-card .field input { width: 100%; font-size: 14px; padding: 9px 12px; border: 0.5px solid #b4b2a9; border-radius: 8px; outline: none; transition: border-color 0.15s; box-sizing: border-box; font-family: inherit; }
-  .login-card .field input:focus { border-color: #C9A84C; }
-  .btn-login { width: 100%; padding: 10px; font-size: 14px; font-weight: 500; background: #C9A84C; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-top: 6px; transition: background 0.15s; }
-  .btn-login:hover { background: #A8832A; }
-  .login-error { font-size: 12px; color: #b91c1c; background: #fee2e2; border: 0.5px solid #fca5a5; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; display: none; }
+  .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; animation: toastIn 0.2s ease; }
+  .toast-success { background: #1D9E75; color: #fff; }
+  .toast-error { background: #b91c1c; color: #fff; }
+  @keyframes toastIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 700px) {
+    body { padding: 0; align-items: stretch; }
+    #login-screen { min-height: 100vh; padding: 1.5rem; }
+    .login-card { box-shadow: none; border: none; }
+
+    .app { flex-direction: column; border-radius: 0; border: none; min-height: 100vh; }
+
+    /* Sidebar se convierte en barra inferior */
+    .sidebar { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; padding: 0; order: 2; border-right: none; border-top: 0.5px solid #dddbd2; position: sticky; bottom: 0; background: #f5f5f3; z-index: 50; }
+    .sidebar-brand { display: none; }
+    .sidebar-footer { display: none; }
+    .nav { display: flex; flex-direction: row; justify-content: space-around; flex: 1; }
+    .nav-item { flex-direction: column; align-items: center; gap: 3px; padding: 8px 6px; margin-bottom: 0; border-left: none; border-top: 2px solid transparent; flex: 1; justify-content: center; }
+    .nav-item.active { border-left: none; border-top: 2px solid #C9A84C !important; background: #fff; }
+    .nav-item span { font-size: 10px; }
+    .nav-item svg { width: 18px; height: 18px; }
+
+    .main { flex: 1; order: 1; overflow: auto; }
+    .page { padding: 1rem; }
+
+    /* Grids colapsan */
+    .grid-3, .grid-2, .grid-form, .grid-3-cols { grid-template-columns: 1fr; }
+
+    /* Tablas con scroll horizontal */
+    .table-wrap { overflow-x: auto; }
+    table { min-width: 600px; }
+
+    /* Cards y person-items */
+    .person-item { flex-wrap: wrap; gap: 10px; }
+    .person-item > div:last-child { width: 100%; justify-content: flex-end; }
+
+    /* Métricas en 2 columnas */
+    .grid-3.mb-2 { grid-template-columns: 1fr 1fr; }
+
+    /* Modales */
+    #modal-overlay > div, #modal-eliminar > div { margin: 0.75rem; }
+
+    /* Toast abajo a la izquierda para no tapar nav */
+    .toast { bottom: 70px; right: 12px; left: 12px; justify-content: center; }
+  }
+
 </style>
 </head>
 <body>
@@ -125,25 +145,15 @@
     <h1>Bienvenido</h1>
     <p class="subtitle">Centro Adulto Mayor San Juan Pablo II</p>
     <div id="login-error" class="login-error">Credenciales incorrectas. Por favor contacte al administrador del sistema.</div>
-    <div class="field">
-      <label>Correo electrónico</label>
-      <input type="email" id="login-email" placeholder="correo@ejemplo.com">
-    </div>
-    <div class="field">
-      <label>Contraseña</label>
-      <input type="password" id="login-pass" placeholder="••••••••">
-    </div>
+    <div class="field"><label>Correo electrónico</label><input type="email" id="login-email" placeholder="correo@ejemplo.com"></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••"></div>
     <button class="btn-login" id="btn-login">Iniciar sesión</button>
   </div>
 </div>
 
 <div class="app" id="app" style="display:none;">
-  <!-- Sidebar -->
   <div class="sidebar">
-    <div class="sidebar-brand">
-      <p>Centro Adulto Mayor</p>
-      <p>San Juan Pablo II</p>
-    </div>
+    <div class="sidebar-brand"><p>Centro Adulto Mayor</p><p>San Juan Pablo II</p></div>
     <div class="nav">
       <div class="nav-item active" data-page="dashboard">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -173,66 +183,35 @@
     </div>
   </div>
 
-  <!-- Main content -->
   <div class="main">
 
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
       <h2 class="mb-1">Panel de inicio</h2>
-      <p class="muted mb-2" style="font-size:13px;">Resumen del día — miércoles 25 de marzo</p>
+      <p id="dashboard-fecha" class="muted mb-2" style="font-size:13px;"></p>
       <div class="grid-3 mb-2">
-        <div class="metric"><p class="metric-label">Personas registradas</p><p class="metric-value">3</p></div>
+        <div class="metric"><p class="metric-label">Personas registradas</p><p class="metric-value" id="dashboard-total">3</p></div>
         <div class="metric"><p class="metric-label">Con medicamentos hoy</p><p class="metric-value">3</p></div>
         <div class="metric"><p class="metric-label">Dosis programadas</p><p class="metric-value">5</p></div>
       </div>
       <div class="table-wrap">
-        <div style="padding:1rem 1.25rem;border-bottom:0.5px solid #dddbd2;">
-          <p style="font-size:14px;font-weight:500;">Horario de medicamentos del día</p>
-        </div>
+        <div style="padding:1rem 1.25rem;border-bottom:0.5px solid #dddbd2;"><p style="font-size:14px;font-weight:500;">Horario de medicamentos del día</p></div>
         <table>
-          <thead>
-            <tr>
-              <th>Persona</th>
-              <th>Ayunas</th>
-              <th>Desayuno</th>
-              <th>M. mañana</th>
-              <th>Almuerzo</th>
-              <th>M. tarde</th>
-              <th>Cena</th>
-              <th>Acostarse</th>
-              <th></th>
-            </tr>
-          </thead>
+          <thead><tr><th>Persona</th><th>Ayunas</th><th>Desayuno</th><th>M. mañana</th><th>Almuerzo</th><th>M. tarde</th><th>Cena</th><th>Acostarse</th></tr></thead>
           <tbody>
             <tr>
               <td><strong>María Rodríguez</strong></td>
-              <td><span class="badge-green">Metformina</span></td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td><span class="badge-green">Metformina</span></td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
+              <td><span class="badge-green">Metformina</span></td><td class="dash">—</td><td class="dash">—</td>
+              <td><span class="badge-green">Metformina</span></td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td>
             </tr>
             <tr>
               <td><strong>José Castro</strong></td>
-              <td class="dash">—</td>
-              <td><span class="badge-teal">Enalapril</span></td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
+              <td class="dash">—</td><td><span class="badge-teal">Enalapril</span></td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td>
               <td><span class="badge-teal">Enalapril</span></td>
             </tr>
             <tr>
               <td><strong>Ana Mora</strong></td>
-              <td class="dash">—</td>
-              <td><span class="badge-teal">Calcio</span></td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
+              <td class="dash">—</td><td><span class="badge-teal">Calcio</span></td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td>
             </tr>
           </tbody>
         </table>
@@ -244,52 +223,45 @@
       <div class="row-between mb-2">
         <div>
           <h2>Adultos mayores</h2>
-          <p style="font-size:13px;" class="muted">3 personas registradas</p>
+          <p id="adultos-contador" style="font-size:13px;" class="muted">3 personas registradas</p>
         </div>
         <button id="btn-nuevo">+ Nuevo registro</button>
       </div>
-      <div class="person-item">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div class="person-avatar avatar-green">MR</div>
-          <div>
-            <p style="font-size:14px;font-weight:500;">María Rodríguez</p>
-            <p style="font-size:12px;" class="muted">Cédula: 3-042-1891 · 78 años</p>
+      <div id="lista-adultos">
+        <div class="person-item">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="person-avatar avatar-green">MR</div>
+            <div><p style="font-size:14px;font-weight:500;">María Rodríguez</p><p style="font-size:12px;" class="muted">Cédula: 3-042-1891 · 78 años</p></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-sm btn-ver">Ver</button>
+            <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
           </div>
         </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-sm btn-ver">Ver</button>
-          <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
-        </div>
-      </div>
-      <div class="person-item">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div class="person-avatar avatar-blue">JC</div>
-          <div>
-            <p style="font-size:14px;font-weight:500;">José Castro</p>
-            <p style="font-size:12px;" class="muted">Cédula: 1-288-0442 · 83 años</p>
+        <div class="person-item">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="person-avatar avatar-blue">JC</div>
+            <div><p style="font-size:14px;font-weight:500;">José Castro</p><p style="font-size:12px;" class="muted">Cédula: 1-288-0442 · 83 años</p></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-sm btn-ver">Ver</button>
+            <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
           </div>
         </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-sm btn-ver">Ver</button>
-          <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
-        </div>
-      </div>
-      <div class="person-item">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div class="person-avatar avatar-yellow">AM</div>
-          <div>
-            <p style="font-size:14px;font-weight:500;">Ana Mora</p>
-            <p style="font-size:12px;" class="muted">Cédula: 2-120-3391 · 71 años</p>
+        <div class="person-item">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="person-avatar avatar-yellow">AM</div>
+            <div><p style="font-size:14px;font-weight:500;">Ana Mora</p><p style="font-size:12px;" class="muted">Cédula: 2-120-3391 · 71 años</p></div>
           </div>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-sm btn-ver">Ver</button>
-          <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-sm btn-ver">Ver</button>
+            <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- PERFIL / EDITAR PACIENTE -->
+    <!-- PERFIL -->
     <div id="page-perfil" class="page">
       <div class="row mb-2">
         <button id="btn-volver-perfil" class="btn-sm">← Volver</button>
@@ -301,8 +273,8 @@
             <div style="display:flex;align-items:center;gap:14px;">
               <div class="person-avatar avatar-green" style="width:48px;height:48px;font-size:16px;">MR</div>
               <div>
-                <p style="font-size:16px;font-weight:500;">María Rodríguez</p>
-                <p style="font-size:13px;" class="muted">78 años · Femenino · Casada</p>
+                <p id="perfil-nombre" style="font-size:16px;font-weight:500;">María Rodríguez</p>
+                <p id="perfil-meta" style="font-size:13px;" class="muted">78 años · Femenino · Casada</p>
               </div>
             </div>
             <button id="btn-editar-paciente" class="btn-sm" style="color:#C9A84C;border-color:#C9A84C;">Editar</button>
@@ -310,23 +282,23 @@
           <div style="border-top:0.5px solid #dddbd2;margin-top:1rem;padding-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <div><p style="font-size:12px;" class="muted">Cédula</p><p style="font-size:13px;">3-042-1891</p></div>
             <div><p style="font-size:12px;" class="muted">Fecha de nacimiento</p><p style="font-size:13px;">15/03/1946</p></div>
-            <div><p style="font-size:12px;" class="muted">Estado civil</p><p style="font-size:13px;">Casada</p></div>
-            <div><p style="font-size:12px;" class="muted">Teléfono</p><p style="font-size:13px;">8888-0001</p></div>
-            <div><p style="font-size:12px;" class="muted">Pensión IVM</p><p style="font-size:13px;">Sí</p></div>
-            <div><p style="font-size:12px;" class="muted">Dirección</p><p style="font-size:13px;">Cartago, El Guarco, San Isidro</p></div>
-            <div><p style="font-size:12px;" class="muted">Barrio</p><p style="font-size:13px;">Los Ángeles</p></div>
+            <div><p style="font-size:12px;" class="muted">Estado civil</p><p id="perfil-estado-civil" style="font-size:13px;">Casada</p></div>
+            <div><p style="font-size:12px;" class="muted">Teléfono</p><p id="perfil-telefono" style="font-size:13px;">8888-0001</p></div>
+            <div><p style="font-size:12px;" class="muted">Pensión IVM</p><p id="perfil-pension" style="font-size:13px;">Sí</p></div>
+            <div><p style="font-size:12px;" class="muted">Dirección</p><p id="perfil-direccion" style="font-size:13px;">Cartago, El Guarco, San Isidro</p></div>
+            <div><p style="font-size:12px;" class="muted">Barrio</p><p id="perfil-barrio" style="font-size:13px;">Los Ángeles</p></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="card-sm">
             <p class="section-label">Familiar solicitante</p>
-            <p style="font-size:13px;font-weight:500;">Laura Rodríguez</p>
-            <p style="font-size:12px;" class="muted">Cédula: 3-112-0884 · Tel: 8888-0002</p>
+            <p id="perfil-familiar-nombre" style="font-size:13px;font-weight:500;">Laura Rodríguez</p>
+            <p id="perfil-familiar-datos" style="font-size:12px;" class="muted">Cédula: 3-112-0884 · Tel: 8888-0002</p>
           </div>
           <div class="card-sm">
             <p class="section-label">Contacto de emergencia</p>
-            <p style="font-size:13px;font-weight:500;">Carlos Rodríguez</p>
-            <p style="font-size:12px;" class="muted">Tel: 8888-0003</p>
+            <p id="perfil-emergencia-nombre" style="font-size:13px;font-weight:500;">Carlos Rodríguez</p>
+            <p id="perfil-emergencia-tel" style="font-size:12px;" class="muted">Tel: 8888-0003</p>
           </div>
         </div>
       </div>
@@ -334,43 +306,43 @@
         <div class="card mb-1">
           <p class="section-label">Datos personales</p>
           <div class="grid-form mb-1">
-            <div><label>Nombre completo</label><input type="text" value="María Rodríguez"></div>
-            <div><label>Número de cédula</label><input type="text" value="3-042-1891"></div>
-            <div><label>Fecha de nacimiento</label><input type="date" value="1946-03-15"></div>
-            <div><label>Sexo</label><select><option selected>Femenino</option><option>Masculino</option></select></div>
-            <div><label>Estado civil</label><select><option selected>Casado/a</option><option>Soltero/a</option><option>Viudo/a</option><option>Divorciado/a</option></select></div>
-            <div><label>Teléfono</label><input type="text" value="8888-0001"></div>
-            <div><label>Recibe pensión IVM</label><select><option selected>Sí</option><option>No</option></select></div>
+            <div><label>Nombre completo</label><input type="text" id="edit-nombre" value="María Rodríguez"></div>
+            <div><label>Número de cédula</label><input type="text" id="edit-cedula" value="3-042-1891"></div>
+            <div><label>Fecha de nacimiento</label><input type="date" id="edit-nacimiento" value="1946-03-15"></div>
+            <div><label>Sexo</label><select id="edit-sexo"><option selected>Femenino</option><option>Masculino</option></select></div>
+            <div><label>Estado civil</label><select id="edit-estado-civil"><option selected>Casado/a</option><option>Soltero/a</option><option>Viudo/a</option><option>Divorciado/a</option></select></div>
+            <div><label>Teléfono</label><input type="text" id="edit-telefono" value="8888-0001"></div>
+            <div><label>Recibe pensión IVM</label><select id="edit-pension"><option selected>Sí</option><option>No</option></select></div>
           </div>
           <div>
             <label>Dirección</label>
             <div class="grid-3-cols mb-1">
-              <input type="text" value="Cartago">
-              <input type="text" value="El Guarco">
-              <input type="text" value="San Isidro">
+              <input type="text" id="edit-provincia" value="Cartago">
+              <input type="text" id="edit-canton" value="El Guarco">
+              <input type="text" id="edit-distrito" value="San Isidro">
             </div>
-            <input type="text" value="Los Ángeles" style="width:100%;">
+            <input type="text" id="edit-barrio" value="Los Ángeles" style="width:100%;">
           </div>
         </div>
         <div class="card mb-1">
           <p class="section-label">Familiar solicitante</p>
           <div class="grid-form">
-            <div><label>Nombre completo</label><input type="text" value="Laura Rodríguez"></div>
-            <div><label>Cédula</label><input type="text" value="3-112-0884"></div>
-            <div><label>Teléfono</label><input type="text" value="8888-0002"></div>
+            <div><label>Nombre completo</label><input type="text" id="edit-familiar-nombre" value="Laura Rodríguez"></div>
+            <div><label>Cédula</label><input type="text" id="edit-familiar-cedula" value="3-112-0884"></div>
+            <div><label>Teléfono</label><input type="text" id="edit-familiar-tel" value="8888-0002"></div>
             <div><label>Dirección</label><input type="text" value="Cartago, El Guarco"></div>
           </div>
         </div>
         <div class="card mb-2">
           <p class="section-label">Contacto de emergencia</p>
           <div class="grid-form">
-            <div><label>Nombre completo</label><input type="text" value="Carlos Rodríguez"></div>
-            <div><label>Teléfono</label><input type="text" value="8888-0003"></div>
+            <div><label>Nombre completo</label><input type="text" id="edit-emergencia-nombre" value="Carlos Rodríguez"></div>
+            <div><label>Teléfono</label><input type="text" id="edit-emergencia-tel" value="8888-0003"></div>
           </div>
         </div>
         <div style="display:flex;justify-content:flex-end;gap:8px;padding-bottom:1rem;">
           <button id="btn-cancelar-edicion">Cancelar</button>
-          <button class="btn-success">Guardar cambios</button>
+          <button id="btn-guardar-perfil" class="btn-success">Guardar cambios</button>
         </div>
       </div>
     </div>
@@ -384,20 +356,18 @@
       <div class="card mb-1">
         <p class="section-label">Datos personales</p>
         <div class="grid-form mb-1">
-          <div><label>Nombre completo</label><input type="text" placeholder="Nombre completo"></div>
-          <div><label>Número de cédula</label><input type="text" placeholder="0-000-0000"></div>
-          <div><label>Fecha de nacimiento</label><input type="date"></div>
-          <div><label>Sexo</label><select><option value="">Seleccionar</option><option>Masculino</option><option>Femenino</option></select></div>
+          <div><label>Nombre completo</label><input type="text" id="nuevo-nombre" placeholder="Nombre completo"></div>
+          <div><label>Número de cédula</label><input type="text" id="nuevo-cedula" placeholder="0-000-0000"></div>
+          <div><label>Fecha de nacimiento</label><input type="date" id="nuevo-nacimiento"></div>
+          <div><label>Sexo</label><select id="nuevo-sexo"><option value="">Seleccionar</option><option>Masculino</option><option>Femenino</option></select></div>
           <div><label>Estado civil</label><select><option value="">Seleccionar</option><option>Soltero/a</option><option>Casado/a</option><option>Viudo/a</option><option>Divorciado/a</option></select></div>
           <div><label>Teléfono</label><input type="text" placeholder="0000-0000"></div>
-            <div><label>Recibe pensión IVM</label><select><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
+          <div><label>Recibe pensión IVM</label><select><option value="">Seleccionar</option><option>Sí</option><option>No</option></select></div>
         </div>
         <div>
           <label>Dirección</label>
           <div class="grid-3-cols mb-1">
-            <input type="text" placeholder="Provincia">
-            <input type="text" placeholder="Cantón">
-            <input type="text" placeholder="Distrito">
+            <input type="text" placeholder="Provincia"><input type="text" placeholder="Cantón"><input type="text" placeholder="Distrito">
           </div>
           <input type="text" placeholder="Barrio">
         </div>
@@ -420,7 +390,7 @@
       </div>
       <div style="display:flex;justify-content:flex-end;gap:8px;padding-bottom:1rem;">
         <button id="btn-cancelar">Cancelar</button>
-        <button class="btn-success">Guardar registro</button>
+        <button id="btn-guardar-registro" class="btn-success">Guardar registro</button>
       </div>
     </div>
 
@@ -434,93 +404,64 @@
         <label>Seleccionar persona</label>
         <select id="historial-select"><option>María Rodríguez</option><option>José Castro</option><option>Ana Mora</option></select>
       </div>
-
-      <!-- HISTORIAL VISTA -->
       <div id="historial-vista">
         <div class="grid-2 mb-1">
-          <div class="card-sm">
-            <p class="section-label">Patologías</p>
-            <div class="tags">
-              <span class="badge-red">Hipertensión</span>
-              <span class="badge-red">Diabetes</span>
-              <span class="badge-red">Artritis</span>
-            </div>
-          </div>
-          <div class="card-sm">
-            <p class="section-label">Lesiones</p>
-            <div class="tags">
-              <span class="badge-yellow">Rodilla</span>
-              <span class="badge-yellow">Lumbar</span>
-            </div>
-          </div>
+          <div class="card-sm"><p class="section-label">Patologías</p><div class="tags" id="vista-patologias"><span class="badge-red">Hipertensión</span><span class="badge-red">Diabetes</span><span class="badge-red">Artritis</span></div></div>
+          <div class="card-sm"><p class="section-label">Lesiones</p><div class="tags" id="vista-lesiones"><span class="badge-yellow">Rodilla</span><span class="badge-yellow">Columna lumbar</span></div></div>
         </div>
         <div class="grid-2 mb-1">
-          <div class="card-sm">
-            <p class="section-label">Operaciones</p>
-            <p style="font-size:13px;">Rodilla derecha (2018)</p>
-          </div>
-          <div class="card-sm">
-            <p class="section-label">Hábitos</p>
-            <p style="font-size:13px;" class="muted">No fuma · No consume licor</p>
-            <p style="font-size:13px;margin-top:4px;">Ejercicio 3x semana</p>
-          </div>
+          <div class="card-sm"><p class="section-label">Operaciones</p><p id="vista-operaciones" style="font-size:13px;">Rodilla derecha (2018)</p></div>
+          <div class="card-sm"><p class="section-label">Hábitos</p><p id="vista-habitos" style="font-size:13px;">No fuma · No consume licor<br>Ejercicio 3x semana</p></div>
         </div>
-        <div class="card-sm">
-          <p class="section-label">Limitaciones físicas</p>
-          <p style="font-size:13px;">Dificultad para subir escaleras por problema en rodilla.</p>
-        </div>
+        <div class="card-sm"><p class="section-label">Limitaciones físicas</p><p id="vista-limitaciones" style="font-size:13px;">Dificultad para subir escaleras por problema en rodilla.</p></div>
       </div>
-
-      <!-- HISTORIAL EDICION -->
       <div id="historial-edicion" style="display:none;">
         <div class="card mb-1">
           <p class="section-label">Patologías</p>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px;justify-items:start;">
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Hipertensión</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Colesterol</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Mareos</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Anemia</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Artritis</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Diabetes</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Desmayos</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Asma</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Epilepsia</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Cardiopatías</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Osteoporosis</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Hipertensión" checked style="width:16px;height:16px;flex-shrink:0;"> Hipertensión</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Colesterol" style="width:16px;height:16px;flex-shrink:0;"> Colesterol</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Mareos" style="width:16px;height:16px;flex-shrink:0;"> Mareos</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Anemia" style="width:16px;height:16px;flex-shrink:0;"> Anemia</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Artritis" checked style="width:16px;height:16px;flex-shrink:0;"> Artritis</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Diabetes" checked style="width:16px;height:16px;flex-shrink:0;"> Diabetes</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Desmayos" style="width:16px;height:16px;flex-shrink:0;"> Desmayos</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Asma" style="width:16px;height:16px;flex-shrink:0;"> Asma</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Epilepsia" style="width:16px;height:16px;flex-shrink:0;"> Epilepsia</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Cardiopatías" style="width:16px;height:16px;flex-shrink:0;"> Cardiopatías</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="patologia-check" data-label="Osteoporosis" style="width:16px;height:16px;flex-shrink:0;"> Osteoporosis</label>
           </div>
         </div>
         <div class="card mb-1">
           <p class="section-label">Lesiones</p>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px;justify-items:start;">
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Hombros</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Tobillos</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Rodilla</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Cadera</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Codo</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Muñeca</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" checked style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Columna lumbar</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Cervical</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Hombros" style="width:16px;height:16px;flex-shrink:0;"> Hombros</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Tobillos" style="width:16px;height:16px;flex-shrink:0;"> Tobillos</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Rodilla" checked style="width:16px;height:16px;flex-shrink:0;"> Rodilla</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Cadera" style="width:16px;height:16px;flex-shrink:0;"> Cadera</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Codo" style="width:16px;height:16px;flex-shrink:0;"> Codo</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Muñeca" style="width:16px;height:16px;flex-shrink:0;"> Muñeca</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Columna lumbar" checked style="width:16px;height:16px;flex-shrink:0;"> Columna lumbar</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" class="lesion-check" data-label="Cervical" style="width:16px;height:16px;flex-shrink:0;"> Cervical</label>
           </div>
         </div>
         <div class="card mb-1">
           <p class="section-label">Hábitos</p>
           <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Fuma</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" style="width:16px;height:16px;flex-shrink:0;cursor:pointer;"> Consume licor</label>
-            <div style="display:flex;align-items:center;gap:8px;"><label style="font-size:13px;color:#1a1a18;">Ejercicio</label><input type="number" value="3" min="0" max="7" style="width:60px;"><label style="font-size:13px;color:#888780;">veces/semana</label></div>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" id="h-fuma" style="width:16px;height:16px;flex-shrink:0;"> Fuma</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a18;cursor:pointer;"><input type="checkbox" id="h-licor" style="width:16px;height:16px;flex-shrink:0;"> Consume licor</label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label style="font-size:13px;color:#1a1a18;margin-bottom:0;">Ejercicio</label>
+              <input type="number" id="h-ejercicio" value="3" min="0" max="7" style="width:60px;">
+              <label style="font-size:13px;color:#888780;margin-bottom:0;">veces/semana</label>
+            </div>
           </div>
         </div>
-        <div class="card mb-1">
-          <p class="section-label">Operaciones</p>
-          <textarea style="width:100%;min-height:60px;resize:vertical;box-sizing:border-box;">Rodilla derecha (2018)</textarea>
-        </div>
-        <div class="card mb-2">
-          <p class="section-label">Limitaciones físicas</p>
-          <textarea style="width:100%;min-height:60px;resize:vertical;box-sizing:border-box;">Dificultad para subir escaleras por problema en rodilla.</textarea>
-        </div>
+        <div class="card mb-1"><p class="section-label">Operaciones</p><textarea id="h-operaciones" style="width:100%;min-height:60px;resize:vertical;box-sizing:border-box;">Rodilla derecha (2018)</textarea></div>
+        <div class="card mb-2"><p class="section-label">Limitaciones físicas</p><textarea id="h-limitaciones" style="width:100%;min-height:60px;resize:vertical;box-sizing:border-box;">Dificultad para subir escaleras por problema en rodilla.</textarea></div>
         <div style="display:flex;justify-content:flex-end;gap:8px;padding-bottom:1rem;">
           <button id="btn-cancelar-historial">Cancelar</button>
-          <button class="btn-success">Guardar cambios</button>
+          <button id="btn-guardar-historial" class="btn-success">Guardar cambios</button>
         </div>
       </div>
     </div>
@@ -537,49 +478,19 @@
       </div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Medicamento</th>
-              <th>Ayunas</th>
-              <th>Desayuno</th>
-              <th>M. mañana</th>
-              <th>Almuerzo</th>
-              <th>M. tarde</th>
-              <th>Cena</th>
-              <th>Acostarse</th>
-              <th></th>
-            </tr>
-          </thead>
+          <thead><tr><th>Medicamento</th><th>Ayunas</th><th>Desayuno</th><th>M. mañana</th><th>Almuerzo</th><th>M. tarde</th><th>Cena</th><th>Acostarse</th><th></th></tr></thead>
           <tbody id="med-tbody">
             <tr>
-              <td>
-                <p style="font-weight:500;">Metformina 500mg</p>
-                <p style="font-size:11px;" class="muted">Sin indicación especial</p>
-              </td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
+              <td><p style="font-weight:500;">Metformina 500mg</p><p style="font-size:11px;" class="muted">Sin indicación especial</p></td>
+              <td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td>
               <td style="white-space:nowrap;">
                 <button class="btn-sm btn-editar-med" style="color:#C9A84C;border-color:#C9A84C;">Editar</button>
                 <button class="btn-sm btn-eliminar-med" style="color:#b91c1c;border-color:#fca5a5;margin-left:4px;">Eliminar</button>
               </td>
             </tr>
             <tr>
-              <td>
-                <p style="font-weight:500;">Enalapril 10mg</p>
-                <p style="font-size:11px;" class="muted">Tomar con agua abundante</p>
-              </td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
+              <td><p style="font-weight:500;">Enalapril 10mg</p><p style="font-size:11px;" class="muted">Tomar con agua abundante</p></td>
+              <td class="dash">—</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td>
               <td style="white-space:nowrap;">
                 <button class="btn-sm btn-editar-med" style="color:#C9A84C;border-color:#C9A84C;">Editar</button>
                 <button class="btn-sm btn-eliminar-med" style="color:#b91c1c;border-color:#fca5a5;margin-left:4px;">Eliminar</button>
@@ -590,13 +501,10 @@
       </div>
     </div>
 
-    <!-- MODAL EDITAR MEDICAMENTO -->
+    <!-- MODAL MEDICAMENTO -->
     <div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:100;align-items:center;justify-content:center;">
       <div style="background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:480px;margin:1rem;border-top:2px solid #C9A84C;">
-        <div class="row-between mb-2">
-          <h2 id="modal-titulo">Editar medicamento</h2>
-          <button id="btn-cerrar-modal" class="btn-sm">✕</button>
-        </div>
+        <div class="row-between mb-2"><h2 id="modal-titulo">Editar medicamento</h2><button id="btn-cerrar-modal" class="btn-sm">✕</button></div>
         <div class="field mb-1"><label>Nombre del medicamento</label><input type="text" id="modal-nombre" placeholder="Ej: Metformina 500mg"></div>
         <div class="field mb-1"><label>Indicación especial</label><input type="text" id="modal-indicacion" placeholder="Ej: Tomar con agua"></div>
         <p style="font-size:12px;color:#1D9E75;font-weight:500;margin-bottom:8px;">Horario de toma</p>
@@ -611,12 +519,12 @@
         </div>
         <div style="display:flex;justify-content:flex-end;gap:8px;">
           <button id="btn-cancelar-modal">Cancelar</button>
-          <button class="btn-success">Guardar</button>
+          <button id="btn-guardar-modal" class="btn-success">Guardar</button>
         </div>
       </div>
     </div>
 
-    <!-- MODAL CONFIRMAR ELIMINACION -->
+    <!-- MODAL ELIMINAR -->
     <div id="modal-eliminar" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:100;align-items:center;justify-content:center;">
       <div style="background:#fff;border-radius:12px;padding:1.5rem;width:100%;max-width:380px;margin:1rem;border-top:2px solid #b91c1c;">
         <h2 style="font-size:16px;margin-bottom:8px;">¿Eliminar registro?</h2>
@@ -632,15 +540,60 @@
 </div>
 
 <script>
-// Login
+// ---- UTILIDADES ----
+function showToast(msg, type = 'success') {
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.textContent = (type === 'success' ? '✓  ' : '✗  ') + msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.style.transition = 'opacity 0.3s';
+    t.style.opacity = '0';
+    setTimeout(() => t.remove(), 300);
+  }, 2500);
+}
+
+function updateCounter() {
+  const count = document.querySelectorAll('#lista-adultos .person-item').length;
+  const s = count !== 1;
+  document.getElementById('adultos-contador').textContent = count + ' persona' + (s ? 's' : '') + ' registrada' + (s ? 's' : '');
+  document.getElementById('dashboard-total').textContent = count;
+}
+
+// ---- FECHA REAL ----
+(function() {
+  const dias   = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const meses  = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const hoy    = new Date();
+  document.getElementById('dashboard-fecha').textContent =
+    'Resumen del día — ' + dias[hoy.getDay()] + ' ' + hoy.getDate() + ' de ' + meses[hoy.getMonth()];
+})();
+
+// ---- NAVEGACIÓN ----
+const pages = ['dashboard','adultos','nuevo','perfil','historial','medicamentos'];
+function showPage(name) {
+  pages.forEach(p => document.getElementById('page-'+p).classList.toggle('active', p === name));
+}
+function setActiveNav(page) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const m = document.querySelector('.nav-item[data-page="'+page+'"]');
+  if (m) m.classList.add('active');
+}
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => { setActiveNav(item.dataset.page); showPage(item.dataset.page); });
+});
+
+// ---- LOGIN ----
 document.getElementById('btn-login').addEventListener('click', () => {
   const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const err = document.getElementById('login-error');
+  const pass  = document.getElementById('login-pass').value;
+  const err   = document.getElementById('login-error');
   if (email && pass) {
     err.style.display = 'none';
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
+    setActiveNav('dashboard');
+    showPage('dashboard');
   } else {
     err.style.display = 'block';
   }
@@ -649,116 +602,118 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('btn-login').click();
 });
 
-const pages = ['dashboard','adultos','nuevo','perfil','historial','medicamentos'];
-function showPage(name) {
-  pages.forEach(p => {
-    document.getElementById('page-'+p).classList.toggle('active', p === name);
-  });
-}
-function setActiveNav(page) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const match = document.querySelector('.nav-item[data-page="'+page+'"]');
-  if (match) match.classList.add('active');
-}
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => {
-    setActiveNav(item.dataset.page);
-    showPage(item.dataset.page);
-  });
+// ---- CERRAR SESIÓN ----
+document.getElementById('btn-cerrar-sesion').addEventListener('click', () => {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value  = '';
+  document.getElementById('login-error').style.display = 'none';
+  setActiveNav('dashboard');
+  showPage('dashboard');
 });
-document.getElementById('btn-nuevo').addEventListener('click', () => {
-  setActiveNav('');
-  showPage('nuevo');
-});
-document.getElementById('btn-volver').addEventListener('click', () => {
+
+// ---- NUEVO REGISTRO ----
+document.getElementById('btn-nuevo').addEventListener('click', () => { setActiveNav(''); showPage('nuevo'); });
+document.getElementById('btn-volver').addEventListener('click', () => { setActiveNav('adultos'); showPage('adultos'); });
+document.getElementById('btn-cancelar').addEventListener('click', () => { setActiveNav('adultos'); showPage('adultos'); });
+
+document.getElementById('btn-guardar-registro').addEventListener('click', () => {
+  const nombre   = document.getElementById('nuevo-nombre').value.trim();
+  const cedula   = document.getElementById('nuevo-cedula').value.trim();
+  const nacInput = document.getElementById('nuevo-nacimiento').value;
+  if (!nombre || !cedula) { showToast('Por favor ingresá el nombre y la cédula.', 'error'); return; }
+  let edadTxt = '';
+  if (nacInput) {
+    const edad = new Date().getFullYear() - new Date(nacInput).getFullYear();
+    edadTxt = ' · ' + edad + ' años';
+  }
+  const partes   = nombre.split(' ');
+  const iniciales = (partes[0][0] + (partes[1] ? partes[1][0] : '')).toUpperCase();
+  const colores  = ['avatar-green','avatar-blue','avatar-yellow'];
+  const color    = colores[document.querySelectorAll('#lista-adultos .person-item').length % 3];
+  const item = document.createElement('div');
+  item.className = 'person-item';
+  item.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="person-avatar ${color}">${iniciales}</div>
+      <div><p style="font-size:14px;font-weight:500;">${nombre}</p><p style="font-size:12px;" class="muted">Cédula: ${cedula}${edadTxt}</p></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-sm btn-ver">Ver</button>
+      <button class="btn-sm btn-eliminar-paciente" style="color:#b91c1c;border-color:#fca5a5;">Eliminar</button>
+    </div>`;
+  document.getElementById('lista-adultos').appendChild(item);
+  document.getElementById('nuevo-nombre').value = '';
+  document.getElementById('nuevo-cedula').value = '';
+  document.getElementById('nuevo-nacimiento').value = '';
+  document.getElementById('nuevo-sexo').selectedIndex = 0;
+  updateCounter();
   setActiveNav('adultos');
   showPage('adultos');
+  showToast('Registro guardado correctamente.');
 });
-document.getElementById('btn-cancelar').addEventListener('click', () => {
-  setActiveNav('adultos');
-  showPage('adultos');
-});
-document.querySelectorAll('.btn-ver').forEach(btn => {
-  btn.addEventListener('click', () => {
+
+// ---- VER / VOLVER PERFIL ----
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('btn-ver')) {
     setActiveNav('adultos');
     showPage('perfil');
     document.getElementById('perfil-vista').style.display = 'block';
     document.getElementById('perfil-edicion').style.display = 'none';
-  });
+  }
 });
-document.getElementById('btn-volver-perfil').addEventListener('click', () => {
-  setActiveNav('adultos');
-  showPage('adultos');
-});
+document.getElementById('btn-volver-perfil').addEventListener('click', () => { setActiveNav('adultos'); showPage('adultos'); });
+
+// ---- EDITAR PERFIL ----
 document.getElementById('btn-editar-paciente').addEventListener('click', () => {
-  document.getElementById('perfil-vista').style.display = 'none';
+  document.getElementById('perfil-vista').style.display   = 'none';
   document.getElementById('perfil-edicion').style.display = 'block';
 });
 document.getElementById('btn-cancelar-edicion').addEventListener('click', () => {
-  document.getElementById('perfil-vista').style.display = 'block';
+  document.getElementById('perfil-vista').style.display   = 'block';
   document.getElementById('perfil-edicion').style.display = 'none';
 });
+document.getElementById('btn-guardar-perfil').addEventListener('click', () => {
+  const nombre      = document.getElementById('edit-nombre').value.trim();
+  const nacInput    = document.getElementById('edit-nacimiento').value;
+  const sexo        = document.getElementById('edit-sexo').value;
+  const estadoCivil = document.getElementById('edit-estado-civil').value;
+  const telefono    = document.getElementById('edit-telefono').value.trim();
+  const pension     = document.getElementById('edit-pension').value;
+  const provincia   = document.getElementById('edit-provincia').value.trim();
+  const canton      = document.getElementById('edit-canton').value.trim();
+  const distrito    = document.getElementById('edit-distrito').value.trim();
+  const barrio      = document.getElementById('edit-barrio').value.trim();
+  const famNombre   = document.getElementById('edit-familiar-nombre').value.trim();
+  const famCedula   = document.getElementById('edit-familiar-cedula').value.trim();
+  const famTel      = document.getElementById('edit-familiar-tel').value.trim();
+  const emergNombre = document.getElementById('edit-emergencia-nombre').value.trim();
+  const emergTel    = document.getElementById('edit-emergencia-tel').value.trim();
 
-// --- ELIMINAR PACIENTE ---
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('btn-eliminar-paciente')) {
-    const nombre = e.target.closest('.person-item').querySelector('p').textContent;
-    showEliminarModal('¿Eliminar a ' + nombre + '? Esta acción no se puede deshacer.', () => {
-      e.target.closest('.person-item').remove();
-    });
+  let metaTxt = sexo + ' · ' + estadoCivil;
+  if (nacInput) {
+    const edad = new Date().getFullYear() - new Date(nacInput).getFullYear();
+    metaTxt = edad + ' años · ' + metaTxt;
   }
+  document.getElementById('perfil-nombre').textContent        = nombre;
+  document.getElementById('perfil-meta').textContent          = metaTxt;
+  document.getElementById('perfil-telefono').textContent      = telefono;
+  document.getElementById('perfil-pension').textContent       = pension;
+  document.getElementById('perfil-estado-civil').textContent  = estadoCivil;
+  document.getElementById('perfil-direccion').textContent     = [provincia, canton, distrito].filter(Boolean).join(', ');
+  document.getElementById('perfil-barrio').textContent        = barrio;
+  document.getElementById('perfil-familiar-nombre').textContent = famNombre;
+  document.getElementById('perfil-familiar-datos').textContent  = 'Cédula: ' + famCedula + ' · Tel: ' + famTel;
+  document.getElementById('perfil-emergencia-nombre').textContent = emergNombre;
+  document.getElementById('perfil-emergencia-tel').textContent    = 'Tel: ' + emergTel;
+
+  document.getElementById('perfil-vista').style.display   = 'block';
+  document.getElementById('perfil-edicion').style.display = 'none';
+  showToast('Datos del paciente actualizados.');
 });
 
-// --- HISTORIAL EDITAR ---
-document.getElementById('btn-editar-historial').addEventListener('click', () => {
-  document.getElementById('historial-vista').style.display = 'none';
-  document.getElementById('historial-edicion').style.display = 'block';
-  document.getElementById('btn-editar-historial').style.display = 'none';
-  document.getElementById('historial-select').disabled = true;
-  document.getElementById('historial-select').style.opacity = '0.5';
-});
-document.getElementById('btn-cancelar-historial').addEventListener('click', () => {
-  document.getElementById('historial-vista').style.display = 'block';
-  document.getElementById('historial-edicion').style.display = 'none';
-  document.getElementById('btn-editar-historial').style.display = 'inline-block';
-  document.getElementById('btn-editar-historial').textContent = 'Editar historial';
-  document.getElementById('historial-select').disabled = false;
-  document.getElementById('historial-select').style.opacity = '1';
-});
-
-// --- MODAL MEDICAMENTO (editar / agregar) ---
-function openMedModal(titulo, nombre, indicacion, horarios) {
-  document.getElementById('modal-titulo').textContent = titulo;
-  document.getElementById('modal-nombre').value = nombre || '';
-  document.getElementById('modal-indicacion').value = indicacion || '';
-  ['ayunas','desayuno','mmañana','almuerzo','mtarde','cena','acostarse'].forEach(h => {
-    document.getElementById('h-'+h).checked = horarios ? horarios.includes(h) : false;
-  });
-  document.getElementById('modal-overlay').style.display = 'flex';
-}
-document.getElementById('btn-agregar-med').addEventListener('click', () => {
-  openMedModal('Agregar medicamento', '', '', []);
-});
-document.addEventListener('click', e => {
-  if (e.target.classList.contains('btn-editar-med')) {
-    const row = e.target.closest('tr');
-    const nombre = row.querySelector('p').textContent;
-    const indicacion = row.querySelectorAll('p')[1].textContent;
-    const checks = [...row.querySelectorAll('td')].slice(1,8).map((td,i) => {
-      const keys = ['ayunas','desayuno','mmañana','almuerzo','mtarde','cena','acostarse'];
-      return td.classList.contains('check') ? keys[i] : null;
-    }).filter(Boolean);
-    openMedModal('Editar medicamento', nombre, indicacion, checks);
-  }
-});
-document.getElementById('btn-cerrar-modal').addEventListener('click', () => {
-  document.getElementById('modal-overlay').style.display = 'none';
-});
-document.getElementById('btn-cancelar-modal').addEventListener('click', () => {
-  document.getElementById('modal-overlay').style.display = 'none';
-});
-
-// --- ELIMINAR MEDICAMENTO ---
+// ---- ELIMINAR PACIENTE ----
 let eliminarCallback = null;
 function showEliminarModal(texto, cb) {
   document.getElementById('modal-eliminar-texto').textContent = texto;
@@ -766,11 +721,121 @@ function showEliminarModal(texto, cb) {
   document.getElementById('modal-eliminar').style.display = 'flex';
 }
 document.addEventListener('click', e => {
+  if (e.target.classList.contains('btn-eliminar-paciente')) {
+    const item   = e.target.closest('.person-item');
+    const nombre = item.querySelector('p').textContent;
+    showEliminarModal('¿Eliminar a ' + nombre + '? Esta acción no se puede deshacer.', () => {
+      item.remove();
+      updateCounter();
+      showToast('Registro eliminado correctamente.');
+    });
+  }
+});
+
+// ---- HISTORIAL ----
+document.getElementById('btn-editar-historial').addEventListener('click', () => {
+  document.getElementById('historial-vista').style.display   = 'none';
+  document.getElementById('historial-edicion').style.display = 'block';
+  document.getElementById('btn-editar-historial').style.display = 'none';
+  document.getElementById('historial-select').disabled = true;
+  document.getElementById('historial-select').style.opacity = '0.5';
+});
+document.getElementById('btn-cancelar-historial').addEventListener('click', () => {
+  document.getElementById('historial-vista').style.display   = 'block';
+  document.getElementById('historial-edicion').style.display = 'none';
+  document.getElementById('btn-editar-historial').style.display = 'inline-block';
+  document.getElementById('historial-select').disabled = false;
+  document.getElementById('historial-select').style.opacity = '1';
+});
+document.getElementById('btn-guardar-historial').addEventListener('click', () => {
+  const patologias  = [...document.querySelectorAll('.patologia-check:checked')].map(c => c.dataset.label);
+  const lesiones    = [...document.querySelectorAll('.lesion-check:checked')].map(c => c.dataset.label);
+  const fuma        = document.getElementById('h-fuma').checked;
+  const licor       = document.getElementById('h-licor').checked;
+  const ejercicio   = document.getElementById('h-ejercicio').value;
+  const operaciones = document.getElementById('h-operaciones').value.trim();
+  const limitaciones= document.getElementById('h-limitaciones').value.trim();
+
+  document.getElementById('vista-patologias').innerHTML = patologias.length
+    ? patologias.map(l => `<span class="badge-red">${l}</span>`).join('')
+    : '<span class="muted" style="font-size:13px;">Sin patologías registradas</span>';
+
+  document.getElementById('vista-lesiones').innerHTML = lesiones.length
+    ? lesiones.map(l => `<span class="badge-yellow">${l}</span>`).join('')
+    : '<span class="muted" style="font-size:13px;">Sin lesiones registradas</span>';
+
+  document.getElementById('vista-habitos').innerHTML =
+    (fuma ? 'Fuma' : 'No fuma') + ' · ' + (licor ? 'Consume licor' : 'No consume licor') +
+    '<br>Ejercicio ' + ejercicio + 'x semana';
+
+  document.getElementById('vista-operaciones').textContent  = operaciones  || 'Ninguna';
+  document.getElementById('vista-limitaciones').textContent = limitaciones || 'Ninguna';
+
+  document.getElementById('historial-vista').style.display   = 'block';
+  document.getElementById('historial-edicion').style.display = 'none';
+  document.getElementById('btn-editar-historial').style.display = 'inline-block';
+  document.getElementById('historial-select').disabled = false;
+  document.getElementById('historial-select').style.opacity = '1';
+  showToast('Historial actualizado correctamente.');
+});
+
+// ---- MODAL MEDICAMENTO ----
+let editingRow = null;
+const horarioKeys = ['ayunas','desayuno','mmañana','almuerzo','mtarde','cena','acostarse'];
+
+function openMedModal(titulo, nombre, indicacion, horarios) {
+  document.getElementById('modal-titulo').textContent    = titulo;
+  document.getElementById('modal-nombre').value          = nombre || '';
+  document.getElementById('modal-indicacion').value      = indicacion || '';
+  horarioKeys.forEach(h => { document.getElementById('h-'+h).checked = horarios ? horarios.includes(h) : false; });
+  document.getElementById('modal-overlay').style.display = 'flex';
+}
+document.getElementById('btn-agregar-med').addEventListener('click', () => { editingRow = null; openMedModal('Agregar medicamento', '', '', []); });
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('btn-editar-med')) {
+    editingRow = e.target.closest('tr');
+    const nombre     = editingRow.querySelector('p').textContent;
+    const indicacion = editingRow.querySelectorAll('p')[1].textContent;
+    const checks     = [...editingRow.querySelectorAll('td')].slice(1,8).map((td, i) =>
+      td.classList.contains('check') ? horarioKeys[i] : null
+    ).filter(Boolean);
+    openMedModal('Editar medicamento', nombre, indicacion, checks);
+  }
+});
+document.getElementById('btn-cerrar-modal').addEventListener('click', () => { document.getElementById('modal-overlay').style.display = 'none'; editingRow = null; });
+document.getElementById('btn-cancelar-modal').addEventListener('click', () => { document.getElementById('modal-overlay').style.display = 'none'; editingRow = null; });
+
+document.getElementById('btn-guardar-modal').addEventListener('click', () => {
+  const nombre     = document.getElementById('modal-nombre').value.trim();
+  const indicacion = document.getElementById('modal-indicacion').value.trim();
+  const checks     = horarioKeys.map(h => document.getElementById('h-'+h).checked);
+  if (!nombre) { showToast('Por favor ingresá el nombre del medicamento.', 'error'); return; }
+
+  if (editingRow) {
+    editingRow.querySelector('p').textContent = nombre;
+    editingRow.querySelectorAll('p')[1].textContent = indicacion || 'Sin indicación especial';
+    const tds = editingRow.querySelectorAll('td');
+    checks.forEach((c, i) => { tds[i+1].className = c ? 'check' : 'dash'; tds[i+1].textContent = c ? '✓' : '—'; });
+    showToast('Medicamento actualizado correctamente.');
+  } else {
+    const celdas = checks.map(c => `<td class="${c ? 'check' : 'dash'}">${c ? '✓' : '—'}</td>`).join('');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><p style="font-weight:500;">${nombre}</p><p style="font-size:11px;" class="muted">${indicacion || 'Sin indicación especial'}</p></td>${celdas}<td style="white-space:nowrap;"><button class="btn-sm btn-editar-med" style="color:#C9A84C;border-color:#C9A84C;">Editar</button><button class="btn-sm btn-eliminar-med" style="color:#b91c1c;border-color:#fca5a5;margin-left:4px;">Eliminar</button></td>`;
+    document.getElementById('med-tbody').appendChild(tr);
+    showToast('Medicamento agregado correctamente.');
+  }
+  document.getElementById('modal-overlay').style.display = 'none';
+  editingRow = null;
+});
+
+// ---- ELIMINAR MEDICAMENTO ----
+document.addEventListener('click', e => {
   if (e.target.classList.contains('btn-eliminar-med')) {
-    const row = e.target.closest('tr');
+    const row    = e.target.closest('tr');
     const nombre = row.querySelector('p').textContent;
     showEliminarModal('¿Eliminar ' + nombre + '? Esta acción no se puede deshacer.', () => {
       row.remove();
+      showToast('Medicamento eliminado correctamente.');
     });
   }
 });
@@ -782,16 +847,6 @@ document.getElementById('btn-confirmar-eliminar').addEventListener('click', () =
   if (eliminarCallback) eliminarCallback();
   document.getElementById('modal-eliminar').style.display = 'none';
   eliminarCallback = null;
-});
-// Cerrar sesión
-document.getElementById('btn-cerrar-sesion').addEventListener('click', () => {
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-email').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  setActiveNav('adultos');
-  showPage('adultos');
 });
 </script>
 </body>
