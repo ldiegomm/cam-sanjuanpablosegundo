@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authHeader = request.headers.get('authorization')
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { error } = await supabase
       .from('adultos_mayores')
       .select('id')
@@ -14,7 +19,8 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      message: '✅ Conexión a Supabase exitosa'
+      message: '✅ Supabase keep-alive OK',
+      timestamp: new Date().toISOString()
     })
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
