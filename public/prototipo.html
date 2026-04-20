@@ -130,6 +130,15 @@
 
     /* Toast abajo a la izquierda para no tapar nav */
     .toast { bottom: 70px; right: 12px; left: 12px; justify-content: center; }
+
+    /* Buscador + botón se apilan en móvil */
+    #page-adultos .buscador-accion,
+    #page-historial .buscador-accion,
+    #page-medicamentos .buscador-accion { flex-direction: column; align-items: stretch; }
+
+    #page-adultos .buscador-accion button,
+    #page-historial .buscador-accion button,
+    #page-medicamentos .buscador-accion button { width: 100%; text-align: center; margin-bottom: 0 !important; }
   }
 
 
@@ -226,7 +235,7 @@
         <h2>Adultos mayores</h2>
         <p id="adultos-contador" style="font-size:13px;" class="muted">3 personas registradas</p>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:1.25rem;">
+      <div class="buscador-accion" style="display:flex;gap:8px;margin-bottom:1.25rem;">
         <div class="pac-search-wrap" style="flex:1;">
           <svg class="pac-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" class="pac-input" id="adultos-search" placeholder="Buscar por nombre o cédula...">
@@ -425,19 +434,17 @@
       <div class="mb-2">
         <h2>Historial de salud</h2>
       </div>
-      <div class="card mb-1">
-        <div style="display:flex;gap:8px;align-items:flex-end;">
-          <div style="flex:1;">
-            <label>Seleccionar persona</label>
-            <div class="pac-search-wrap" id="hist-wrap">
-              <svg class="pac-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" class="pac-input" id="hist-search" placeholder="Buscar paciente..." autocomplete="off">
-              <div class="pac-dropdown" id="hist-dropdown"></div>
-            </div>
+      <div class="buscador-accion" style="display:flex;gap:8px;margin-bottom:1.25rem;">
+        <div style="flex:1;">
+          <label style="font-size:12px;color:#888780;display:block;margin-bottom:4px;">Seleccionar persona</label>
+          <div class="pac-search-wrap" id="hist-wrap">
+            <svg class="pac-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="pac-input" id="hist-search" placeholder="Buscar paciente..." autocomplete="off">
+            <div class="pac-dropdown" id="hist-dropdown"></div>
           </div>
-          <button class="btn-sm" style="color:#C9A84C;border-color:#C9A84C;white-space:nowrap;margin-bottom:1px;" id="btn-editar-historial">Editar historial</button>
+          <input type="hidden" id="historial-select" value="maria">
         </div>
-        <input type="hidden" id="historial-select" value="maria">
+        <button style="color:#C9A84C;border-color:#C9A84C;white-space:nowrap;align-self:flex-end;" id="btn-editar-historial">Editar historial</button>
       </div>
       <p id="hist-contexto" style="font-size:13px;color:#888780;margin-bottom:12px;">Historial de salud de: <strong id="hist-contexto-nombre">María Rodríguez</strong></p>
       <div id="historial-vista">
@@ -513,19 +520,17 @@
       <div class="mb-2">
         <h2>Medicamentos</h2>
       </div>
-      <div class="card mb-1">
-        <div style="display:flex;gap:8px;align-items:flex-end;">
-          <div style="flex:1;">
-            <label>Seleccionar persona</label>
-            <div class="pac-search-wrap" id="med-wrap">
-              <svg class="pac-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" class="pac-input" id="med-search" placeholder="Buscar paciente..." autocomplete="off">
-              <div class="pac-dropdown" id="med-dropdown"></div>
-            </div>
+      <div class="buscador-accion" style="display:flex;gap:8px;margin-bottom:1.25rem;">
+        <div style="flex:1;">
+          <label style="font-size:12px;color:#888780;display:block;margin-bottom:4px;">Seleccionar persona</label>
+          <div class="pac-search-wrap" id="med-wrap">
+            <svg class="pac-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="pac-input" id="med-search" placeholder="Buscar paciente..." autocomplete="off">
+            <div class="pac-dropdown" id="med-dropdown"></div>
           </div>
-          <button id="btn-agregar-med" style="color:#C9A84C;border-color:#C9A84C;white-space:nowrap;margin-bottom:1px;">+ Agregar</button>
+          <input type="hidden" id="med-select" value="maria">
         </div>
-        <input type="hidden" id="med-select" value="maria">
+        <button id="btn-agregar-med" style="color:#C9A84C;border-color:#C9A84C;white-space:nowrap;align-self:flex-end;">+ Agregar</button>
       </div>
       <p id="med-contexto" style="font-size:13px;color:#888780;margin-bottom:12px;">Medicamentos de: <strong id="med-contexto-nombre">María Rodríguez</strong></p>
       <div class="table-wrap">
