@@ -1000,8 +1000,11 @@ crearBuscador('hist-search', 'hist-dropdown', 'historial-select', (key) => {
   document.getElementById('historial-edicion').style.display = 'none';
   document.getElementById('historial-vista').style.display   = 'block';
   document.getElementById('btn-editar-historial').style.display = 'inline-block';
-  document.getElementById('historial-select').disabled = false;
-  document.getElementById('historial-select').style.opacity  = '1';
+  document.getElementById('hist-search').disabled  = false;
+  document.getElementById('hist-search').style.opacity  = '1';
+  // Actualizar contexto
+  const op = pacientesOpciones.find(p => p.key === key);
+  if (op) document.getElementById('hist-contexto-nombre').textContent = op.nombre;
 });
 
 // Inicializar buscador de medicamentos
