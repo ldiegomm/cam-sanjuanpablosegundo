@@ -1,0 +1,53 @@
+/* ============================================================
+   BASE STYLES - Estilos base y reseteos
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f5f3;
+  color: #1a1a18;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+p {
+  line-height: 1.5;
+}
+
+label {
+  font-size: 12px;
+  color: #888780;
+  display: block;
+  margin-bottom: 4px;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 7px 10px;
+  border: 0.5px solid #b4b2a9;
+  border-radius: 8px;
+  width: 100%;
+  color: #1a1a18;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #14B8A6;
+}

@@ -1,0 +1,131 @@
+/* ============================================================
+   LAYOUT - Estilos de la estructura principal (sidebar, main, nav)
+   ============================================================ */
+
+.app {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 620px;
+  border: 0.5px solid #dddbd2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  display: none;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 210px;
+  background: #f5f5f3;
+  border-right: 0.5px solid #dddbd2;
+  padding: 1.25rem 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  padding: 0 1rem 1.25rem;
+  border-bottom: 0.5px solid #dddbd2;
+  margin-bottom: 0.75rem;
+  border-top: 3px solid #F59E0B;
+  padding-top: 1rem;
+}
+
+.sidebar-brand p:first-child {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+}
+
+.sidebar-brand p:last-child {
+  font-size: 12px;
+  color: #888780;
+  margin-top: 2px;
+}
+
+/* NAVEGACIÓN */
+.nav {
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 1rem;
+  cursor: pointer;
+  margin-bottom: 2px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s;
+}
+
+.nav-item:hover {
+  background: #ebebea;
+}
+
+.nav-item.active {
+  background: #fff;
+  border-left: 3px solid #14B8A6 !important;
+}
+
+.nav-item.active svg {
+  color: #14B8A6;
+}
+
+.nav-item.active span {
+  color: #14B8A6;
+  font-weight: 500;
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+  color: #888780;
+}
+
+.nav-item span {
+  font-size: 13px;
+  color: #888780;
+}
+
+/* FOOTER DEL SIDEBAR */
+.sidebar-footer {
+  padding: 0.75rem 1rem 0;
+  border-top: 0.5px solid #dddbd2;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #CCFBF1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: #0F766E;
+}
+
+.sidebar-footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* MAIN CONTENT AREA */
+.main {
+  flex: 1;
+  overflow: auto;
+}
+
+.page {
+  display: none;
+  padding: 1.5rem;
+}
+
+.page.active {
+  display: block;
+}
