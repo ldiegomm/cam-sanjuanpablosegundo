@@ -1,0 +1,158 @@
+/* ============================================================
+   RESPONSIVE - Media queries para diseño adaptativo
+   ============================================================ */
+
+@media (max-width: 700px) {
+  body {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  #login-screen {
+    min-height: 100vh;
+    padding: 1.5rem;
+  }
+
+  .login-card {
+    box-shadow: none;
+    border: none;
+  }
+
+  .app {
+    flex-direction: column;
+    border-radius: 0;
+    border: none;
+    min-height: 100vh;
+  }
+
+  /* Sidebar se convierte en barra inferior */
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    order: 2;
+    border-right: none;
+    border-top: 0.5px solid #dddbd2;
+    position: sticky;
+    bottom: 0;
+    background: #f5f5f3;
+    z-index: 50;
+  }
+
+  .sidebar-brand {
+    display: none;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex: 1;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 6px;
+    margin-bottom: 0;
+    border-left: none;
+    border-top: 2px solid transparent;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-item.active {
+    border-left: none;
+    border-top: 2px solid #14B8A6 !important;
+    background: #fff;
+  }
+
+  .nav-item span {
+    font-size: 10px;
+  }
+
+  .nav-item svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .main {
+    flex: 1;
+    order: 1;
+    overflow: auto;
+  }
+
+  .page {
+    padding: 1rem;
+  }
+
+  /* Grids colapsan */
+  .grid-3,
+  .grid-2,
+  .grid-form,
+  .grid-3-cols {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tablas con scroll horizontal */
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  /* Cards y person-items */
+  .person-item {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .person-item > div:last-child {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* Métricas en 2 columnas */
+  .grid-3.mb-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Modales */
+  #modal-overlay > div,
+  #modal-eliminar > div {
+    margin: 0.75rem;
+  }
+
+  /* Toast abajo a la izquierda para no tapar nav */
+  .toast {
+    bottom: 70px;
+    right: 12px;
+    left: 12px;
+    justify-content: center;
+  }
+
+  /* Buscador + botón se apilan en móvil */
+  #page-adultos .buscador-accion,
+  #page-historial .buscador-accion,
+  #page-medicamentos .buscador-accion {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #page-adultos .buscador-accion button,
+  #page-historial .buscador-accion button,
+  #page-medicamentos .buscador-accion button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0 !important;
+  }
+}
