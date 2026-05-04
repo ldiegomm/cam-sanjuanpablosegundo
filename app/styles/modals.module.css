@@ -1,0 +1,74 @@
+/* OVERLAY */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlayOpen { display: flex; }
+
+/* MODAL MEDICAMENTO */
+.modalContent {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 1rem;
+  border-top: 2px solid #14B8A6;
+}
+
+/* MODAL PEQUEÑO (unsaved, eliminar) */
+.modalContentSm {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  margin: 1rem;
+  border-top: 2px solid #14B8A6;
+}
+
+/* MODAL PELIGRO (eliminar) */
+.modalContentDanger {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  margin: 1rem;
+  border-top: 2px solid #b91c1c;
+}
+
+/* HORARIO DE TOMA (modal medicamento) */
+.horarioGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.horarioItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #888780;
+}
+
+@media (max-width: 700px) {
+  .modalContent,
+  .modalContentSm,
+  .modalContentDanger {
+    margin: 0.75rem;
+  }
+
+  .horarioGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

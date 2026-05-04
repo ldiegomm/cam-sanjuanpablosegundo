@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
 
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json()
 
-    // Validar que vengan los datos
     if (!email || !password) {
       return NextResponse.json({
         success: false,
@@ -14,8 +13,7 @@ export async function POST(request: Request) {
       }, { status: 400 })
     }
 
-    // Buscar usuario por email
-    const { data: usuarios, error } = await supabase
+    const { data: usuarios, error } = await supabaseAdmin
       .from('usuarios')
       .select('*')
       .eq('email', email)
@@ -30,7 +28,6 @@ export async function POST(request: Request) {
       }, { status: 500 })
     }
 
-    // Usuario no existe o está inactivo
     if (!usuarios || usuarios.length === 0) {
       return NextResponse.json({
         success: false,
@@ -40,7 +37,6 @@ export async function POST(request: Request) {
 
     const usuario = usuarios[0]
 
-    // Verificar contraseña
     const passwordValida = await bcrypt.compare(password, usuario.password_hash)
 
     if (!passwordValida) {
@@ -50,13 +46,11 @@ export async function POST(request: Request) {
       }, { status: 401 })
     }
 
-    // Actualizar último acceso
-    await supabase
+    await supabaseAdmin
       .from('usuarios')
       .update({ ultimo_acceso: new Date().toISOString() })
       .eq('id', usuario.id)
 
-    // Crear respuesta exitosa con datos del usuario (sin el password_hash)
     const { password_hash, ...usuarioSinPassword } = usuario
 
     const response = NextResponse.json({
@@ -65,7 +59,6 @@ export async function POST(request: Request) {
       usuario: usuarioSinPassword
     })
 
-    // Establecer cookie de sesión (válida por 7 días)
     response.cookies.set('user_session', JSON.stringify({
       id: usuario.id,
       email: usuario.email,
@@ -75,7 +68,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 días
+      maxAge: 60 * 60 * 24 * 7
     })
 
     return response

@@ -1,0 +1,113 @@
+.screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f5f3;
+}
+
+.card {
+  background: #fff;
+  border: 0.5px solid #dddbd2;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #CCFBF1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a1a18;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #888780;
+  margin-bottom: 1.75rem;
+}
+
+.error {
+  font-size: 12px;
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 0.5px solid #fca5a5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 12px;
+  color: #888780;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.field input {
+  width: 100%;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 0.5px solid #b4b2a9;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.field input:focus {
+  border-color: #14B8A6;
+}
+
+.btnLogin {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #14B8A6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.15s;
+}
+
+.btnLogin:hover { background: #0F766E; }
+
+.btnLogin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .screen {
+    min-height: 100vh;
+    padding: 1.5rem;
+    align-items: center;
+  }
+
+  .card {
+    box-shadow: none;
+    border: none;
+  }
+}

@@ -1,0 +1,75 @@
+/* CARDS */
+.card   { background: #fff; border: 1px solid #14B8A6; border-radius: 12px; padding: 1rem 1.25rem; }
+.cardSm { background: #fff; border: 0.5px solid #dddbd2; border-radius: 8px; padding: 1rem 1.25rem; }
+
+/* MÉTRICAS */
+.metric      { background: #f5f5f3; border-radius: 8px; padding: 1rem; border-left: 3px solid #14B8A6; }
+.metricLabel { font-size: 12px; color: #888780; }
+.metricValue { font-size: 24px; font-weight: 500; margin-top: 4px; }
+
+/* BOTONES */
+.btnSm { font-size: 12px; padding: 5px 10px; }
+
+.btnSuccess         { background: #FEF3C7; color: #D97706; border-color: #FCD34D; }
+.btnSuccess:hover   { background: #FDE68A; }
+
+/* BADGES */
+.badgeRed    { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: #fee2e2; color: #b91c1c; font-weight: 500; }
+.badgeYellow { font-size: 12px; padding: 3px 10px; border-radius: 99px; background: #fef9c3; color: #a16207; }
+.badgeGreen  { font-size: 11px; padding: 2px 7px;  border-radius: 99px; background: #CCFBF1; color: #0F766E; font-weight: 500; }
+
+/* PERSON ITEMS */
+.personItem {
+  background: #fff;
+  border: 0.5px solid #dddbd2;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.personAvatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+.avatarGreen  { background: #CCFBF1; color: #0F766E; }
+.avatarYellow { background: #FEF3C7; color: #D97706; }
+
+/* TABLAS */
+.tableWrap { background: #fff; border: 0.5px solid #dddbd2; border-radius: 12px; overflow: hidden; }
+
+.tableWrap table  { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tableWrap thead tr { background: #F0FDFA; }
+.tableWrap th { padding: 9px 8px; text-align: center; font-weight: 500; color: #14B8A6; border-bottom: 0.5px solid #dddbd2; }
+.tableWrap th:first-child { text-align: left; padding-left: 14px; }
+.tableWrap td { padding: 9px 8px; text-align: center; border-bottom: 0.5px solid #dddbd2; }
+.tableWrap td:first-child { text-align: left; padding-left: 14px; }
+.tableWrap tr:last-child td { border-bottom: none; }
+
+.check { color: #14B8A6; font-weight: 700; font-size: 16px; }
+.dash  { color: #b4b2a9; }
+
+/* BUSCADOR */
+.pacSearchWrap { position: relative; }
+.pacInput { width: 100%; font-size: 13px; padding: 7px 10px 7px 32px; border: 0.5px solid #b4b2a9; border-radius: 8px; color: #1a1a18; background: #fff; outline: none; transition: border-color 0.15s; font-family: inherit; }
+.pacInput:focus { border-color: #14B8A6; }
+.pacIcon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888780; pointer-events: none; }
+.pacDropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 0.5px solid #dddbd2; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 200; max-height: 220px; overflow-y: auto; display: none; }
+.pacDropdown.open { display: block; }
+.pacOption { padding: 9px 12px; font-size: 13px; cursor: pointer; color: #1a1a18; border-bottom: 0.5px solid #f0f0ee; }
+.pacOption:last-child { border-bottom: none; }
+.pacOption:hover, .pacOption.selected { background: #CCFBF1; color: #0F766E; }
+.pacOptionNoResults { color: #888780; cursor: default; font-style: italic; }
+
+/* TOAST */
+.toast        { position: fixed; bottom: 24px; right: 24px; padding: 12px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; animation: toastIn 0.2s ease; }
+.toastSuccess { background: #14B8A6; color: #fff; }
+.toastError   { background: #b91c1c; color: #fff; }
+
+@keyframes toastIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+@media (max-width: 700px) {
+  .personItem { flex-wrap: wrap; gap: 10px; }
+  .tableWrap  { overflow-x: auto; }
+  .tableWrap table { min-width: 600px; }
+  .toast { bottom: 70px; right: 12px; left: 12px; justify-content: center; }
+}

@@ -17,13 +17,11 @@ function getSupabase(): SupabaseClient {
   return supabaseInstance
 }
 
-// Export como Proxy para que funcione con la sintaxis actual
 export const supabase = new Proxy({} as SupabaseClient, {
   get(target, prop) {
     const client = getSupabase()
     const value = client[prop as keyof SupabaseClient]
     
-    // Si es una función, bindearla al cliente
     if (typeof value === 'function') {
       return value.bind(client)
     }
@@ -31,3 +29,9 @@ export const supabase = new Proxy({} as SupabaseClient, {
     return value
   }
 })
+
+// Cliente admin que bypasea RLS
+export const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_DATABASE_SUPABASE_URL!,
+  process.env.DATABASE_SUPABASE_SERVICE_ROLE_KEY!
+)
