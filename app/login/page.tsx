@@ -84,6 +84,12 @@ export default function LoginPage() {
         >
           {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </button>
+        <p
+          onClick={() => router.push('/forgot-password')}
+          style={{ fontSize: '12px', color: '#888780', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
+        >
+          ¿Olvidaste tu contraseña?
+        </p>
 
       </div>
     </div>
