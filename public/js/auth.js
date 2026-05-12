@@ -1,69 +1,64 @@
 /* ============================================================
-   AUTH - Gestión de autenticación (login/logout)
+   AUTH - Gestión de autenticación (logout)
    ============================================================ */
 
-import { setActiveNav, showPage } from './navigation.js';
+/**
+ * Muestra el nombre del usuario activo en el div #activeUser.
+ */
+async function renderActiveUser() {
+  const container = document.getElementById('activeUser')
+  if (!container) return
+
+  try {
+    const response = await fetch('/api/auth/me', { method: 'GET' })
+    if (!response.ok) return
+
+    const data = await response.json()
+    const session = data?.usuario
+    if (!session) return
+
+    // Actualizar el texto del nombre (primer <p> dentro del div)
+    const nombreEl = container.querySelector('p:first-child')
+    if (nombreEl) {
+      nombreEl.textContent = session.username || 'Usuario'
+    }
+
+    // Actualizar avatar con la primera letra del usuario
+    const avatar = container.closest('.sidebar-footer-inner')?.querySelector('.avatar')
+    if (avatar) {
+      const name = session.username || 'U'
+      avatar.textContent = name.charAt(0).toUpperCase()
+    }
+  } catch {
+    // Si falla la consulta, dejar el valor por defecto
+  }
+}
 
 /**
  * Inicializa los event listeners de autenticación
  */
 export function initAuth() {
-  // Login
-  const btnLogin = document.getElementById('btn-login');
-  if (btnLogin) {
-    btnLogin.addEventListener('click', handleLogin);
-  }
+  renderActiveUser()
 
-  const loginPass = document.getElementById('login-pass');
-  if (loginPass) {
-    loginPass.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        handleLogin();
-      }
-    });
-  }
-
-  // Cerrar sesión
-  const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
+  const btnCerrarSesion = document.getElementById('btn-cerrar-sesion')
   if (btnCerrarSesion) {
-    btnCerrarSesion.addEventListener('click', handleLogout);
+    btnCerrarSesion.addEventListener('click', handleLogout)
   }
 
-  // Salir móvil
-  const btnSalirMovil = document.getElementById('btn-salir-movil');
+  const btnSalirMovil = document.getElementById('btn-salir-movil')
   if (btnSalirMovil) {
-    btnSalirMovil.addEventListener('click', handleLogout);
+    btnSalirMovil.addEventListener('click', handleLogout)
   }
 }
 
 /**
- * Maneja el proceso de login
+ * Llama al endpoint de logout y redirige al login de Next.js
  */
-function handleLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const err = document.getElementById('login-error');
-
-  if (email && pass) {
-    err.style.display = 'none';
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    setActiveNav('dashboard');
-    showPage('dashboard');
-  } else {
-    err.style.display = 'block';
+async function handleLogout() {
+  try {
+    await fetch('/api/auth/logout', { method: 'POST' })
+  } catch (_) {
+    // ignorar errores de red; redirigir de todas formas
   }
-}
-
-/**
- * Maneja el proceso de logout
- */
-function handleLogout() {
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-email').value = '';
-  document.getElementById('login-pass').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  setActiveNav('dashboard');
-  showPage('dashboard');
+  window.location.href = '/login'
 }
