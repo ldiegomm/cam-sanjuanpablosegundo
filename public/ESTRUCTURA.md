@@ -1,194 +1,114 @@
 # Estructura del Proyecto - Centro Adulto Mayor San Juan Pablo II
 
-Este proyecto ha sido modularizado para una mejor organización y mantenibilidad del código.
+Este documento refleja la estructura actual del proyecto (Next.js + App Router) y debe mantenerse actualizado cuando se agreguen, eliminen o muevan carpetas/archivos clave.
 
-## 📁 Estructura de Carpetas
+## Estructura actual
 
+```text
+cam-sanjuanpablosegundo/
+|- .env.local
+|- .gitignore
+|- eslint.config.mjs
+|- middleware.ts
+|- next-env.d.ts
+|- next.config.ts
+|- package-lock.json
+|- package.json
+|- postcss.config.mjs
+|- README.md
+|- tsconfig.json
+|- vercel.json
+|
+|- app/
+|  |- favicon.ico
+|  |- globals.css
+|  |- layout.tsx
+|  |- page.tsx
+|  |- home/
+|  |  |- page.tsx
+|  |- login/
+|  |  |- page.tsx
+|  |- api/
+|     |- auth/
+|     |  |- login/
+|     |  |  |- route.ts
+|     |  |- logout/
+|     |  |  |- route.ts
+|     |  |- me/
+|     |     |- route.ts
+|     |- cron/
+|     |  |- enviar-reporte-diario/
+|     |  |  |- route.ts
+|     |  |- keep-alive/
+|     |     |- route.ts
+|     |- emails/
+|     |  |- reporte-medicamentos/
+|     |     |- route.ts
+|     |- test-connection/
+|        |- route.ts
+|
+|- BD/
+|  |- Acceso.ts
+|  |- EnumeradoSPs.ts
+|
+|- lib/
+|  |- auth-service.ts
+|  |- auth.ts
+|  |- supabase.ts
+|
+|- public/
+|  |- ESTRUCTURA.md
+|  |- file.svg
+|  |- globe.svg
+|  |- index.html
+|  |- next.svg
+|  |- vercel.svg
+|  |- window.svg
+|  |- css/
+|  |  |- base.css
+|  |  |- components.css
+|  |  |- layout.css
+|  |  |- login.css
+|  |  |- modals.css
+|  |  |- responsive.css
+|  |  |- utilities.css
+|  |- js/
+|     |- auth.js
+|     |- buscador.js
+|     |- dashboard.js
+|     |- data.js
+|     |- historial.js
+|     |- main.js
+|     |- medicamentos.js
+|     |- modals.js
+|     |- navigation.js
+|     |- pacientes.js
+|     |- utils.js
 ```
-public/
-├── css/                    # Estilos modulares
-│   ├── base.css           # Estilos base y reseteos
-│   ├── login.css          # Estilos de la pantalla de login
-│   ├── layout.css         # Estructura principal (sidebar, main, nav)
-│   ├── components.css     # Componentes reutilizables (cards, badges, buttons, etc.)
-│   ├── utilities.css      # Clases de utilidad (grids, spacing, etc.)
-│   ├── modals.css         # Estilos de modales
-│   └── responsive.css     # Media queries para diseño adaptativo
-│
-├── js/                     # JavaScript modular
-│   ├── data.js            # Estructura de datos de la aplicación
-│   ├── utils.js           # Funciones utilitarias
-│   ├── navigation.js      # Gestión de navegación entre páginas
-│   ├── auth.js            # Autenticación (login/logout)
-│   ├── buscador.js        # Componente de buscador reutilizable
-│   ├── modals.js          # Gestión de modales
-│   ├── pacientes.js       # Gestión de pacientes
-│   ├── historial.js       # Gestión de historial de salud
-│   ├── medicamentos.js    # Gestión de medicamentos
-│   ├── dashboard.js       # Panel de inicio
-│   └── main.js            # Inicialización de la aplicación
-│
-├── index.html             # HTML principal modularizado
-└── prototipo.html         # Archivo original (mantener como respaldo)
-```
 
-## 🎨 Organización del CSS
+## Resumen de cada parte
 
-### base.css
-- Reseteos globales
-- Estilos base del body
-- Tipografía base
-- Inputs y formularios base
+- Raiz del proyecto: concentra configuracion de Next.js, TypeScript, linting, despliegue y dependencias (`package.json`, `next.config.ts`, `tsconfig.json`, `vercel.json`, etc.).
+- `.env.local`: guarda variables de entorno locales (credenciales, URLs y secretos), fuera de control de versiones.
+- `middleware.ts`: aplica logica transversal a las solicitudes (por ejemplo, proteccion de rutas o redirecciones).
+- `app/`: frontend principal con App Router de Next.js (layouts, paginas y estilos globales).
+- `app/page.tsx`: pagina de entrada principal.
+- `app/home/page.tsx`: pantalla principal para usuarios autenticados.
+- `app/login/page.tsx`: pantalla de inicio de sesion.
+- `app/api/`: endpoints del backend dentro de Next.js.
+- `app/api/auth/`: rutas de autenticacion (`login`, `logout`, `me`).
+- `app/api/cron/`: tareas programadas y endpoints de mantenimiento.
+- `app/api/emails/`: envio de correos (reporte de medicamentos).
+- `app/api/test-connection/`: endpoint de prueba de conectividad/estado.
+- `BD/`: capa de acceso a datos y enumeraciones de procedimientos almacenados.
+- `lib/`: utilidades compartidas de autenticacion y cliente/configuracion de Supabase.
+- `public/`: archivos estaticos servidos directamente (SVG, HTML y recursos del prototipo).
+- `public/css/`: estilos del prototipo estatico legado.
+- `public/js/`: modulos JS del prototipo estatico legado.
+- `public/ESTRUCTURA.md`: documentacion viva de la estructura del proyecto.
 
-### login.css
-- Pantalla de inicio de sesión
-- Tarjeta de login
-- Logo y branding
-- Mensajes de error
+## Notas
 
-### layout.css
-- Estructura de la aplicación (.app)
-- Sidebar y navegación
-- Área de contenido principal
-- Footer del sidebar
-
-### components.css
-- Cards y tarjetas
-- Métricas
-- Botones
-- Badges y etiquetas
-- Person items
-- Tablas
-- Toast notifications
-- Buscador de pacientes
-
-### utilities.css
-- Sistema de grids
-- Clases de spacing (mb-1, mb-2, mt-1)
-- Layouts (row, row-between)
-- Clases de texto (muted, section-label)
-- Tags
-
-### modals.css
-- Overlays de modales
-- Estilos de los diferentes modales
-- Animaciones
-
-### responsive.css
-- Media queries para pantallas pequeñas
-- Adaptación del sidebar a barra inferior
-- Ajustes de grids para móvil
-- Optimizaciones táctiles
-
-## 📦 Organización del JavaScript
-
-Todos los módulos utilizan **ES6 Modules** con import/export.
-
-### data.js
-Contiene todas las estructuras de datos:
-- `pacientesDatos`: Información de pacientes
-- `pacientesOpciones`: Opciones para buscadores
-- `personasLista`: Lista para el dashboard
-- `historialDatos`: Historiales de salud
-- `medsDatos`: Medicamentos por persona
-- `horarioKeys`: Claves de horarios
-
-### utils.js
-Funciones utilitarias generales:
-- `showToast()`: Muestra notificaciones
-- `updateCounter()`: Actualiza contador de pacientes
-- `calcEdad()`: Calcula edad
-- `initFecha()`: Inicializa fecha en dashboard
-
-### navigation.js
-Gestión de navegación:
-- `showPage()`: Muestra una página
-- `setActiveNav()`: Marca navegación activa
-- `initNavigation()`: Inicializa listeners
-- `checkMobile()`: Detecta y ajusta vista móvil
-
-### auth.js
-Autenticación:
-- `initAuth()`: Inicializa listeners de login/logout
-- Manejo de sesiones
-- Validación de credenciales
-
-### buscador.js
-Componente reutilizable:
-- `crearBuscador()`: Crea un buscador de pacientes
-- `agregarPacienteOpciones()`: Agrega nuevas opciones
-- Sistema de filtrado y selección
-
-### modals.js
-Gestión de modales:
-- `showEliminarModal()`: Modal de confirmación de eliminación
-- `checkUnsaved()`: Verifica cambios sin guardar
-- `setUnsaved()`: Establece estado de cambios
-- `initModals()`: Inicializa listeners
-- `initUnsavedDetection()`: Detecta cambios en formularios
-
-### pacientes.js
-Gestión completa de pacientes:
-- `cargarPerfil()`: Carga datos de un paciente
-- `initPacientes()`: Inicializa listeners
-- Crear, editar, eliminar pacientes
-- Vista de perfil y edición
-
-### historial.js
-Gestión de historiales médicos:
-- `renderHistorial()`: Renderiza historial
-- `initHistorial()`: Inicializa listeners
-- `irAHistorialPaciente()`: Navegación rápida
-- Edición de patologías, lesiones, hábitos
-
-### medicamentos.js
-Gestión de medicamentos:
-- `renderMeds()`: Renderiza medicamentos
-- `initMedicamentos()`: Inicializa listeners
-- `irAMedicamentosPaciente()`: Navegación rápida
-- CRUD de medicamentos
-- Horarios de toma
-
-### dashboard.js
-Panel de inicio:
-- `renderDashboard()`: Renderiza horarios del día
-- `renderBadgesPacientes()`: Muestra badges de estado
-- Métricas y estadísticas
-
-### main.js
-Punto de entrada principal:
-- Importa todos los módulos
-- Inicializa la aplicación
-- Coordina la comunicación entre módulos
-- Expone funciones globales necesarias
-
-## 🚀 Ventajas de la Modularización
-
-1. **Mantenibilidad**: Cada archivo tiene una responsabilidad clara
-2. **Escalabilidad**: Fácil agregar nuevas funcionalidades
-3. **Reutilización**: Componentes como el buscador son reutilizables
-4. **Debugging**: Más fácil localizar y corregir errores
-5. **Colaboración**: Múltiples desarrolladores pueden trabajar sin conflictos
-6. **Performance**: Carga modular y optimizable
-7. **Organización**: Código limpio y bien estructurado
-
-## 📝 Notas Importantes
-
-- El archivo original `prototipo.html` se mantiene como respaldo
-- El nuevo archivo principal es `index.html`
-- Todos los módulos JS usan ES6 imports/exports
-- Los estilos CSS están organizados por funcionalidad
-- La aplicación es completamente responsive
-- Incluye detección de cambios sin guardar
-- Sistema de notificaciones toast
-- Buscadores inteligentes con filtrado
-
-## 🔧 Desarrollo Futuro
-
-Esta estructura facilita:
-- Agregar nuevas páginas/módulos
-- Implementar tests unitarios
-- Integrar con APIs backend
-- Usar bundlers como Webpack/Vite
-- Implementar TypeScript
-- Agregar linting y formateo
+- El frontend principal vive en `app/` (App Router de Next.js).
+- En `public/` se mantiene el prototipo estatico (`index.html`, `css/`, `js/`) como referencia.
+- Este archivo se actualiza cada vez que cambie la estructura de carpetas/archivos del proyecto.
