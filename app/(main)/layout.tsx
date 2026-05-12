@@ -1,8 +1,6 @@
 'use client'
-
 import { useRouter } from 'next/navigation'
-import styles from '../styles/layout.module.css'
-
+import styles from '@/app/styles/layout.module.css'
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
