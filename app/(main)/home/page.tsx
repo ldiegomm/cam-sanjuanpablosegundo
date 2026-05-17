@@ -52,7 +52,7 @@ export default function HomePage() {
     : <span className={styles.dash}>—</span>
 
   return (
-    <div className={utilStyles.page ?? 'p-6'} style={{ padding: '1.5rem' }}>
+      <div className={utilStyles.page}>
       <h2 className={utilStyles.mb1}>Panel de inicio</h2>
       <p className={utilStyles.muted} style={{ fontSize: '13px', marginBottom: '1.25rem' }}>{fecha()}</p>
 

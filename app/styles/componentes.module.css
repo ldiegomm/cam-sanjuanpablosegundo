@@ -67,9 +67,24 @@
 
 @keyframes toastIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+/* SEARCH ACCION */
+.searchAccion {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
 @media (max-width: 700px) {
   .personItem { flex-wrap: wrap; gap: 10px; }
   .tableWrap  { overflow-x: auto; }
   .tableWrap table { min-width: 600px; }
   .toast { bottom: 70px; right: 12px; left: 12px; justify-content: center; }
+   .searchAccion {
+    flex-direction: column;
+  }
+
+  .searchAccion button {
+    width: 100%;
+    text-align: center;
+  }
 }
