@@ -92,6 +92,8 @@
 
 .page { padding: 1.5rem; }
 
+.navItemSalir { display: none; }
+
 @media (max-width: 700px) {
   .app {
     flex-direction: column;
@@ -149,7 +151,5 @@
   .main { flex: 1; order: 1; overflow: auto; }
   .page { padding: 1rem; }
 
-  #btn-salir-movil {
-  display: flex !important;
-}
+  .navItemSalir { display: flex; }
 }
