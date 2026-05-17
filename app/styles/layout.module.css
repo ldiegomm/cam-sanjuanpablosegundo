@@ -148,4 +148,8 @@
 
   .main { flex: 1; order: 1; overflow: auto; }
   .page { padding: 1rem; }
+
+  #btn-salir-movil {
+  display: flex !important;
+}
 }
