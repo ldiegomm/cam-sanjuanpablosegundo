@@ -422,18 +422,26 @@ export default function HistorialPage() {
             <>
               <div className={styles.card} style={{ marginBottom: '10px' }}>
                 <p className={utilStyles.sectionLabel}>Padecimientos</p>
+                <p style={{ fontSize: '12px', color: '#888780', marginBottom: '8px' }}>
+                  Separá cada padecimiento por comas.
+                </p>
                 <textarea
                   value={form.padecimientos}
                   onChange={(e) => setForm((prev) => ({ ...prev, padecimientos: e.target.value }))}
+                  placeholder="Ej: Hipertensión, Diabetes, Artritis"
                   style={{ width: '100%', minHeight: '60px', resize: 'vertical', boxSizing: 'border-box' }}
                 />
               </div>
 
               <div className={styles.card} style={{ marginBottom: '10px' }}>
                 <p className={utilStyles.sectionLabel}>Lesiones</p>
+                <p style={{ fontSize: '12px', color: '#888780', marginBottom: '8px' }}>
+                  Separá cada lesión por comas.
+                </p>
                 <textarea
                   value={form.lesiones}
                   onChange={(e) => setForm((prev) => ({ ...prev, lesiones: e.target.value }))}
+                  placeholder="Ej: Rodilla izquierda, Columna lumbar"
                   style={{ width: '100%', minHeight: '60px', resize: 'vertical', boxSizing: 'border-box' }}
                 />
               </div>
