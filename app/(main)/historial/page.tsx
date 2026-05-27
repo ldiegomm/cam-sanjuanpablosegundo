@@ -407,14 +407,14 @@ export default function HistorialPage() {
                 <div className={styles.cardSm}>
                   <p className={utilStyles.sectionLabel}>Hábitos</p>
                   <p style={{ fontSize: '13px', whiteSpace: 'pre-line' }}>
-                    {historialSeleccionado.fuma ? 'Fuma' : 'No fuma'} {' · '}
-                    {historialSeleccionado.consume_licor ? 'Consume licor' : 'No consume licor'}
-                    {'\n'}Ejercicio {historialSeleccionado.cantidad_ejersicio_demanal ?? 0}x semana
+                    {historialSeleccionado?.fuma ? 'Fuma' : 'No fuma'} {' · '}
+                    {historialSeleccionado?.consume_licor ? 'Consume licor' : 'No consume licor'}
+                    {'\n'}Ejercicio {historialSeleccionado?.cantidad_ejersicio_demanal ?? 0}x semana
                   </p>
                 </div>
                 <div className={styles.cardSm}>
                   <p className={utilStyles.sectionLabel}>Operaciones</p>
-                  <p style={{ fontSize: '13px', whiteSpace: 'pre-line' }}>{historialSeleccionado.operaciones || 'Ninguna'}</p>
+                  <p style={{ fontSize: '13px', whiteSpace: 'pre-line' }}>{historialSeleccionado?.operaciones || 'Ninguna'}</p>
                 </div>
               </div>
             </>
