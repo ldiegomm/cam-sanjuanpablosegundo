@@ -51,7 +51,14 @@ export async function POST(request: Request) {
       .update({ ultimo_acceso: new Date().toISOString() })
       .eq('id', usuario.id)
 
-    const { password_hash, ...usuarioSinPassword } = usuario
+    const usuarioSinPassword = {
+      id: usuario.id,
+      email: usuario.email,
+      nombre: usuario.nombre,
+      rol: usuario.rol,
+      activo: usuario.activo,
+      ultimo_acceso: usuario.ultimo_acceso
+    }
 
     const response = NextResponse.json({
       success: true,
@@ -73,7 +80,7 @@ export async function POST(request: Request) {
 
     return response
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error en login:', error)
     return NextResponse.json({
       success: false,

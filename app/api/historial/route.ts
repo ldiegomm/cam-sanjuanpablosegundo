@@ -180,7 +180,15 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
-    const body = (await request.json()) as Partial<HistorialInput>
+    const body = (await request.json()) as {
+      id_adulto_mayor?: unknown
+      fuma?: unknown
+      consume_licor?: unknown
+      padecimientos?: string | unknown[]
+      lesiones?: string | unknown[]
+      operaciones?: unknown
+      cantidad_ejersicio_demanal?: unknown
+    }
 
     if (!body.id_adulto_mayor || !Number.isFinite(body.id_adulto_mayor)) {
       return NextResponse.json({ success: false, message: 'Paciente inválido.' }, { status: 400 })

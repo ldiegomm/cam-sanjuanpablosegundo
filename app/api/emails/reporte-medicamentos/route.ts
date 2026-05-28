@@ -4,6 +4,46 @@ import { supabase } from '@/lib/supabase';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+type AdultoMayor = {
+  id: number;
+  nombre: string;
+  apellido1: string;
+  apellido2: string | null;
+  cedula: string | null;
+};
+
+type MedicamentoRow = {
+  nombre_medicamento: string;
+  dosis: string;
+  via_administracion: string;
+  horario_manana: string | null;
+  horario_mediodia: string | null;
+  horario_tarde: string | null;
+  horario_noche: string | null;
+  indicaciones: string | null;
+  adultos_mayores: AdultoMayor | AdultoMayor[] | null;
+};
+
+type MedicamentoMailItem = {
+  nombre: string;
+  dosis: string;
+  via: string;
+  horarios: string;
+  indicaciones: string | null;
+};
+
+type AdultoConMedicamentos = {
+  nombre: string;
+  cedula: string | null;
+  medicamentos: MedicamentoMailItem[];
+};
+
+function getAdulto(med: MedicamentoRow): AdultoMayor | null {
+  const relation = med.adultos_mayores;
+  if (!relation) return null;
+  return Array.isArray(relation) ? relation[0] ?? null : relation;
+}
+
 export async function POST(request: Request) {
   try {
     if (!process.env.EMAIL_NOTIFICACIONES) {
@@ -59,9 +99,14 @@ if (!medicamentos || medicamentos.length === 0) {
 }
 
 // Ordenar manualmente en JavaScript después de obtener los datos
-const medicamentosOrdenados = medicamentos.sort((a: any, b: any) => {
-  const adultoA = a.adultos_mayores;
-  const adultoB = b.adultos_mayores;
+const medicamentosTyped = (medicamentos ?? []) as MedicamentoRow[];
+const medicamentosOrdenados = medicamentosTyped.sort((a, b) => {
+  const adultoA = getAdulto(a);
+  const adultoB = getAdulto(b);
+
+  if (!adultoA || !adultoB) {
+    return a.nombre_medicamento.localeCompare(b.nombre_medicamento);
+  }
   
   // Ordenar por nombre
   if (adultoA.nombre !== adultoB.nombre) {
@@ -78,9 +123,10 @@ const medicamentosOrdenados = medicamentos.sort((a: any, b: any) => {
 });
 
 // 2. Agrupar medicamentos por adulto mayor
-const adultosMedicamentos: any = {};
-medicamentosOrdenados.forEach((med: any) => {
-  const adulto = med.adultos_mayores;
+const adultosMedicamentos: Record<string, AdultoConMedicamentos> = {};
+medicamentosOrdenados.forEach((med) => {
+  const adulto = getAdulto(med);
+  if (!adulto) return;
   const key = adulto.id;
   
       
@@ -92,7 +138,7 @@ medicamentosOrdenados.forEach((med: any) => {
         };
       }
       
-      const horarios = [];
+      const horarios: string[] = [];
       if (med.horario_manana) horarios.push(`Mañana: ${med.horario_manana}`);
       if (med.horario_mediodia) horarios.push(`Mediodía: ${med.horario_mediodia}`);
       if (med.horario_tarde) horarios.push(`Tarde: ${med.horario_tarde}`);
@@ -114,7 +160,7 @@ medicamentosOrdenados.forEach((med: any) => {
       <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
     `;
     
-    Object.values(adultosMedicamentos).forEach((adulto: any) => {
+    Object.values(adultosMedicamentos).forEach((adulto) => {
       emailHTML += `
         <div style="margin-bottom: 30px; padding: 15px; background-color: #f9fafb; border-radius: 8px;">
           <h3 style="color: #1f2937; margin-top: 0;">${adulto.nombre}</h3>
@@ -122,7 +168,7 @@ medicamentosOrdenados.forEach((med: any) => {
           <ul style="list-style: none; padding: 0;">
       `;
       
-      adulto.medicamentos.forEach((med: any) => {
+      adulto.medicamentos.forEach((med) => {
         emailHTML += `
           <li style="margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px;">
             <strong style="color: #2563eb;">💊 ${med.nombre}</strong> - ${med.dosis}<br>
@@ -161,13 +207,14 @@ medicamentosOrdenados.forEach((med: any) => {
       success: true, 
       messageId: data?.id,
       adultos: totalAdultos,
-      medicamentos: medicamentos.length
+      medicamentos: medicamentosTyped.length
     });
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error enviando email:', error);
+    const message = error instanceof Error ? error.message : 'Error desconocido';
     return NextResponse.json({ 
-      error: error.message 
+      error: message 
     }, { status: 500 });
   }
 }

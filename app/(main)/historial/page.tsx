@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
@@ -97,7 +97,7 @@ function serializeForm(form: HistorialForm): string {
   return JSON.stringify(normalizeForm(form))
 }
 
-export default function HistorialPage() {
+function HistorialPageContent() {
   const searchParams = useSearchParams()
   const [adultos, setAdultos] = useState<Adulto[]>([])
   const [historial, setHistorial] = useState<Historial[]>([])
@@ -537,5 +537,19 @@ export default function HistorialPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function HistorialPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className={utilStyles.page}>
+          <p className={utilStyles.muted} style={{ fontSize: '13px' }}>Cargando...</p>
+        </div>
+      }
+    >
+      <HistorialPageContent />
+    </Suspense>
   )
 }

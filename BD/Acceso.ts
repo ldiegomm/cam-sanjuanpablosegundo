@@ -3,9 +3,9 @@ import { supabase } from '@/lib/supabase';
 /**
  * Ejecuta una query usando Supabase Client
  */
-export async function executeSupabaseQuery<T = any>(
+export async function executeSupabaseQuery<T = unknown>(
   query: string,
-  params: any[] = []
+  params: unknown[] = []
 ): Promise<T> {
   const { data, error } = await supabase.rpc('execute_sql', {
     query_text: query,
@@ -19,11 +19,11 @@ export async function executeSupabaseQuery<T = any>(
 /**
  * Helper para obtener datos de una tabla usando Supabase
  */
-export async function getFromTable<T = any>(
+export async function getFromTable<T = unknown>(
   tableName: string,
   options?: {
     select?: string;
-    filter?: Record<string, any>;
+    filter?: Record<string, unknown>;
     order?: { column: string; ascending?: boolean };
     limit?: number;
   }
@@ -57,9 +57,9 @@ export async function getFromTable<T = any>(
 /**
  * Helper para insertar datos
  */
-export async function insertIntoTable<T = any>(
+export async function insertIntoTable<T = unknown>(
   tableName: string,
-  data: Record<string, any> | Record<string, any>[]
+  data: Record<string, unknown> | Record<string, unknown>[]
 ): Promise<T[]> {
   const { data: result, error } = await supabase
     .from(tableName)
@@ -73,10 +73,10 @@ export async function insertIntoTable<T = any>(
 /**
  * Helper para actualizar datos
  */
-export async function updateTable<T = any>(
+export async function updateTable<T = unknown>(
   tableName: string,
-  data: Record<string, any>,
-  filter: Record<string, any>
+  data: Record<string, unknown>,
+  filter: Record<string, unknown>
 ): Promise<T[]> {
   let query = supabase.from(tableName).update(data);
 
@@ -94,7 +94,7 @@ export async function updateTable<T = any>(
  */
 export async function deleteFromTable(
   tableName: string,
-  filter: Record<string, any>
+  filter: Record<string, unknown>
 ): Promise<void> {
   let query = supabase.from(tableName).delete();
 

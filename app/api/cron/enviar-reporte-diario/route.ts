@@ -80,10 +80,11 @@ export async function GET(request: Request) {
       result
     });
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error en cron job:', error);
+    const message = error instanceof Error ? error.message : 'Error desconocido';
     return NextResponse.json({ 
-      error: error.message 
+      error: message 
     }, { status: 500 });
   }
 }

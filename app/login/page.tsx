@@ -30,7 +30,7 @@ export default function LoginPage() {
       } else {
         setError(data.message)
       }
-    } catch (err) {
+    } catch {
       setError('Error de conexión. Por favor contacte al administrador.')
     } finally {
       setLoading(false)
