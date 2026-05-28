@@ -96,14 +96,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <nav className={styles.nav}>
-          <div className={styles.navItem} onClick={() => handleRouteClick('/home')}>
+          <div className={`${styles.navItem} ${pathname === '/home' ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/home')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
             <span>Panel de inicio</span>
           </div>
-          <div className={styles.navItem} onClick={() => handleRouteClick('/adultos')}>
+          <div className={`${styles.navItem} ${pathname.startsWith('/adultos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/adultos')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -112,7 +112,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </svg>
             <span>Adultos mayores</span>
           </div>
-          <div className={styles.navItem} onClick={() => handleRouteClick('/historial')}>
+          <div className={`${styles.navItem} ${pathname.startsWith('/historial') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/historial')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -121,7 +121,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </svg>
             <span>Historial de salud</span>
           </div>
-          <div className={styles.navItem} onClick={() => handleRouteClick('/medicamentos')}>
+          <div className={`${styles.navItem} ${pathname.startsWith('/medicamentos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/medicamentos')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M10.5 20H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2v3"/>
               <circle cx="18" cy="18" r="3"/>
