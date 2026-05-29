@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import UserManagementModal from '@/app/(main)/components/UserManagementModal'
 import styles from '@/app/styles/layout.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 
@@ -15,11 +16,32 @@ type PendingNavigation =
   | { type: 'logout' }
   | null
 
+type SessionUser = {
+  id: number | string
+  nombre: string
+  email: string
+  rol: string
+}
+
+function getInitials(nombre?: string) {
+  if (!nombre) return 'U'
+
+  const partes = nombre.trim().split(' ').filter(Boolean)
+
+  if (partes.length === 0) return 'U'
+
+  return (partes[0][0] + (partes[1]?.[0] || '')).toUpperCase()
+}
+
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
   const [showUnsavedModal, setShowUnsavedModal] = useState(false)
   const [pendingNavigation, setPendingNavigation] = useState<PendingNavigation>(null)
+  const [currentUser, setCurrentUser] = useState<SessionUser | null>(null)
+  const [showUsersModal, setShowUsersModal] = useState(false)
+
+  const isAdmin = String(currentUser?.rol || '').toLowerCase() === 'admin'
 
   const hasUnsavedChanges = () => {
     if (typeof window === 'undefined') return false
@@ -86,6 +108,27 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     }
   }, [])
 
+  useEffect(() => {
+    fetch('/api/auth/session')
+      .then(async (response) => {
+        if (!response.ok) {
+          setCurrentUser(null)
+          return null
+        }
+
+        const data = await response.json() as { usuario?: SessionUser }
+        return data.usuario ?? null
+      })
+      .then((usuario) => {
+        if (usuario) {
+          setCurrentUser(usuario)
+        }
+      })
+      .catch(() => {
+        setCurrentUser(null)
+      })
+  }, [])
+
   return (
     <div className={styles.app}>
       <div className={styles.sidebar}>
@@ -144,9 +187,28 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
         <div className={styles.sidebarFooter}>
           <div className={styles.sidebarFooterInner}>
-            <div className={styles.avatar}>A</div>
-            <div>
-              <p style={{ fontSize: '12px', fontWeight: 500 }}>Admin</p>
+            <div className={styles.avatar}>{getInitials(currentUser?.nombre)}</div>
+            <div className={styles.sidebarFooterMeta}>
+              <div className={styles.sidebarFooterUserRow}>
+                <div>
+                  <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
+                  <p style={{ fontSize: '11px', color: '#888780' }}>{currentUser?.rol || 'Sin rol'}</p>
+                </div>
+                {isAdmin && (
+                  <button
+                    type="button"
+                    className={styles.settingsButton}
+                    onClick={() => setShowUsersModal(true)}
+                    aria-label="Administrar usuarios"
+                    title="Administrar usuarios"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                      <circle cx="12" cy="12" r="3" />
+                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 .6 1.65 1.65 0 0 0-.33 1V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-.33-1 1.65 1.65 0 0 0-1-.6 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-.6-1 1.65 1.65 0 0 0-1-.33H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1-.33 1.65 1.65 0 0 0 .6-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-.6 1.65 1.65 0 0 0 .33-1V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 .33 1 1.65 1.65 0 0 0 1 .6 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.24.31.44.65.6 1a1.65 1.65 0 0 0 1 .33H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1 .33c-.31.24-.65.44-1 .6Z" />
+                    </svg>
+                  </button>
+                )}
+              </div>
               <p
                 onClick={handleLogout}
                 style={{ fontSize: '11px', color: '#14B8A6', cursor: 'pointer', fontWeight: 500 }}
@@ -181,6 +243,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </div>
+      )}
+
+      {showUsersModal && (
+        <UserManagementModal
+          open={showUsersModal}
+          onClose={() => setShowUsersModal(false)}
+          currentUser={currentUser}
+          onCurrentUserUpdated={setCurrentUser}
+        />
       )}
     </div>
   )
