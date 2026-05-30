@@ -18,6 +18,29 @@ function normalizeEmail(email: string) {
   return email.trim().toLowerCase()
 }
 
+function isAdminRole(role: string | null | undefined) {
+  return normalizeUserRole(role) === 'admin'
+}
+
+async function countAdmins(excludeId?: string) {
+  let query = supabaseAdmin
+    .from('usuarios')
+    .select('id', { count: 'exact', head: true })
+    .eq('rol', 'admin')
+
+  if (excludeId) {
+    query = query.neq('id', excludeId)
+  }
+
+  const { count, error } = await query
+
+  if (error) {
+    throw error
+  }
+
+  return count ?? 0
+}
+
 async function requireAdmin() {
   const session = await getSession()
 
@@ -80,6 +103,34 @@ export async function PUT(
         { success: false, message: 'El rol debe ser admin o colaborador.' },
         { status: 400 }
       )
+    }
+
+    const { data: targetUser, error: targetUserError } = await supabaseAdmin
+      .from('usuarios')
+      .select('id, rol')
+      .eq('id', id)
+      .maybeSingle()
+
+    if (targetUserError) {
+      throw targetUserError
+    }
+
+    if (!targetUser) {
+      return NextResponse.json(
+        { success: false, message: 'Usuario no encontrado.' },
+        { status: 404 }
+      )
+    }
+
+    if (isAdminRole(targetUser.rol) && rol !== 'admin') {
+      const remainingAdmins = await countAdmins(id)
+
+      if (remainingAdmins < 1) {
+        return NextResponse.json(
+          { success: false, message: 'Debe existir al menos un usuario con rol admin.' },
+          { status: 400 }
+        )
+      }
     }
 
     const { data: existingUser, error: existingError } = await supabaseAdmin
@@ -179,6 +230,34 @@ export async function DELETE(
         { success: false, message: 'No podés eliminar tu propio usuario.' },
         { status: 400 }
       )
+    }
+
+    const { data: targetUser, error: targetUserError } = await supabaseAdmin
+      .from('usuarios')
+      .select('id, rol')
+      .eq('id', id)
+      .maybeSingle()
+
+    if (targetUserError) {
+      throw targetUserError
+    }
+
+    if (!targetUser) {
+      return NextResponse.json(
+        { success: false, message: 'Usuario no encontrado.' },
+        { status: 404 }
+      )
+    }
+
+    if (isAdminRole(targetUser.rol)) {
+      const remainingAdmins = await countAdmins(id)
+
+      if (remainingAdmins < 1) {
+        return NextResponse.json(
+          { success: false, message: 'Debe existir al menos un usuario con rol admin.' },
+          { status: 400 }
+        )
+      }
     }
 
     const { error } = await supabaseAdmin

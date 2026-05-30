@@ -28,6 +28,24 @@
   margin-bottom: 1.25rem;
 }
 
+.logoWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logoImage {
+  width: 220px;
+  height: auto;
+  max-width: 78%;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0.35rem;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
 .title {
   font-size: 20px;
   font-weight: 500;
@@ -109,5 +127,10 @@
   .card {
     box-shadow: none;
     border: none;
+  }
+
+  .logoImage {
+    width: 190px;
+    max-width: 72%;
   }
 }

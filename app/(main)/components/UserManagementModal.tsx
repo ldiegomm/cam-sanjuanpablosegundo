@@ -61,6 +61,10 @@ function formatLastAccess(value: string | null) {
   }).format(date)
 }
 
+function isAdminRole(role: string | null | undefined) {
+  return String(role || '').toLowerCase() === 'admin'
+}
+
 type Props = {
   open: boolean
   onClose: () => void
@@ -83,6 +87,12 @@ export default function UserManagementModal({
   const [form, setForm] = useState<FormState>(initialForm)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+
+  const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
+  const editingUser =
+    editingUserId !== null
+      ? usuarios.find(usuario => String(usuario.id) === String(editingUserId)) ?? null
+      : null
 
   useEffect(() => {
     if (!open) {
@@ -164,6 +174,16 @@ export default function UserManagementModal({
       return
     }
 
+    if (
+      editingUser &&
+      isAdminRole(editingUser.rol) &&
+      !isAdminRole(form.rol) &&
+      adminCount <= 1
+    ) {
+      setError('Debe existir al menos un usuario con rol admin.')
+      return
+    }
+
     setSubmitting(true)
 
     try {
@@ -219,6 +239,11 @@ export default function UserManagementModal({
       return
     }
 
+    if (isAdminRole(deleteTarget.rol) && adminCount <= 1) {
+      setError('Debe existir al menos un usuario con rol admin.')
+      return
+    }
+
     setDeleting(true)
     setError(null)
     setMessage(null)
@@ -256,7 +281,7 @@ export default function UserManagementModal({
             <div>
               <h2 className={modalStyles.modalTitle}>Usuarios del sistema</h2>
               <p className={modalStyles.modalSubtitle}>
-                Administrá accesos y credenciales siguiendo la misma interfaz base del prototipo.
+                Administrá accesos y credenciales de usuarios.
               </p>
             </div>
             <button type="button" onClick={onClose} className={modalStyles.iconButton} aria-label="Cerrar modal">
@@ -329,7 +354,10 @@ export default function UserManagementModal({
                                 type="button"
                                 className={componentStyles.btnSm}
                                 style={{ color: '#b91c1c', borderColor: '#fca5a5' }}
-                                disabled={currentUser ? String(currentUser.id) === String(usuario.id) : false}
+                                disabled={
+                                  (currentUser ? String(currentUser.id) === String(usuario.id) : false) ||
+                                  (isAdminRole(usuario.rol) && adminCount <= 1)
+                                }
                                 onClick={() => setDeleteTarget(usuario)}
                               >
                                 Eliminar
@@ -456,6 +484,11 @@ export default function UserManagementModal({
             <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
               Esta acción eliminará a <strong>{deleteTarget.nombre}</strong> del sistema. No se puede deshacer.
             </p>
+            {isAdminRole(deleteTarget.rol) && adminCount <= 1 && (
+              <p style={{ fontSize: '13px', color: '#b91c1c', marginBottom: '1.25rem' }}>
+                Debe existir al menos un usuario con rol admin.
+              </p>
+            )}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
               <button type="button" onClick={() => setDeleteTarget(null)} disabled={deleting}>
                 Cancelar
@@ -463,7 +496,7 @@ export default function UserManagementModal({
               <button
                 type="button"
                 onClick={handleDelete}
-                disabled={deleting}
+                disabled={deleting || (isAdminRole(deleteTarget.rol) && adminCount <= 1)}
                 style={{ background: '#b91c1c', color: '#fff', borderColor: '#b91c1c' }}
               >
                 {deleting ? 'Eliminando...' : 'Sí, eliminar'}
