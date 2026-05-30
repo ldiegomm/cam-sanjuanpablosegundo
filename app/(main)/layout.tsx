@@ -173,6 +173,16 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             <span>Medicamentos</span>
           </div>
           <div
+            className={`${styles.navItem} ${styles.navItemConfig}`}
+            onClick={() => setShowUsersModal(true)}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 .6 1.65 1.65 0 0 0-.33 1V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-.33-1 1.65 1.65 0 0 0-1-.6 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-.6-1 1.65 1.65 0 0 0-1-.33H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1-.33 1.65 1.65 0 0 0 .6-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-.6 1.65 1.65 0 0 0 .33-1V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 .33 1 1.65 1.65 0 0 0 1 .6 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.24.31.44.65.6 1a1.65 1.65 0 0 0 1 .33H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1 .33c-.31.24-.65.44-1 .6Z" />
+            </svg>
+            <span>Usuarios</span>
+          </div>
+          <div
             className={`${styles.navItem} ${styles.navItemSalir}`}
             onClick={handleLogout}
           >
@@ -219,6 +229,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
 
+      </div>
+
+      <div className={styles.mobileHeader}>
+        <span style={{ fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</span>
+        <span style={{ color: '#888780' }}>{currentUser?.rol || 'Sin rol'}</span>
       </div>
 
       <main className={styles.main}>

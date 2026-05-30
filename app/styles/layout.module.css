@@ -2,6 +2,7 @@
   display: flex;
   width: 100%;
   max-width: 1100px;
+  height: 100vh;
   min-height: 620px;
   border: 0.5px solid #dddbd2;
   border-radius: 12px;
@@ -25,7 +26,7 @@
   padding: 1rem 1rem 1.25rem;
   border-bottom: 0.5px solid #dddbd2;
   margin-bottom: 0.75rem;
-  border-top: 3px solid #F59E0B;
+  border-top: 3px solid #C9A84C;
 }
 
 .sidebarBrand p:first-child {
@@ -40,7 +41,7 @@
   margin-top: 2px;
 }
 
-.nav { flex: 1; }
+.nav { flex: 1; overflow-y: auto; }
 
 .navItem {
   display: flex;
@@ -122,6 +123,9 @@
 .page { padding: 1.5rem; }
 
 .navItemSalir { display: none; }
+.navItemConfig { display: none; }
+
+.mobileHeader { display: none; }
 
 @media (max-width: 700px) {
   .app {
@@ -181,4 +185,15 @@
   .page { padding: 1rem; }
 
   .navItemSalir { display: flex; }
+  .navItemConfig { display: flex; }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 1rem;
+    background: #fff;
+    border-bottom: 0.5px solid #dddbd2;
+    font-size: 13px;
+  }
 }
