@@ -74,6 +74,25 @@
   margin-bottom: 1.25rem;
 }
 
+.homeLogoWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.homeLogo {
+  width: 161px;
+  max-width: 53%;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.25rem;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+
 @media (max-width: 700px) {
   .personItem { flex-wrap: wrap; gap: 10px; }
   .tableWrap  { overflow-x: auto; }
@@ -87,4 +106,10 @@
     width: 100%;
     text-align: center;
   }
+
+  .homeLogo {
+    width: 126px;
+    max-width: 49%;
+  }
+
 }

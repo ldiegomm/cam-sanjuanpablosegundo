@@ -53,6 +53,13 @@ export default function HomePage() {
 
   return (
       <div className={utilStyles.page}>
+      <div className={styles.homeLogoWrap}>
+        <img
+          src="/logoPAM.jpeg"
+          alt="Logo PAM"
+          className={styles.homeLogo}
+        />
+      </div>
       <h2 className={utilStyles.mb1}>Panel de inicio</h2>
       <p className={utilStyles.muted} style={{ fontSize: '13px', marginBottom: '1.25rem' }}>{fecha()}</p>
 
