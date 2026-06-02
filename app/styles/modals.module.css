@@ -216,6 +216,11 @@
     grid-template-columns: 1fr;
   }
 
+  .adminPanel {
+    overflow-x: auto;
+    min-width: 0;
+  }
+
   .panelHeaderRow,
   .formActions {
     flex-direction: column;

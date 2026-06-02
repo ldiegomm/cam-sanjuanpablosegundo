@@ -222,7 +222,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       <div className={styles.mobileHeader}>
-        <span style={{ fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</span>
+        <div className={styles.avatar}>{getInitials(currentUser?.nombre)}</div>
+        <div style={{ flex: 1, marginLeft: '8px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
+          <p style={{ fontSize: '11px', color: '#888780' }}>{currentUser?.rol || 'Sin rol'}</p>
+        </div>
         <button
           type="button"
           className={styles.settingsButton}
