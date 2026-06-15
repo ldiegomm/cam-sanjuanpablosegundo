@@ -369,16 +369,17 @@ function HistorialPageContent() {
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>{error}</p>
       ) : (
         <>
-          <p style={{ fontSize: '13px', color: '#888780', marginBottom: '12px' }}>
-            Historial de salud de: <strong>{adultoSeleccionado?.nombre || '—'}</strong>
-          </p>
-
           {!adultoSeleccionado ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
               <p style={{ fontSize: '14px', color: '#888780', marginBottom: '6px' }}>No hay persona seleccionada</p>
               <p style={{ fontSize: '12px', color: '#b4b2a9' }}>Buscá y seleccioná un adulto mayor para ver o editar su historial.</p>
             </div>
-          ) : !isEditing && !historialSeleccionado ? (
+          ) : (
+            <>
+              <p style={{ fontSize: '13px', color: '#888780', marginBottom: '12px' }}>
+                Historial de salud de: <strong>{adultoSeleccionado!.nombre}</strong>
+              </p>
+              {!isEditing && !historialSeleccionado ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#b4b2a9" strokeWidth="1.5" style={{ marginBottom: '12px' }}>
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -506,6 +507,8 @@ function HistorialPageContent() {
                   {saving ? 'Guardando...' : 'Guardar cambios'}
                 </button>
               </div>
+            </>
+          )}
             </>
           )}
         </>
