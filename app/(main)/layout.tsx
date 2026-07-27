@@ -72,7 +72,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     }
 
     await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
+    router.push('/login?logout=1')
   }
 
   const closeUnsavedModal = () => {
@@ -92,7 +92,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     }
 
     await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
+    router.push('/login?logout=1')
   }
 
   useEffect(() => {
