@@ -5,7 +5,7 @@ let supabaseInstance: SupabaseClient | null = null
 function getSupabase(): SupabaseClient {
   if (!supabaseInstance) {
     const supabaseUrl = process.env.NEXT_PUBLIC_DATABASE_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY_NEW || process.env.NEXT_PUBLIC_DATABASE_SUPABASE_ANON_KEY
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY_NEW
 
     if (!supabaseUrl || !supabaseAnonKey) {
       throw new Error('Missing Supabase environment variables')
@@ -33,5 +33,5 @@ export const supabase = new Proxy({} as SupabaseClient, {
 // Cliente admin que bypasea RLS
 export const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_DATABASE_SUPABASE_URL!,
-  (process.env.SUPABASE_SECRET_KEY_NEW || process.env.DATABASE_SUPABASE_SERVICE_ROLE_KEY)!
+  process.env.SUPABASE_SECRET_KEY_NEW!
 )
