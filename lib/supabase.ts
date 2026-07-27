@@ -33,5 +33,5 @@ export const supabase = new Proxy({} as SupabaseClient, {
 // Cliente admin que bypasea RLS
 export const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_DATABASE_SUPABASE_URL!,
-  process.env.DATABASE_SUPABASE_SERVICE_ROLE_KEY!
+  (process.env.SUPABASE_SECRET_KEY_NEW || process.env.DATABASE_SUPABASE_SERVICE_ROLE_KEY)!
 )
