@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
         {!enviado ? (
           <>
             <h1 className={styles.title}>Recuperar contraseña</h1>
-            <p className={styles.subtitle}>Ingresá tu correo registrado. El administrador del sistema recibirá el enlace de restablecimiento y te lo compartirá.</p>
+            <p className={styles.subtitle}>Te enviaremos un enlace para restablecer tu contraseña directamente a tu correo registrado.</p>
 
             {error && <div className={styles.error}>{error}</div>}
 
@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
         ) : (
           <>
             <h1 className={styles.title}>Solicitud enviada</h1>
-            <p className={styles.subtitle}>  Si tu correo está registrado en el sistema, el administrador gestionará el restablecimiento de tu contraseña y te contactará a la brevedad.</p>
+            <p className={styles.subtitle}>Si tu correo está registrado en el sistema, te enviamos un enlace para restablecer tu contraseña. Revisá tu bandeja de entrada (y la carpeta de spam) durante la próxima hora.</p>
             <button
               className={styles.btnLogin}
               onClick={() => router.push('/login')}

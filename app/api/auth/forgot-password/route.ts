@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import crypto from 'crypto'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+})
 
 export async function POST(request: Request) {
   try {
@@ -47,21 +53,26 @@ export async function POST(request: Request) {
     // Enviar email
     const resetUrl = `${process.env.SITIO_URL}/reset-password?token=${token}`
 
-    await resend.emails.send({
-      from: 'Centro Adulto Mayor <onboarding@resend.dev>',
-      to: process.env.EMAIL_NOTIFICACIONES!,
-      subject: 'Recuperación de contraseña',
-      html: `
-        <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:2rem;">
-          <h2 style="font-size:18px;font-weight:500;margin-bottom:8px;">Recuperación de contraseña</h2>
-          <p style="font-size:14px;color:#888780;margin-bottom:1.5rem;">Hola ${usuario.nombre}, recibimos una solicitud para restablecer tu contraseña.</p>
-          <a href="${resetUrl}" style="display:inline-block;padding:10px 20px;background:#14B8A6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
-            Restablecer contraseña
-          </a>
-          <p style="font-size:12px;color:#888780;margin-top:1.5rem;">Este link es válido por 1 hora. Si no solicitaste esto, ignorá este mensaje.</p>
-        </div>
-      `
-    })
+    try {
+      await transporter.sendMail({
+        from: `"Centro Adulto Mayor San Juan Pablo II" <${process.env.GMAIL_USER}>`,
+        to: usuario.email,
+        subject: 'Recuperación de contraseña',
+        html: `
+          <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:2rem;">
+            <h2 style="font-size:18px;font-weight:500;margin-bottom:8px;">Recuperación de contraseña</h2>
+            <p style="font-size:14px;color:#888780;margin-bottom:1.5rem;">Hola ${usuario.nombre}, recibimos una solicitud para restablecer tu contraseña.</p>
+            <a href="${resetUrl}" style="display:inline-block;padding:10px 20px;background:#14B8A6;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;">
+              Restablecer contraseña
+            </a>
+            <p style="font-size:12px;color:#888780;margin-top:1.5rem;">Este link es válido por 1 hora. Si no solicitaste esto, ignorá este mensaje.</p>
+          </div>
+        `
+      })
+    } catch (error) {
+      console.error('Error enviando correo:', error)
+      throw error
+    }
 
     return NextResponse.json({ success: true })
 

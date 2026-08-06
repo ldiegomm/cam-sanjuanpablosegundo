@@ -1,220 +1,161 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-import { supabase } from '@/lib/supabase';
+import nodemailer from 'nodemailer';
+import { supabaseAdmin } from '@/lib/supabase';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+});
 
-type AdultoMayor = {
-  id: number;
-  nombre: string;
-  apellido1: string;
-  apellido2: string | null;
-  cedula: string | null;
-};
-
-type MedicamentoRow = {
+type Prescripcion = {
   nombre_medicamento: string;
-  dosis: string;
-  via_administracion: string;
-  horario_manana: string | null;
-  horario_mediodia: string | null;
-  horario_tarde: string | null;
-  horario_noche: string | null;
   indicaciones: string | null;
-  adultos_mayores: AdultoMayor | AdultoMayor[] | null;
+  ayunas: boolean;
+  desayuno: boolean;
+  media_manana: boolean;
+  almuerzo: boolean;
+  merienda_tarde: boolean;
+  cena: boolean;
+  acostarse: boolean;
 };
 
-type MedicamentoMailItem = {
-  nombre: string;
-  dosis: string;
-  via: string;
-  horarios: string;
-  indicaciones: string | null;
-};
-
-type AdultoConMedicamentos = {
+type PacienteRow = {
   nombre: string;
   cedula: string | null;
-  medicamentos: MedicamentoMailItem[];
+  prescripciones: Prescripcion[];
 };
 
-function getAdulto(med: MedicamentoRow): AdultoMayor | null {
-  const relation = med.adultos_mayores;
-  if (!relation) return null;
-  return Array.isArray(relation) ? relation[0] ?? null : relation;
+const MOMENTOS_DIA: { key: keyof Prescripcion; label: string }[] = [
+  { key: 'ayunas', label: 'Ayunas' },
+  { key: 'desayuno', label: 'Desayuno' },
+  { key: 'media_manana', label: 'Media mañana' },
+  { key: 'almuerzo', label: 'Almuerzo' },
+  { key: 'merienda_tarde', label: 'Merienda de tarde' },
+  { key: 'cena', label: 'Cena' },
+  { key: 'acostarse', label: 'Antes de acostarse' },
+];
+
+function getMomentos(prescripcion: Prescripcion): string {
+  return MOMENTOS_DIA
+    .filter((momento) => prescripcion[momento.key])
+    .map((momento) => momento.label)
+    .join(', ');
 }
 
 export async function POST(request: Request) {
   try {
     if (!process.env.EMAIL_NOTIFICACIONES) {
-      return NextResponse.json({ 
-        error: 'EMAIL_NOTIFICACIONES no está configurado' 
+      return NextResponse.json({
+        error: 'EMAIL_NOTIFICACIONES no está configurado'
       }, { status: 500 });
     }
-    
+
     const { fecha } = await request.json();
-    
-    // Obtener día de la semana (0 = domingo, 6 = sábado)
-    const fechaObj = new Date(fecha);
-    const diaSemana = fechaObj.getDay();
-    
-    // Mapear día de semana a columnas booleanas de la tabla
-    const columnaDia = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'][diaSemana];
-   // 1. Query usando Supabase Client 
-  const { data: medicamentos, error } = await supabase
-  .from('toma_medicamentos')
-  .select(`
-    nombre_medicamento,
-    dosis,
-    via_administracion,
-    horario_manana,
-    horario_mediodia,
-    horario_tarde,
-    horario_noche,
-    indicaciones,
-    adultos_mayores (
-      id,
-      nombre,
-      apellido1,
-      apellido2,
-      cedula
-    )
-  `)
-  .eq('estado', 'Activo')
-  .eq('adultos_mayores.estado', 'Activo')
-  .eq(columnaDia, true);
 
-if (error) {
-  console.error('Error Supabase:', error);
-  return NextResponse.json({ 
-    error: error.message 
-  }, { status: 500 });
-}
+    // 1. Query usando el mismo criterio de "activo" que usa el dashboard
+    const { data: pacientes, error } = await supabaseAdmin
+      .from('adultos_mayores')
+      .select(`
+        nombre,
+        cedula,
+        prescripciones (
+          nombre_medicamento,
+          indicaciones,
+          ayunas,
+          desayuno,
+          media_manana,
+          almuerzo,
+          merienda_tarde,
+          cena,
+          acostarse
+        )
+      `)
+      .eq('activo', true)
+      .eq('prescripciones.activo', true)
+      .order('nombre');
 
-if (!medicamentos || medicamentos.length === 0) {
-  return NextResponse.json({ 
-    success: true, 
-    message: 'No hay medicamentos programados para este día' 
-  });
-}
+    if (error) {
+      console.error('Error Supabase:', error);
+      return NextResponse.json({
+        error: error.message
+      }, { status: 500 });
+    }
 
-// Ordenar manualmente en JavaScript después de obtener los datos
-const medicamentosTyped = (medicamentos ?? []) as MedicamentoRow[];
-const medicamentosOrdenados = medicamentosTyped.sort((a, b) => {
-  const adultoA = getAdulto(a);
-  const adultoB = getAdulto(b);
+    const pacientesConMedicamentos = ((pacientes ?? []) as PacienteRow[]).filter(
+      (paciente) => paciente.prescripciones.length > 0
+    );
 
-  if (!adultoA || !adultoB) {
-    return a.nombre_medicamento.localeCompare(b.nombre_medicamento);
-  }
-  
-  // Ordenar por nombre
-  if (adultoA.nombre !== adultoB.nombre) {
-    return adultoA.nombre.localeCompare(adultoB.nombre);
-  }
-  
-  // Si el nombre es igual, ordenar por apellido1
-  if (adultoA.apellido1 !== adultoB.apellido1) {
-    return adultoA.apellido1.localeCompare(adultoB.apellido1);
-  }
-  
-  // Si nombre y apellido1 son iguales, ordenar por medicamento
-  return a.nombre_medicamento.localeCompare(b.nombre_medicamento);
-});
-
-// 2. Agrupar medicamentos por adulto mayor
-const adultosMedicamentos: Record<string, AdultoConMedicamentos> = {};
-medicamentosOrdenados.forEach((med) => {
-  const adulto = getAdulto(med);
-  if (!adulto) return;
-  const key = adulto.id;
-  
-      
-      if (!adultosMedicamentos[key]) {
-        adultosMedicamentos[key] = {
-          nombre: `${adulto.nombre} ${adulto.apellido1} ${adulto.apellido2 || ''}`.trim(),
-          cedula: adulto.cedula,
-          medicamentos: []
-        };
-      }
-      
-      const horarios: string[] = [];
-      if (med.horario_manana) horarios.push(`Mañana: ${med.horario_manana}`);
-      if (med.horario_mediodia) horarios.push(`Mediodía: ${med.horario_mediodia}`);
-      if (med.horario_tarde) horarios.push(`Tarde: ${med.horario_tarde}`);
-      if (med.horario_noche) horarios.push(`Noche: ${med.horario_noche}`);
-      
-      adultosMedicamentos[key].medicamentos.push({
-        nombre: med.nombre_medicamento,
-        dosis: med.dosis,
-        via: med.via_administracion,
-        horarios: horarios.join(', '),
-        indicaciones: med.indicaciones
+    if (pacientesConMedicamentos.length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: 'No hay medicamentos activos registrados'
       });
-    });
-    
-    // 3. Generar HTML del email
+    }
+
+    // 2. Generar HTML del email
     let emailHTML = `
       <h1 style="color: #2563eb;">📋 Reporte de Medicamentos</h1>
       <h2>${fecha}</h2>
       <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
     `;
-    
-    Object.values(adultosMedicamentos).forEach((adulto) => {
+
+    pacientesConMedicamentos.forEach((paciente) => {
       emailHTML += `
         <div style="margin-bottom: 30px; padding: 15px; background-color: #f9fafb; border-radius: 8px;">
-          <h3 style="color: #1f2937; margin-top: 0;">${adulto.nombre}</h3>
-          <p style="color: #6b7280; margin: 5px 0;">Cédula: ${adulto.cedula}</p>
+          <h3 style="color: #1f2937; margin-top: 0;">${paciente.nombre}</h3>
+          <p style="color: #6b7280; margin: 5px 0;">Cédula: ${paciente.cedula}</p>
           <ul style="list-style: none; padding: 0;">
       `;
-      
-      adulto.medicamentos.forEach((med) => {
+
+      paciente.prescripciones.forEach((prescripcion) => {
         emailHTML += `
           <li style="margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px;">
-            <strong style="color: #2563eb;">💊 ${med.nombre}</strong> - ${med.dosis}<br>
-            <span style="color: #6b7280;">Vía: ${med.via}</span><br>
-            <span style="color: #059669;">⏰ ${med.horarios}</span><br>
-            ${med.indicaciones ? `<em style="color: #9ca3af;">📝 ${med.indicaciones}</em>` : ''}
+            <strong style="color: #2563eb;">💊 ${prescripcion.nombre_medicamento}</strong><br>
+            <span style="color: #059669;">⏰ ${getMomentos(prescripcion)}</span><br>
+            ${prescripcion.indicaciones ? `<em style="color: #9ca3af;">📝 ${prescripcion.indicaciones}</em>` : ''}
           </li>
         `;
       });
-      
+
       emailHTML += `
           </ul>
         </div>
       `;
     });
-    
-    const totalAdultos = Object.keys(adultosMedicamentos).length;
+
+    const totalMedicamentos = pacientesConMedicamentos.reduce(
+      (total, paciente) => total + paciente.prescripciones.length,
+      0
+    );
+
     emailHTML += `
       <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
-      <p style="color: #6b7280;"><strong>Total:</strong> ${totalAdultos} adultos mayores con medicamentos programados</p>
+      <p style="color: #6b7280;"><strong>Total:</strong> ${pacientesConMedicamentos.length} adultos mayores con medicamentos activos</p>
     `;
-    
-    // 4. Enviar email
-    const { data, error: emailError } = await resend.emails.send({
-      from: 'Centro Adulto Mayor <onboarding@resend.dev>',
+
+    // 3. Enviar email
+    const info = await transporter.sendMail({
+      from: `"Centro Adulto Mayor San Juan Pablo II" <${process.env.GMAIL_USER}>`,
       to: [process.env.EMAIL_NOTIFICACIONES],
       subject: `Reporte de Medicamentos - ${fecha}`,
       html: emailHTML
     });
-    
-    if (emailError) {
-      return NextResponse.json({ error: emailError }, { status: 400 });
-    }
-    
-    return NextResponse.json({ 
-      success: true, 
-      messageId: data?.id,
-      adultos: totalAdultos,
-      medicamentos: medicamentosTyped.length
+
+    return NextResponse.json({
+      success: true,
+      messageId: info.messageId,
+      adultos: pacientesConMedicamentos.length,
+      medicamentos: totalMedicamentos
     });
-    
+
   } catch (error: unknown) {
     console.error('Error enviando email:', error);
     const message = error instanceof Error ? error.message : 'Error desconocido';
-    return NextResponse.json({ 
-      error: message 
+    return NextResponse.json({
+      error: message
     }, { status: 500 });
   }
 }

@@ -86,7 +86,8 @@ export default function UserManagementModal({
   const [deleteTarget, setDeleteTarget] = useState<Usuario | null>(null)
   const [form, setForm] = useState<FormState>(initialForm)
   const [error, setError] = useState<string | null>(null)
-  const [message, setMessage] = useState<string | null>(null)
+  const [toast, setToast] = useState<string | null>(null)
+  const [toastType, setToastType] = useState<'success' | 'error'>('success')
 
   const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
   const editingUser =
@@ -101,6 +102,12 @@ export default function UserManagementModal({
 
     void loadUsuarios()
   }, [open])
+
+  useEffect(() => {
+    if (!toast) return
+    const timer = window.setTimeout(() => setToast(null), 3000)
+    return () => window.clearTimeout(timer)
+  }, [toast])
 
   const loadUsuarios = async () => {
     setLoading(true)
@@ -131,7 +138,6 @@ export default function UserManagementModal({
     setEditingUserId(null)
     setForm(initialForm)
     setError(null)
-    setMessage(null)
   }
 
   const handleEdit = (usuario: Usuario) => {
@@ -147,7 +153,6 @@ export default function UserManagementModal({
       activo: usuario.activo
     })
     setError(null)
-    setMessage(null)
   }
 
   const handleChange = <K extends keyof FormState>(field: K, value: FormState[K]) => {
@@ -157,7 +162,6 @@ export default function UserManagementModal({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError(null)
-    setMessage(null)
 
     if (!form.nombre.trim() || !form.apellidos.trim() || !form.email.trim() || !form.rol) {
       setError('Nombre, apellidos, correo y rol son obligatorios.')
@@ -210,7 +214,8 @@ export default function UserManagementModal({
       }
 
       if (!response.ok || !data.success || !data.usuario) {
-        setError(data.message || 'No se pudo guardar el usuario.')
+        setToastType('error')
+        setToast(isEditing ? 'Error al actualizar el usuario. Intentá de nuevo.' : 'Error al crear el usuario. Intentá de nuevo.')
         return
       }
 
@@ -226,9 +231,11 @@ export default function UserManagementModal({
       await loadUsuarios()
       setEditingUserId(null)
       setForm(initialForm)
-      setMessage(isEditing ? 'Usuario actualizado correctamente.' : 'Usuario creado correctamente.')
+      setToastType('success')
+      setToast(isEditing ? 'Usuario actualizado exitosamente' : 'Usuario creado exitosamente')
     } catch {
-      setError('Error de conexión al guardar el usuario.')
+      setToastType('error')
+      setToast(editingUserId !== null ? 'Error al actualizar el usuario. Intentá de nuevo.' : 'Error al crear el usuario. Intentá de nuevo.')
     } finally {
       setSubmitting(false)
     }
@@ -246,14 +253,14 @@ export default function UserManagementModal({
 
     setDeleting(true)
     setError(null)
-    setMessage(null)
 
     try {
       const response = await fetch(`/api/usuarios/${deleteTarget.id}`, { method: 'DELETE' })
       const data = (await response.json()) as { success?: boolean; message?: string }
 
       if (!response.ok || !data.success) {
-        setError(data.message || 'No se pudo eliminar el usuario.')
+        setToastType('error')
+        setToast('Error al eliminar el usuario. Intentá de nuevo.')
         return
       }
 
@@ -261,9 +268,11 @@ export default function UserManagementModal({
       setDeleteTarget(null)
       setEditingUserId(prev => (String(prev) === String(deleteTarget.id) ? null : prev))
       setForm(prev => (String(editingUserId) === String(deleteTarget.id) ? initialForm : prev))
-      setMessage('Usuario eliminado correctamente.')
+      setToastType('success')
+      setToast('Usuario eliminado exitosamente')
     } catch {
-      setError('Error de conexión al eliminar el usuario.')
+      setToastType('error')
+      setToast('Error al eliminar el usuario. Intentá de nuevo.')
     } finally {
       setDeleting(false)
     }
@@ -293,7 +302,6 @@ export default function UserManagementModal({
           </div>
 
           {error && <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
-          {message && <div className={`${modalStyles.banner} ${modalStyles.bannerSuccess}`}>{message}</div>}
 
           <div className={modalStyles.adminModalGrid}>
             <section className={modalStyles.adminPanel}>
@@ -503,6 +511,12 @@ export default function UserManagementModal({
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {toast && (
+        <div className={`${componentStyles.toast} ${toastType === 'success' ? componentStyles.toastSuccess : componentStyles.toastError}`}>
+          {toast}
         </div>
       )}
     </>
