@@ -66,6 +66,32 @@ function isAdminRole(role: string | null | undefined) {
   return String(role || '').toLowerCase() === 'admin'
 }
 
+function scrollContainerToElement(container: HTMLElement | null, target: HTMLElement | null, offset = 16) {
+  if (!container || !target) return
+
+  const containerRect = container.getBoundingClientRect()
+  const targetRect = target.getBoundingClientRect()
+  const desiredScrollTop = container.scrollTop + (targetRect.top - containerRect.top) - offset
+  const maxScrollTop = container.scrollHeight - container.clientHeight
+  const scrollTop = Math.min(Math.max(desiredScrollTop, 0), maxScrollTop)
+
+  container.scrollTo({ top: scrollTop, behavior: 'smooth' })
+}
+
+// Espera a que el navegador termine layout + pintado del frame actual antes de medir/scrollear,
+// para no leer geometría de un DOM recién montado (ej. el formulario revelado dinámicamente).
+function afterLayoutSettles(callback: () => void): () => void {
+  let secondFrame = 0
+  const firstFrame = requestAnimationFrame(() => {
+    secondFrame = requestAnimationFrame(callback)
+  })
+
+  return () => {
+    cancelAnimationFrame(firstFrame)
+    cancelAnimationFrame(secondFrame)
+  }
+}
+
 type Props = {
   open: boolean
   onClose: () => void
@@ -92,6 +118,8 @@ export default function UserManagementModal({
   const [errorAttempt, setErrorAttempt] = useState(0)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [revealAttempt, setRevealAttempt] = useState(0)
+  const modalScrollRef = useRef<HTMLDivElement>(null)
+  const errorRef = useRef<HTMLDivElement>(null)
   const formTitleRef = useRef<HTMLParagraphElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -116,16 +144,20 @@ export default function UserManagementModal({
   }, [toast])
 
   useEffect(() => {
-    if (error) {
-      formTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+    if (!error) return
+
+    return afterLayoutSettles(() => {
+      scrollContainerToElement(modalScrollRef.current, errorRef.current)
+    })
   }, [error, errorAttempt])
 
   useEffect(() => {
-    if (mostrarFormulario) {
-      formTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (!mostrarFormulario) return
+
+    return afterLayoutSettles(() => {
+      scrollContainerToElement(modalScrollRef.current, formTitleRef.current)
       nombreInputRef.current?.focus()
-    }
+    })
   }, [mostrarFormulario, revealAttempt])
 
   const loadUsuarios = async () => {
@@ -328,7 +360,7 @@ export default function UserManagementModal({
         className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
         onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
       >
-        <div className={modalStyles.modalContentLg}>
+        <div ref={modalScrollRef} className={modalStyles.modalContentLg}>
           <div className={modalStyles.modalHeaderRow}>
             <div>
               <h2 className={modalStyles.modalTitle}>Usuarios del sistema</h2>
@@ -344,7 +376,7 @@ export default function UserManagementModal({
             </button>
           </div>
 
-          {error && <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
+          {error && <div ref={errorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
 
           <div
             className={modalStyles.adminModalGrid}
