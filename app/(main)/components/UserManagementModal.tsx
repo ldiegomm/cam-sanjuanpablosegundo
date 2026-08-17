@@ -119,7 +119,6 @@ export default function UserManagementModal({
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [revealAttempt, setRevealAttempt] = useState(0)
   const modalScrollRef = useRef<HTMLDivElement>(null)
-  const errorRef = useRef<HTMLDivElement>(null)
   const formTitleRef = useRef<HTMLParagraphElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
@@ -147,7 +146,7 @@ export default function UserManagementModal({
     if (!error) return
 
     return afterLayoutSettles(() => {
-      scrollContainerToElement(modalScrollRef.current, errorRef.current)
+      modalScrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     })
   }, [error, errorAttempt])
 
@@ -376,7 +375,7 @@ export default function UserManagementModal({
             </button>
           </div>
 
-          {error && <div ref={errorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
+          {error && <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
 
           <div
             className={modalStyles.adminModalGrid}
