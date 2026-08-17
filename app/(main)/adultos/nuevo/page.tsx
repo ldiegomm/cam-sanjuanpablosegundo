@@ -108,28 +108,28 @@ export default function NuevoPage() {
         <p className={utilStyles.sectionLabel}>Datos personales</p>
         <div className={utilStyles.gridForm} style={{ marginBottom: '10px' }}>
           <div>
-            <label>Nombre completo <span style={{ color: '#b91c1c' }}>*</span></label>
-            <input type="text" placeholder="Nombre completo" value={form.nombre} onChange={e => set('nombre', e.target.value)} />
+            <label htmlFor="adulto-nombre">Nombre completo <span style={{ color: '#b91c1c' }}>*</span></label>
+            <input id="adulto-nombre" type="text" placeholder="Nombre completo" value={form.nombre} onChange={e => set('nombre', e.target.value)} />
           </div>
           <div>
-            <label>Número de cédula <span style={{ color: '#b91c1c' }}>*</span></label>
-            <input type="text" placeholder="0-000-0000" value={form.cedula} onChange={e => set('cedula', e.target.value)} />
+            <label htmlFor="adulto-cedula">Número de cédula <span style={{ color: '#b91c1c' }}>*</span></label>
+            <input id="adulto-cedula" type="text" placeholder="0-000-0000" value={form.cedula} onChange={e => set('cedula', e.target.value)} />
           </div>
           <div>
-            <label>Fecha de nacimiento <span style={{ color: '#b91c1c' }}>*</span></label>
-            <input type="date" value={form.fecha_nacimiento} onChange={e => set('fecha_nacimiento', e.target.value)} />
+            <label htmlFor="adulto-fecha-nacimiento">Fecha de nacimiento <span style={{ color: '#b91c1c' }}>*</span></label>
+            <input id="adulto-fecha-nacimiento" type="date" value={form.fecha_nacimiento} onChange={e => set('fecha_nacimiento', e.target.value)} />
           </div>
           <div>
-            <label>Sexo <span style={{ color: '#b91c1c' }}>*</span></label>
-            <select value={form.sexo} onChange={e => set('sexo', e.target.value)}>
+            <label htmlFor="adulto-sexo">Sexo <span style={{ color: '#b91c1c' }}>*</span></label>
+            <select id="adulto-sexo" value={form.sexo} onChange={e => set('sexo', e.target.value)}>
               <option value="">Seleccionar</option>
               <option>Masculino</option>
               <option>Femenino</option>
             </select>
           </div>
           <div>
-            <label>Estado civil</label>
-            <select value={form.estado_civil} onChange={e => set('estado_civil', e.target.value)}>
+            <label htmlFor="adulto-estado-civil">Estado civil</label>
+            <select id="adulto-estado-civil" value={form.estado_civil} onChange={e => set('estado_civil', e.target.value)}>
               <option value="">Seleccionar</option>
               <option>Soltero/a</option>
               <option>Casado/a</option>
@@ -138,12 +138,12 @@ export default function NuevoPage() {
             </select>
           </div>
           <div>
-            <label>Teléfono</label>
-            <input type="text" placeholder="0000-0000" value={form.telefono} onChange={e => set('telefono', e.target.value)} />
+            <label htmlFor="adulto-telefono">Teléfono</label>
+            <input id="adulto-telefono" type="text" placeholder="0000-0000" value={form.telefono} onChange={e => set('telefono', e.target.value)} />
           </div>
           <div>
-            <label>Recibe pensión IVM</label>
-            <select value={form.pension_ivm} onChange={e => set('pension_ivm', e.target.value)}>
+            <label htmlFor="adulto-pension-ivm">Recibe pensión IVM</label>
+            <select id="adulto-pension-ivm" value={form.pension_ivm} onChange={e => set('pension_ivm', e.target.value)}>
               <option value="">Seleccionar</option>
               <option>Sí</option>
               <option>No</option>
@@ -151,13 +151,13 @@ export default function NuevoPage() {
           </div>
         </div>
         <div>
-          <label>Dirección</label>
-          <div className={utilStyles.grid3cols} style={{ marginBottom: '8px' }}>
-            <input type="text" placeholder="Provincia" value={form.provincia} onChange={e => set('provincia', e.target.value)} />
-            <input type="text" placeholder="Cantón" value={form.canton} onChange={e => set('canton', e.target.value)} />
-            <input type="text" placeholder="Distrito" value={form.distrito} onChange={e => set('distrito', e.target.value)} />
+          <label id="adulto-direccion-label">Dirección</label>
+          <div className={utilStyles.grid3cols} style={{ marginBottom: '8px' }} role="group" aria-labelledby="adulto-direccion-label">
+            <input type="text" placeholder="Provincia" aria-label="Provincia" value={form.provincia} onChange={e => set('provincia', e.target.value)} />
+            <input type="text" placeholder="Cantón" aria-label="Cantón" value={form.canton} onChange={e => set('canton', e.target.value)} />
+            <input type="text" placeholder="Distrito" aria-label="Distrito" value={form.distrito} onChange={e => set('distrito', e.target.value)} />
           </div>
-          <input type="text" placeholder="Barrio" value={form.barrio} onChange={e => set('barrio', e.target.value)} />
+          <input type="text" placeholder="Barrio" aria-label="Barrio" value={form.barrio} onChange={e => set('barrio', e.target.value)} />
         </div>
       </div>
 
@@ -166,20 +166,20 @@ export default function NuevoPage() {
         <p className={utilStyles.sectionLabel}>Familiar solicitante</p>
         <div className={utilStyles.gridForm}>
           <div>
-            <label>Nombre completo</label>
-            <input type="text" placeholder="Nombre completo" value={form.familiar_nombre} onChange={e => set('familiar_nombre', e.target.value)} />
+            <label htmlFor="familiar-nombre">Nombre completo</label>
+            <input id="familiar-nombre" type="text" placeholder="Nombre completo" value={form.familiar_nombre} onChange={e => set('familiar_nombre', e.target.value)} />
           </div>
           <div>
-            <label>Cédula</label>
-            <input type="text" placeholder="0-000-0000" value={form.familiar_cedula} onChange={e => set('familiar_cedula', e.target.value)} />
+            <label htmlFor="familiar-cedula">Cédula</label>
+            <input id="familiar-cedula" type="text" placeholder="0-000-0000" value={form.familiar_cedula} onChange={e => set('familiar_cedula', e.target.value)} />
           </div>
           <div>
-            <label>Teléfono</label>
-            <input type="text" placeholder="0000-0000" value={form.familiar_telefono} onChange={e => set('familiar_telefono', e.target.value)} />
+            <label htmlFor="familiar-telefono">Teléfono</label>
+            <input id="familiar-telefono" type="text" placeholder="0000-0000" value={form.familiar_telefono} onChange={e => set('familiar_telefono', e.target.value)} />
           </div>
           <div>
-            <label>Dirección</label>
-            <input type="text" placeholder="Dirección" value={form.familiar_direccion} onChange={e => set('familiar_direccion', e.target.value)} />
+            <label htmlFor="familiar-direccion">Dirección</label>
+            <input id="familiar-direccion" type="text" placeholder="Dirección" value={form.familiar_direccion} onChange={e => set('familiar_direccion', e.target.value)} />
           </div>
         </div>
       </div>
@@ -201,12 +201,12 @@ export default function NuevoPage() {
         </div>
         <div className={utilStyles.gridForm}>
           <div>
-            <label>Nombre completo</label>
-            <input type="text" placeholder="Nombre completo" value={form.emergencia_nombre} onChange={e => set('emergencia_nombre', e.target.value)} />
+            <label htmlFor="emergencia-nombre">Nombre completo</label>
+            <input id="emergencia-nombre" type="text" placeholder="Nombre completo" value={form.emergencia_nombre} onChange={e => set('emergencia_nombre', e.target.value)} />
           </div>
           <div>
-            <label>Teléfono</label>
-            <input type="text" placeholder="0000-0000" value={form.emergencia_telefono} onChange={e => set('emergencia_telefono', e.target.value)} />
+            <label htmlFor="emergencia-telefono">Teléfono</label>
+            <input id="emergencia-telefono" type="text" placeholder="0000-0000" value={form.emergencia_telefono} onChange={e => set('emergencia_telefono', e.target.value)} />
           </div>
         </div>
       </div>

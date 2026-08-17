@@ -132,7 +132,7 @@ export default function PerfilPage() {
             </div>
             <div>
               <p style={{ fontSize: '16px', fontWeight: 500 }}>{adulto.nombre}</p>
-              <p style={{ fontSize: '13px', color: '#888780' }}>
+              <p style={{ fontSize: '13px', color: '#6b6a63' }}>
                 {calcularEdad(adulto.fecha_nacimiento)} años · {adulto.sexo} · {adulto.estado_civil}
               </p>
             </div>
@@ -147,13 +147,13 @@ export default function PerfilPage() {
         </div>
 
         <div style={{ borderTop: '0.5px solid #dddbd2', marginTop: '1rem', paddingTop: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Cédula</p><p style={{ fontSize: '13px' }}>{adulto.cedula}</p></div>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Fecha de nacimiento</p><p style={{ fontSize: '13px' }}>{formatFecha(adulto.fecha_nacimiento)}</p></div>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Estado civil</p><p style={{ fontSize: '13px' }}>{adulto.estado_civil}</p></div>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Teléfono</p><p style={{ fontSize: '13px' }}>{adulto.telefono || '—'}</p></div>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Pensión IVM</p><p style={{ fontSize: '13px' }}>{adulto.pension_ivm ? 'Sí' : 'No'}</p></div>
-          <div><p style={{ fontSize: '12px', color: '#888780' }}>Dirección</p><p style={{ fontSize: '13px' }}>{direccion || '—'}</p></div>
-          {adulto.barrio && <div><p style={{ fontSize: '12px', color: '#888780' }}>Barrio</p><p style={{ fontSize: '13px' }}>{adulto.barrio}</p></div>}
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Cédula</p><p style={{ fontSize: '13px' }}>{adulto.cedula}</p></div>
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Fecha de nacimiento</p><p style={{ fontSize: '13px' }}>{formatFecha(adulto.fecha_nacimiento)}</p></div>
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Estado civil</p><p style={{ fontSize: '13px' }}>{adulto.estado_civil}</p></div>
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Teléfono</p><p style={{ fontSize: '13px' }}>{adulto.telefono || '—'}</p></div>
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Pensión IVM</p><p style={{ fontSize: '13px' }}>{adulto.pension_ivm ? 'Sí' : 'No'}</p></div>
+          <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Dirección</p><p style={{ fontSize: '13px' }}>{direccion || '—'}</p></div>
+          {adulto.barrio && <div><p style={{ fontSize: '12px', color: '#6b6a63' }}>Barrio</p><p style={{ fontSize: '13px' }}>{adulto.barrio}</p></div>}
         </div>
       </div>
 
@@ -161,7 +161,7 @@ export default function PerfilPage() {
         <div className={styles.cardSm}>
           <p className={utilStyles.sectionLabel}>Familiar solicitante</p>
           <p style={{ fontSize: '13px', fontWeight: 500 }}>{adulto.familiar_nombre || '—'}</p>
-          <p style={{ fontSize: '12px', color: '#888780' }}>
+          <p style={{ fontSize: '12px', color: '#6b6a63' }}>
             {adulto.familiar_cedula ? `Cédula: ${adulto.familiar_cedula} · ` : ''}
             {adulto.familiar_telefono ? `Tel: ${adulto.familiar_telefono}` : ''}
           </p>
@@ -169,7 +169,7 @@ export default function PerfilPage() {
         <div className={styles.cardSm}>
           <p className={utilStyles.sectionLabel}>Contacto de emergencia</p>
           <p style={{ fontSize: '13px', fontWeight: 500 }}>{adulto.emergencia_nombre || '—'}</p>
-          <p style={{ fontSize: '12px', color: '#888780' }}>
+          <p style={{ fontSize: '12px', color: '#6b6a63' }}>
             {adulto.emergencia_telefono ? `Tel: ${adulto.emergencia_telefono}` : ''}
           </p>
         </div>

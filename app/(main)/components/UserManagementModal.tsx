@@ -317,6 +317,7 @@ export default function UserManagementModal({
                 </button>
               </div>
 
+              <p className={componentStyles.scrollHint}>← Deslizá para ver más →</p>
               <div className={componentStyles.tableWrap}>
                 <table>
                   <thead>
@@ -489,7 +490,7 @@ export default function UserManagementModal({
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
               ¿Eliminar usuario?
             </p>
-            <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
               Esta acción eliminará a <strong>{deleteTarget.nombre}</strong> del sistema. No se puede deshacer.
             </p>
             {isAdminRole(deleteTarget.rol) && adminCount <= 1 && (
@@ -497,7 +498,7 @@ export default function UserManagementModal({
                 Debe existir al menos un usuario con rol admin.
               </p>
             )}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <div className={modalStyles.formActions}>
               <button type="button" onClick={() => setDeleteTarget(null)} disabled={deleting}>
                 Cancelar
               </button>

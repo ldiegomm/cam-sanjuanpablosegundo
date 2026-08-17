@@ -76,8 +76,9 @@ function ResetPasswordForm() {
             {error && <div className={styles.error}>{error}</div>}
 
             <div className={styles.field}>
-              <label>Nueva contraseña</label>
+              <label htmlFor="reset-password">Nueva contraseña</label>
               <input
+                id="reset-password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -86,8 +87,9 @@ function ResetPasswordForm() {
             </div>
 
             <div className={styles.field}>
-              <label>Confirmar contraseña</label>
+              <label htmlFor="reset-password-confirm">Confirmar contraseña</label>
               <input
+                id="reset-password-confirm"
                 type="password"
                 value={confirmar}
                 onChange={(e) => setConfirmar(e.target.value)}

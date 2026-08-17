@@ -267,7 +267,7 @@ export default function MedicamentosPage() {
       {/* Buscador + botón agregar */}
       <div className={styles.searchAccion}>
         <div style={{ flex: 1 }}>
-          <label style={{ fontSize: '12px', color: '#888780', display: 'block', marginBottom: '4px' }}>
+          <label htmlFor="medicamentos-buscar-persona" style={{ fontSize: '12px', color: '#6b6a63', display: 'block', marginBottom: '4px' }}>
             Seleccionar persona
           </label>
           <div className={styles.pacSearchWrap}>
@@ -276,6 +276,7 @@ export default function MedicamentosPage() {
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
             <input
+              id="medicamentos-buscar-persona"
               type="text"
               className={styles.pacInput}
               placeholder="Buscar paciente..."
@@ -328,15 +329,16 @@ export default function MedicamentosPage() {
         />
       ) : !adultoSeleccionado ? (
         <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-          <p style={{ fontSize: '14px', color: '#888780', marginBottom: '6px' }}>No hay persona seleccionada</p>
-          <p style={{ fontSize: '12px', color: '#b4b2a9' }}>Buscá y seleccioná un adulto mayor para ver o gestionar sus medicamentos.</p>
+          <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No hay persona seleccionada</p>
+          <p style={{ fontSize: '12px', color: '#7a7970' }}>Buscá y seleccioná un adulto mayor para ver o gestionar sus medicamentos.</p>
         </div>
       ) : (
         <>
-          <p style={{ fontSize: '13px', color: '#888780', marginBottom: '12px' }}>
+          <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '12px' }}>
             Medicamentos de: <strong>{adultoSeleccionado.nombre}</strong>
           </p>
 
+          <p className={styles.scrollHint}>← Deslizá para ver más →</p>
           <div className={styles.tableWrap}>
             <table>
               <thead>
@@ -355,7 +357,7 @@ export default function MedicamentosPage() {
               <tbody>
                 {prescripcionesDelPaciente.length === 0 ? (
                   <tr>
-                    <td colSpan={9} style={{ textAlign: 'center', color: '#888780', padding: '2rem' }}>
+                    <td colSpan={9} style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem' }}>
                       Sin medicamentos registrados para esta persona.
                     </td>
                   </tr>
@@ -365,7 +367,7 @@ export default function MedicamentosPage() {
                       <td>
                         <span style={{ fontWeight: 500 }}>{p.nombre_medicamento}</span>
                         {p.indicaciones && (
-                          <p style={{ fontSize: '11px', color: '#888780', marginTop: '2px' }}>{p.indicaciones}</p>
+                          <p style={{ fontSize: '11px', color: '#6b6a63', marginTop: '2px' }}>{p.indicaciones}</p>
                         )}
                       </td>
                       <td>{check(p.ayunas)}</td>
@@ -473,19 +475,17 @@ export default function MedicamentosPage() {
         <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
           <div className={modalStyles.modalContentDanger}>
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>¿Eliminar medicamento?</p>
-            <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
               Se eliminará <strong>{prescripcionAEliminar.nombre_medicamento}</strong>. Esta acción no se puede deshacer.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <div className={modalStyles.formActions}>
               <button
-                className={styles.btnSm}
                 onClick={() => setPrescripcionAEliminar(null)}
                 disabled={eliminando}
               >
                 Cancelar
               </button>
               <button
-                className={styles.btnSm}
                 style={{ background: '#b91c1c', color: '#fff', borderColor: '#b91c1c' }}
                 onClick={handleEliminar}
                 disabled={eliminando}

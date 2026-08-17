@@ -70,12 +70,12 @@
 
 .modalSubtitle {
   font-size: 13px;
-  color: #888780;
+  color: #6b6a63;
 }
 
 .iconButton {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +133,7 @@
 
 .panelMeta {
   font-size: 12px;
-  color: #888780;
+  color: #6b6a63;
   margin-top: 4px;
 }
 
@@ -182,7 +182,7 @@
 
 .emptyCell {
   text-align: center !important;
-  color: #888780;
+  color: #6b6a63;
   padding: 1rem !important;
 }
 
@@ -190,7 +190,8 @@
 .horarioGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  row-gap: 16px;
+  column-gap: 8px;
   margin-bottom: 1.25rem;
 }
 
@@ -200,7 +201,7 @@
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: #888780;
+  color: #6b6a63;
 }
 
 @media (max-width: 700px) {

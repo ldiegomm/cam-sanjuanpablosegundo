@@ -75,8 +75,9 @@ function LoginPageContent() {
         {error && <div className={styles.error}>{error}</div>}
 
         <div className={styles.field}>
-          <label>Correo electrónico</label>
+          <label htmlFor="login-email">Correo electrónico</label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => { setEmail(e.target.value); dismissLogout() }}
@@ -86,8 +87,9 @@ function LoginPageContent() {
         </div>
 
         <div className={styles.field}>
-          <label>Contraseña</label>
+          <label htmlFor="login-password">Contraseña</label>
           <input
+            id="login-password"
             type="password"
             value={password}
             onChange={(e) => { setPassword(e.target.value); dismissLogout() }}
@@ -105,7 +107,7 @@ function LoginPageContent() {
         </button>
         <p
           onClick={() => router.push('/forgot-password')}
-          style={{ fontSize: '12px', color: '#888780', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
+          style={{ fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
         >
           ¿Olvidaste tu contraseña?
         </p>

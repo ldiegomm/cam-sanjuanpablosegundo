@@ -314,7 +314,7 @@ function HistorialPageContent() {
 
       <div className={styles.searchAccion}>
         <div style={{ flex: 1 }}>
-          <label style={{ fontSize: '12px', color: '#888780', display: 'block', marginBottom: '4px' }}>
+          <label htmlFor="historial-buscar-persona" style={{ fontSize: '12px', color: '#6b6a63', display: 'block', marginBottom: '4px' }}>
             Seleccionar persona
           </label>
           <div className={styles.pacSearchWrap}>
@@ -323,6 +323,7 @@ function HistorialPageContent() {
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
             <input
+              id="historial-buscar-persona"
               type="text"
               className={styles.pacInput}
               placeholder="Buscar paciente..."
@@ -387,24 +388,24 @@ function HistorialPageContent() {
         <>
           {!adultoSeleccionado ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <p style={{ fontSize: '14px', color: '#888780', marginBottom: '6px' }}>No hay persona seleccionada</p>
-              <p style={{ fontSize: '12px', color: '#b4b2a9' }}>Buscá y seleccioná un adulto mayor para ver o editar su historial.</p>
+              <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No hay persona seleccionada</p>
+              <p style={{ fontSize: '12px', color: '#7a7970' }}>Buscá y seleccioná un adulto mayor para ver o editar su historial.</p>
             </div>
           ) : (
             <>
-              <p style={{ fontSize: '13px', color: '#888780', marginBottom: '12px' }}>
+              <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '12px' }}>
                 Historial de salud de: <strong>{adultoSeleccionado!.nombre}</strong>
               </p>
               {!isEditing && !historialSeleccionado ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#b4b2a9" strokeWidth="1.5" style={{ marginBottom: '12px' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7a7970" strokeWidth="1.5" style={{ marginBottom: '12px' }}>
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
                 <line x1="16" y1="17" x2="8" y2="17" />
               </svg>
-              <p style={{ fontSize: '14px', color: '#888780', marginBottom: '6px' }}>Sin historial registrado</p>
-              <p style={{ fontSize: '12px', color: '#b4b2a9' }}>No hay información de salud guardada para esta persona.</p>
+              <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>Sin historial registrado</p>
+              <p style={{ fontSize: '12px', color: '#7a7970' }}>No hay información de salud guardada para esta persona.</p>
             </div>
           ) : !isEditing ? (
             <>
@@ -439,7 +440,7 @@ function HistorialPageContent() {
             <>
               <div className={styles.card} style={{ marginBottom: '10px' }}>
                 <p className={utilStyles.sectionLabel}>Padecimientos</p>
-                <p style={{ fontSize: '12px', color: '#888780', marginBottom: '8px' }}>
+                <p style={{ fontSize: '12px', color: '#6b6a63', marginBottom: '8px' }}>
                   Separá cada padecimiento por comas.
                 </p>
                 <textarea
@@ -452,7 +453,7 @@ function HistorialPageContent() {
 
               <div className={styles.card} style={{ marginBottom: '10px' }}>
                 <p className={utilStyles.sectionLabel}>Lesiones</p>
-                <p style={{ fontSize: '12px', color: '#888780', marginBottom: '8px' }}>
+                <p style={{ fontSize: '12px', color: '#6b6a63', marginBottom: '8px' }}>
                   Separá cada lesión por comas.
                 </p>
                 <textarea
@@ -494,7 +495,7 @@ function HistorialPageContent() {
                       onChange={(e) => setForm((prev) => ({ ...prev, cantidad_ejersicio_demanal: Number(e.target.value) }))}
                       style={{ width: '60px' }}
                     />
-                    <label style={{ fontSize: '13px', color: '#888780', marginBottom: 0 }}>veces/semana</label>
+                    <label style={{ fontSize: '13px', color: '#6b6a63', marginBottom: 0 }}>veces/semana</label>
                   </div>
                 </div>
               </div>
@@ -534,10 +535,10 @@ function HistorialPageContent() {
         <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
           <div className={modalStyles.modalContentSm}>
             <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
-            <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
               Tenés cambios sin guardar. Si salís ahora los vas a perder.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <div className={modalStyles.formActions}>
               <button onClick={closeUnsavedModal}>Quedarme</button>
               <button
                 onClick={discardUnsavedChanges}

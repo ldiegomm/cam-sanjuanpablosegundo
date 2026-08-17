@@ -161,7 +161,7 @@ export default function AdultosPage() {
               </div>
               <div>
                 <p style={{ fontSize: '14px', fontWeight: 500 }}>{adulto.nombre}</p>
-                <p style={{ fontSize: '12px', color: '#888780' }}>
+                <p style={{ fontSize: '12px', color: '#6b6a63' }}>
                   Cédula: {adulto.cedula} · {calcularEdad(adulto.fecha_nacimiento)} años
                 </p>
                 <div style={{ display: 'flex', gap: '4px', marginTop: '4px', flexWrap: 'wrap' }}>
@@ -208,19 +208,17 @@ export default function AdultosPage() {
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
               ¿Eliminar paciente?
             </p>
-            <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
               Esta acción eliminará a <strong>{adultoAEliminar.nombre}</strong> junto con todo su historial y medicamentos. No se puede deshacer.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <div className={modalStyles.formActions}>
               <button
-                className={styles.btnSm}
                 onClick={() => setAdultoAEliminar(null)}
                 disabled={eliminando}
               >
                 Cancelar
               </button>
               <button
-                className={styles.btnSm}
                 style={{ background: '#b91c1c', color: '#fff', borderColor: '#b91c1c' }}
                 onClick={handleEliminar}
                 disabled={eliminando}

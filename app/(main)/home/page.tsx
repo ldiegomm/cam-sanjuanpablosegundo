@@ -109,6 +109,7 @@ export default function HomePage() {
       </div>
 
       {/* Tabla */}
+      <p className={styles.scrollHint}>← Deslizá para ver más →</p>
       <div className={styles.tableWrap}>
         <div style={{ padding: '1rem 1.25rem', borderBottom: '0.5px solid #dddbd2' }}>
           <p style={{ fontSize: '14px', fontWeight: 500 }}>Horario de medicamentos del día</p>
@@ -128,9 +129,9 @@ export default function HomePage() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#888780', padding: '2rem' }}>Cargando...</td></tr>
+              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem' }}>Cargando...</td></tr>
             ) : error ? (
-              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#888780', padding: '2rem' }}>No se pudo cargar la información.</td></tr>
+              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem' }}>No se pudo cargar la información.</td></tr>
             ) : pacientes.filter(p => p.prescripciones.length > 0).map((paciente, i) => {
               const horarios = paciente.prescripciones.reduce((acc, pr) => ({
                 ayunas:       acc.ayunas || pr.ayunas,

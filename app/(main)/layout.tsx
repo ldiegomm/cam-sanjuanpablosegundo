@@ -144,7 +144,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
-            <span>Panel de inicio</span>
+            <span>Inicio</span>
           </div>
           <div className={`${styles.navItem} ${pathname.startsWith('/adultos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/adultos')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -153,7 +153,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            <span>Adultos mayores</span>
+            <span>Adultos</span>
           </div>
           <div className={`${styles.navItem} ${pathname.startsWith('/historial') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/historial')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -162,7 +162,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <line x1="16" y1="13" x2="8" y2="13"/>
               <line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
-            <span>Historial de salud</span>
+            <span>Historial</span>
           </div>
           <div className={`${styles.navItem} ${pathname.startsWith('/medicamentos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/medicamentos')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -192,7 +192,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <div className={styles.sidebarFooterUserRow}>
                 <div>
                   <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
-                  <p style={{ fontSize: '11px', color: '#888780' }}>{currentUser?.rol || 'Sin rol'}</p>
+                  <p style={{ fontSize: '11px', color: '#6b6a63' }}>{currentUser?.rol || 'Sin rol'}</p>
                 </div>
                 {isAdmin && (
                   <button
@@ -225,7 +225,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <div className={styles.avatar}>{getInitials(currentUser?.nombre)}</div>
         <div style={{ flex: 1, marginLeft: '8px' }}>
           <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
-          <p style={{ fontSize: '11px', color: '#888780' }}>{currentUser?.rol || 'Sin rol'}</p>
+          <p style={{ fontSize: '11px', color: '#6b6a63' }}>{currentUser?.rol || 'Sin rol'}</p>
         </div>
         <button
           type="button"
@@ -248,10 +248,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
           <div className={modalStyles.modalContentSm}>
             <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
-            <p style={{ fontSize: '13px', color: '#888780', marginBottom: '1.25rem' }}>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
               Tenés cambios sin guardar en historial. Si salís ahora los vas a perder.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+            <div className={modalStyles.formActions}>
               <button onClick={closeUnsavedModal}>Quedarme</button>
               <button
                 onClick={confirmDiscardAndContinue}

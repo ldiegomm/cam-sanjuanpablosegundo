@@ -56,8 +56,9 @@ export default function ForgotPasswordPage() {
             {error && <div className={styles.error}>{error}</div>}
 
             <div className={styles.field}>
-              <label>Correo electrónico</label>
+              <label htmlFor="forgot-email">Correo electrónico</label>
               <input
+                id="forgot-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -76,7 +77,7 @@ export default function ForgotPasswordPage() {
 
             <p
               onClick={() => router.push('/login')}
-              style={{ fontSize: '12px', color: '#888780', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
+              style={{ fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
             >
               ← Volver al inicio de sesión
             </p>
