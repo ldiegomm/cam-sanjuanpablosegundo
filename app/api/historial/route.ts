@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
+
+async function requireAuth() {
+  const session = await getSession()
+
+  if (!session) {
+    return {
+      error: NextResponse.json({ success: false, message: 'No autenticado.' }, { status: 401 })
+    }
+  }
+
+  return { session }
+}
 
 type HistorialRow = {
   id: number
@@ -143,6 +156,12 @@ async function saveHistorial(input: HistorialInput): Promise<HistorialRow> {
 
 export async function GET() {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const [{ data: adultos, error: adultosError }, { data: historialRows, error: historialError }] = await Promise.all([
       supabaseAdmin
         .from('adultos_mayores')
@@ -180,6 +199,12 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const body = (await request.json()) as {
       id_adulto_mayor?: unknown
       fuma?: unknown

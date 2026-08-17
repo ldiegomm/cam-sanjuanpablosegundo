@@ -1,8 +1,27 @@
 import { NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
+
+async function requireAuth() {
+  const session = await getSession()
+
+  if (!session) {
+    return {
+      error: NextResponse.json({ success: false, message: 'No autenticado.' }, { status: 401 })
+    }
+  }
+
+  return { session }
+}
 
 export async function GET() {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const [{ data: adultos, error: eAdultos }, { data: prescripciones, error: ePrescripciones }] =
       await Promise.all([
         supabaseAdmin
@@ -29,6 +48,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const body = await request.json()
 
     const { id_adulto_mayor } = body

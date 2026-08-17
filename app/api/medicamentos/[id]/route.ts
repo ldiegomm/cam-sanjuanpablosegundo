@@ -1,11 +1,30 @@
 import { NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
+
+async function requireAuth() {
+  const session = await getSession()
+
+  if (!session) {
+    return {
+      error: NextResponse.json({ success: false, message: 'No autenticado.' }, { status: 401 })
+    }
+  }
+
+  return { session }
+}
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const { id } = await params
     const body = await request.json()
 
@@ -43,6 +62,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const auth = await requireAuth()
+
+    if (auth.error) {
+      return auth.error
+    }
+
     const { id } = await params
 
     const { error } = await supabaseAdmin
