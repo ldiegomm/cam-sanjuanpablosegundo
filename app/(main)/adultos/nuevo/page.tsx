@@ -1,9 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
+import modalStyles from '@/app/styles/modals.module.css'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
+
+declare global {
+  interface Window {
+    __adultosUnsavedChanges?: boolean
+  }
+}
 
 export default function NuevoPage() {
   const router = useRouter()
@@ -11,6 +19,8 @@ export default function NuevoPage() {
   const [error, setError] = useState('')
   const [toast, setToast] = useState<string | null>(null)
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
+  const [showUnsavedModal, setShowUnsavedModal] = useState(false)
+  const errorRef = useRef<HTMLDivElement>(null)
 
   const [form, setForm] = useState({
     nombre: '',
@@ -34,6 +44,44 @@ export default function NuevoPage() {
 
   const set = (campo: string, valor: string) =>
     setForm(prev => ({ ...prev, [campo]: valor }))
+
+  useEffect(() => {
+    if (error) {
+      errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [error])
+
+  const initialSnapshotRef = useRef(JSON.stringify({ form, mismoFamiliar }))
+  const isDirty = JSON.stringify({ form, mismoFamiliar }) !== initialSnapshotRef.current
+
+  useEffect(() => {
+    window.__adultosUnsavedChanges = isDirty
+    window.dispatchEvent(new CustomEvent('adultos-unsaved-change'))
+  }, [isDirty])
+
+  useEffect(() => {
+    return () => {
+      window.__adultosUnsavedChanges = false
+      window.dispatchEvent(new CustomEvent('adultos-unsaved-change'))
+    }
+  }, [])
+
+  const closeUnsavedModal = () => setShowUnsavedModal(false)
+
+  useEscapeKey(showUnsavedModal, closeUnsavedModal)
+
+  const requestSalir = () => {
+    if (isDirty) {
+      setShowUnsavedModal(true)
+      return
+    }
+    router.push('/adultos')
+  }
+
+  const discardAndSalir = () => {
+    setShowUnsavedModal(false)
+    router.push('/adultos')
+  }
 
   const handleMismoFamiliar = (checked: boolean) => {
     setMismoFamiliar(checked)
@@ -93,12 +141,12 @@ export default function NuevoPage() {
     <div className={utilStyles.page}>
 
       <div className={utilStyles.row} style={{ marginBottom: '1.25rem' }}>
-        <button className={styles.btnSm} onClick={() => router.push('/adultos')}>← Volver</button>
+        <button className={styles.btnSm} onClick={requestSalir}>← Volver</button>
         <h2>Nuevo registro</h2>
       </div>
 
       {error && (
-        <div style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
+        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
           {error}
         </div>
       )}
@@ -212,7 +260,7 @@ export default function NuevoPage() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingBottom: '1rem' }}>
-        <button onClick={() => router.push('/adultos')}>Cancelar</button>
+        <button onClick={requestSalir}>Cancelar</button>
         <button
           className={styles.btnSuccess}
           onClick={handleGuardar}
@@ -225,6 +273,29 @@ export default function NuevoPage() {
       {toast && (
         <div className={`${styles.toast} ${styles.toastSuccess}`}>
           {toast}
+        </div>
+      )}
+
+      {showUnsavedModal && (
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) closeUnsavedModal() }}
+        >
+          <div className={modalStyles.modalContentSm}>
+            <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
+              Tenés cambios sin guardar. Si salís ahora los vas a perder.
+            </p>
+            <div className={modalStyles.formActions}>
+              <button onClick={closeUnsavedModal}>Quedarme</button>
+              <button
+                onClick={discardAndSalir}
+                style={{ background: '#FBF3DC', color: '#7A5C1E', borderColor: '#E8C96A' }}
+              >
+                Salir sin guardar
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

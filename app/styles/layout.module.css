@@ -46,12 +46,20 @@
 .navItem {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   padding: 9px 1rem;
   min-height: 40px;
   cursor: pointer;
   margin-bottom: 2px;
+  border: none;
   border-left: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  color: inherit;
   transition: background 0.15s;
 }
 
@@ -118,6 +126,15 @@
 
 .settingsButton:hover {
   background: #ebebea;
+}
+
+.logoutText {
+  border: none;
+  background: none;
+  padding: 0;
+  min-height: auto;
+  display: inline;
+  font: inherit;
 }
 
 .main { flex: 1; overflow: auto; }

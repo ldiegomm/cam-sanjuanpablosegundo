@@ -1,9 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
+import modalStyles from '@/app/styles/modals.module.css'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
+
+declare global {
+  interface Window {
+    __adultosUnsavedChanges?: boolean
+  }
+}
 
 export default function EditarPage() {
   const router = useRouter()
@@ -14,6 +22,9 @@ export default function EditarPage() {
   const [error, setError] = useState('')
   const [toast, setToast] = useState<string | null>(null)
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
+  const [editSnapshot, setEditSnapshot] = useState('')
+  const [showUnsavedModal, setShowUnsavedModal] = useState(false)
+  const errorRef = useRef<HTMLDivElement>(null)
 
   const [form, setForm] = useState({
     nombre: '',
@@ -46,7 +57,7 @@ export default function EditarPage() {
         if (!a) {
           throw new Error('No se pudo cargar el registro.')
         }
-        setForm({
+        const loadedForm = {
           nombre:              a.nombre || '',
           cedula:              a.cedula || '',
           fecha_nacimiento:    a.fecha_nacimiento || '',
@@ -64,7 +75,9 @@ export default function EditarPage() {
           familiar_direccion:  a.familiar_direccion || '',
           emergencia_nombre:   a.emergencia_nombre || '',
           emergencia_telefono: a.emergencia_telefono || '',
-        })
+        }
+        setForm(loadedForm)
+        setEditSnapshot(JSON.stringify({ form: loadedForm, mismoFamiliar: false }))
       })
       .catch(() => {
         setLoadError('No se pudo cargar el registro del paciente. Por favor, intentá de nuevo.')
@@ -76,6 +89,43 @@ export default function EditarPage() {
 
   const set = (campo: string, valor: string) =>
     setForm(prev => ({ ...prev, [campo]: valor }))
+
+  useEffect(() => {
+    if (error) {
+      errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [error])
+
+  const isDirty = !loading && !loadError && editSnapshot !== '' && JSON.stringify({ form, mismoFamiliar }) !== editSnapshot
+
+  useEffect(() => {
+    window.__adultosUnsavedChanges = isDirty
+    window.dispatchEvent(new CustomEvent('adultos-unsaved-change'))
+  }, [isDirty])
+
+  useEffect(() => {
+    return () => {
+      window.__adultosUnsavedChanges = false
+      window.dispatchEvent(new CustomEvent('adultos-unsaved-change'))
+    }
+  }, [])
+
+  const closeUnsavedModal = () => setShowUnsavedModal(false)
+
+  useEscapeKey(showUnsavedModal, closeUnsavedModal)
+
+  const requestSalir = () => {
+    if (isDirty) {
+      setShowUnsavedModal(true)
+      return
+    }
+    router.push(`/adultos/${params.id}`)
+  }
+
+  const discardAndSalir = () => {
+    setShowUnsavedModal(false)
+    router.push(`/adultos/${params.id}`)
+  }
 
   const handleMismoFamiliar = (checked: boolean) => {
     setMismoFamiliar(checked)
@@ -151,12 +201,12 @@ export default function EditarPage() {
     <div className={utilStyles.page}>
 
       <div className={utilStyles.row} style={{ marginBottom: '1.25rem' }}>
-        <button className={styles.btnSm} onClick={() => router.push(`/adultos/${params.id}`)}>← Volver</button>
+        <button className={styles.btnSm} onClick={requestSalir}>← Volver</button>
         <h2>Editar paciente</h2>
       </div>
 
       {error && (
-        <div style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
+        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
           {error}
         </div>
       )}
@@ -270,7 +320,7 @@ export default function EditarPage() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingBottom: '1rem' }}>
-        <button onClick={() => router.push(`/adultos/${params.id}`)}>Cancelar</button>
+        <button onClick={requestSalir}>Cancelar</button>
         <button
           className={styles.btnSuccess}
           onClick={handleGuardar}
@@ -283,6 +333,29 @@ export default function EditarPage() {
       {toast && (
         <div className={`${styles.toast} ${styles.toastSuccess}`}>
           {toast}
+        </div>
+      )}
+
+      {showUnsavedModal && (
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) closeUnsavedModal() }}
+        >
+          <div className={modalStyles.modalContentSm}>
+            <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
+              Tenés cambios sin guardar. Si salís ahora los vas a perder.
+            </p>
+            <div className={modalStyles.formActions}>
+              <button onClick={closeUnsavedModal}>Quedarme</button>
+              <button
+                onClick={discardAndSalir}
+                style={{ background: '#FBF3DC', color: '#7A5C1E', borderColor: '#E8C96A' }}
+              >
+                Salir sin guardar
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

@@ -2,12 +2,14 @@
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import UserManagementModal from '@/app/(main)/components/UserManagementModal'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
 import styles from '@/app/styles/layout.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 
 declare global {
   interface Window {
     __historialUnsavedChanges?: boolean
+    __adultosUnsavedChanges?: boolean
   }
 }
 
@@ -45,7 +47,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
   const hasUnsavedChanges = () => {
     if (typeof window === 'undefined') return false
-    return Boolean(window.__historialUnsavedChanges)
+    return Boolean(window.__historialUnsavedChanges) || Boolean(window.__adultosUnsavedChanges)
   }
 
   const goToPath = (path: string) => {
@@ -95,6 +97,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     router.push('/login?logout=1')
   }
 
+  useEscapeKey(showUnsavedModal, closeUnsavedModal)
+
   useEffect(() => {
     const onUnsavedChange = () => {
       // Fuerza re-render cuando cambia la bandera para mantener la UI sincronizada.
@@ -102,9 +106,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     }
 
     window.addEventListener('historial-unsaved-change', onUnsavedChange)
+    window.addEventListener('adultos-unsaved-change', onUnsavedChange)
 
     return () => {
       window.removeEventListener('historial-unsaved-change', onUnsavedChange)
+      window.removeEventListener('adultos-unsaved-change', onUnsavedChange)
     }
   }, [])
 
@@ -139,14 +145,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <nav className={styles.nav}>
-          <div className={`${styles.navItem} ${pathname === '/home' ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/home')}>
+          <button type="button" className={`${styles.navItem} ${pathname === '/home' ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/home')} aria-current={pathname === '/home' ? 'page' : undefined}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
             <span>Inicio</span>
-          </div>
-          <div className={`${styles.navItem} ${pathname.startsWith('/adultos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/adultos')}>
+          </button>
+          <button type="button" className={`${styles.navItem} ${pathname.startsWith('/adultos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/adultos')} aria-current={pathname.startsWith('/adultos') ? 'page' : undefined}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -154,8 +160,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
             <span>Adultos</span>
-          </div>
-          <div className={`${styles.navItem} ${pathname.startsWith('/historial') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/historial')}>
+          </button>
+          <button type="button" className={`${styles.navItem} ${pathname.startsWith('/historial') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/historial')} aria-current={pathname.startsWith('/historial') ? 'page' : undefined}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -163,16 +169,17 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
             <span>Historial</span>
-          </div>
-          <div className={`${styles.navItem} ${pathname.startsWith('/medicamentos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/medicamentos')}>
+          </button>
+          <button type="button" className={`${styles.navItem} ${pathname.startsWith('/medicamentos') ? styles.navItemActive : ''}`} onClick={() => handleRouteClick('/medicamentos')} aria-current={pathname.startsWith('/medicamentos') ? 'page' : undefined}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M10.5 20H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2v3"/>
               <circle cx="18" cy="18" r="3"/>
               <path d="m22 22-1.5-1.5"/>
             </svg>
             <span>Medicamentos</span>
-          </div>
-          <div
+          </button>
+          <button
+            type="button"
             className={`${styles.navItem} ${styles.navItemSalir}`}
             onClick={handleLogout}
           >
@@ -182,7 +189,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <line x1="21" y1="12" x2="9" y2="12"/>
             </svg>
             <span>Salir</span>
-          </div>
+          </button>
         </nav>
 
         <div className={styles.sidebarFooter}>
@@ -209,12 +216,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   </button>
                 )}
               </div>
-              <p
+              <button
+                type="button"
                 onClick={handleLogout}
+                className={styles.logoutText}
                 style={{ fontSize: '11px', color: '#14B8A6', cursor: 'pointer', fontWeight: 500 }}
               >
                 Cerrar sesión
-              </p>
+              </button>
             </div>
           </div>
         </div>
@@ -245,11 +254,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </main>
 
       {showUnsavedModal && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) closeUnsavedModal() }}
+        >
           <div className={modalStyles.modalContentSm}>
             <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
             <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
-              Tenés cambios sin guardar en historial. Si salís ahora los vas a perder.
+              Tenés cambios sin guardar. Si salís ahora los vas a perder.
             </p>
             <div className={modalStyles.formActions}>
               <button onClick={closeUnsavedModal}>Quedarme</button>

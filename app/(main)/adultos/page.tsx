@@ -6,6 +6,7 @@ import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
 
 interface Adulto {
   id: number
@@ -76,6 +77,13 @@ export default function AdultosPage() {
     const timer = window.setTimeout(() => setToast(null), 3000)
     return () => window.clearTimeout(timer)
   }, [toast])
+
+  const cerrarModalEliminar = () => {
+    if (eliminando) return
+    setAdultoAEliminar(null)
+  }
+
+  useEscapeKey(Boolean(adultoAEliminar), cerrarModalEliminar)
 
   const filtrados = adultos.filter(a =>
     a.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -203,7 +211,10 @@ export default function AdultosPage() {
 
       {/* Modal eliminar */}
       {adultoAEliminar && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) cerrarModalEliminar() }}
+        >
           <div className={modalStyles.modalContentDanger}>
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
               ¿Eliminar paciente?
@@ -213,7 +224,7 @@ export default function AdultosPage() {
             </p>
             <div className={modalStyles.formActions}>
               <button
-                onClick={() => setAdultoAEliminar(null)}
+                onClick={cerrarModalEliminar}
                 disabled={eliminando}
               >
                 Cancelar

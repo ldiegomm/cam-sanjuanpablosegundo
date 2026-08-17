@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import styles from '../styles/login.module.css'
 
 export default function ForgotPasswordPage() {
@@ -75,12 +76,12 @@ export default function ForgotPasswordPage() {
               {loading ? 'Enviando...' : 'Enviar link de recuperación'}
             </button>
 
-            <p
-              onClick={() => router.push('/login')}
-              style={{ fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
+            <Link
+              href="/login"
+              style={{ display: 'block', fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', textDecoration: 'none' }}
             >
               ← Volver al inicio de sesión
-            </p>
+            </Link>
           </>
         ) : (
           <>

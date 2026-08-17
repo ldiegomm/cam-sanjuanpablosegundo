@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import componentStyles from '@/app/styles/componentes.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 import { USER_ROLES, type UserRole } from '@/lib/userRoles'
+import { useEscapeKey } from './useEscapeKey'
 
 type SessionUser = {
   id: number | string
@@ -88,6 +89,7 @@ export default function UserManagementModal({
   const [error, setError] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
+  const errorRef = useRef<HTMLDivElement>(null)
 
   const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
   const editingUser =
@@ -108,6 +110,12 @@ export default function UserManagementModal({
     const timer = window.setTimeout(() => setToast(null), 3000)
     return () => window.clearTimeout(timer)
   }, [toast])
+
+  useEffect(() => {
+    if (error) {
+      errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [error])
 
   const loadUsuarios = async () => {
     setLoading(true)
@@ -278,13 +286,24 @@ export default function UserManagementModal({
     }
   }
 
+  const cancelarEliminar = () => {
+    if (deleting) return
+    setDeleteTarget(null)
+  }
+
+  useEscapeKey(open && !deleteTarget, onClose)
+  useEscapeKey(Boolean(deleteTarget), cancelarEliminar)
+
   if (!open) {
     return null
   }
 
   return (
     <>
-      <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+      <div
+        className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+        onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      >
         <div className={modalStyles.modalContentLg}>
           <div className={modalStyles.modalHeaderRow}>
             <div>
@@ -301,7 +320,7 @@ export default function UserManagementModal({
             </button>
           </div>
 
-          {error && <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
+          {error && <div ref={errorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
 
           <div className={modalStyles.adminModalGrid}>
             <section className={modalStyles.adminPanel}>
@@ -485,7 +504,10 @@ export default function UserManagementModal({
       </div>
 
       {deleteTarget && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) cancelarEliminar() }}
+        >
           <div className={modalStyles.modalContentDanger}>
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
               ¿Eliminar usuario?
@@ -499,7 +521,7 @@ export default function UserManagementModal({
               </p>
             )}
             <div className={modalStyles.formActions}>
-              <button type="button" onClick={() => setDeleteTarget(null)} disabled={deleting}>
+              <button type="button" onClick={cancelarEliminar} disabled={deleting}>
                 Cancelar
               </button>
               <button

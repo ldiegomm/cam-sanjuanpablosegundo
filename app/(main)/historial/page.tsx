@@ -6,6 +6,7 @@ import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
 
 type Adulto = {
   id: number
@@ -114,6 +115,7 @@ function HistorialPageContent() {
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
   const [editSnapshot, setEditSnapshot] = useState('')
   const [showUnsavedModal, setShowUnsavedModal] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
   const [pendingAction, setPendingAction] = useState<PendingAction>(null)
   const [form, setForm] = useState<HistorialForm>({
     fuma: false,
@@ -173,6 +175,10 @@ function HistorialPageContent() {
     if (!term) return adultos
     return adultos.filter(a => a.nombre.toLowerCase().includes(term))
   }, [adultos, search])
+
+  useEffect(() => {
+    setActiveIndex(-1)
+  }, [dropdownOpen, adultosFiltrados])
 
   const adultoSeleccionado = useMemo(
     () => adultos.find(a => a.id === adultoId) || null,
@@ -242,10 +248,31 @@ function HistorialPageContent() {
     applyAdultoSelection(adulto)
   }
 
+  const handleBuscarKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!dropdownOpen) return
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev + 1) % Math.max(adultosFiltrados.length, 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev <= 0 ? adultosFiltrados.length - 1 : prev - 1))
+    } else if (e.key === 'Enter') {
+      if (activeIndex >= 0 && activeIndex < adultosFiltrados.length) {
+        e.preventDefault()
+        requestAdultoSelection(adultosFiltrados[activeIndex])
+      }
+    } else if (e.key === 'Escape') {
+      setDropdownOpen(false)
+    }
+  }
+
   const closeUnsavedModal = () => {
     setShowUnsavedModal(false)
     setPendingAction(null)
   }
+
+  useEscapeKey(showUnsavedModal, closeUnsavedModal)
 
   const discardUnsavedChanges = () => {
     if (pendingAction?.type === 'changeAdulto') {
@@ -336,20 +363,31 @@ function HistorialPageContent() {
               onBlur={() => {
                 setTimeout(() => setDropdownOpen(false), 120)
               }}
+              onKeyDown={handleBuscarKeyDown}
               autoComplete="off"
               disabled={loading || !!error || isEditing}
+              role="combobox"
+              aria-expanded={dropdownOpen}
+              aria-controls="historial-buscar-listbox"
+              aria-autocomplete="list"
+              aria-activedescendant={activeIndex >= 0 && adultosFiltrados[activeIndex] ? `historial-opcion-${adultosFiltrados[activeIndex].id}` : undefined}
             />
             <div
+              id="historial-buscar-listbox"
+              role="listbox"
               className={styles.pacDropdown}
               style={{ display: dropdownOpen ? 'block' : 'none' }}
             >
               {adultosFiltrados.length === 0 ? (
                 <div className={`${styles.pacOption} ${styles.pacOptionNoResults}`}>Sin resultados</div>
               ) : (
-                adultosFiltrados.map(a => (
+                adultosFiltrados.map((a, i) => (
                   <div
                     key={a.id}
-                    className={styles.pacOption}
+                    id={`historial-opcion-${a.id}`}
+                    role="option"
+                    aria-selected={i === activeIndex}
+                    className={`${styles.pacOption} ${i === activeIndex ? styles.selected : ''}`}
                     onMouseDown={() => {
                       requestAdultoSelection(a)
                     }}
@@ -439,11 +477,12 @@ function HistorialPageContent() {
           ) : (
             <>
               <div className={styles.card} style={{ marginBottom: '10px' }}>
-                <p className={utilStyles.sectionLabel}>Padecimientos</p>
+                <label htmlFor="historial-padecimientos" className={utilStyles.sectionLabel}>Padecimientos</label>
                 <p style={{ fontSize: '12px', color: '#6b6a63', marginBottom: '8px' }}>
                   Separá cada padecimiento por comas.
                 </p>
                 <textarea
+                  id="historial-padecimientos"
                   value={form.padecimientos}
                   onChange={(e) => setForm((prev) => ({ ...prev, padecimientos: e.target.value }))}
                   placeholder="Ej: Hipertensión, Diabetes, Artritis"
@@ -452,11 +491,12 @@ function HistorialPageContent() {
               </div>
 
               <div className={styles.card} style={{ marginBottom: '10px' }}>
-                <p className={utilStyles.sectionLabel}>Lesiones</p>
+                <label htmlFor="historial-lesiones" className={utilStyles.sectionLabel}>Lesiones</label>
                 <p style={{ fontSize: '12px', color: '#6b6a63', marginBottom: '8px' }}>
                   Separá cada lesión por comas.
                 </p>
                 <textarea
+                  id="historial-lesiones"
                   value={form.lesiones}
                   onChange={(e) => setForm((prev) => ({ ...prev, lesiones: e.target.value }))}
                   placeholder="Ej: Rodilla izquierda, Columna lumbar"
@@ -501,8 +541,9 @@ function HistorialPageContent() {
               </div>
 
               <div className={styles.card} style={{ marginBottom: '10px' }}>
-                <p className={utilStyles.sectionLabel}>Operaciones</p>
+                <label htmlFor="historial-operaciones" className={utilStyles.sectionLabel}>Operaciones</label>
                 <textarea
+                  id="historial-operaciones"
                   value={form.operaciones}
                   onChange={(e) => setForm((prev) => ({ ...prev, operaciones: e.target.value }))}
                   style={{ width: '100%', minHeight: '60px', resize: 'vertical', boxSizing: 'border-box' }}
@@ -532,7 +573,10 @@ function HistorialPageContent() {
       )}
 
       {showUnsavedModal && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) closeUnsavedModal() }}
+        >
           <div className={modalStyles.modalContentSm}>
             <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cambios sin guardar</h2>
             <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>

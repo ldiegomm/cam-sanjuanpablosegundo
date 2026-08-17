@@ -1,10 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
+import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
 
 type Adulto = {
   id: number
@@ -69,6 +70,7 @@ export default function MedicamentosPage() {
   const [search, setSearch] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [adultoId, setAdultoId] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState(-1)
 
   const [toast, setToast] = useState<string | null>(null)
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
@@ -78,6 +80,7 @@ export default function MedicamentosPage() {
   const [form, setForm] = useState<PrescripcionForm>(FORM_INICIAL)
   const [formError, setFormError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const formErrorRef = useRef<HTMLDivElement>(null)
 
   const [prescripcionAEliminar, setPrescripcionAEliminar] = useState<Prescripcion | null>(null)
   const [eliminando, setEliminando] = useState(false)
@@ -115,11 +118,46 @@ export default function MedicamentosPage() {
     return () => window.clearTimeout(timer)
   }, [toast])
 
+  useEffect(() => {
+    if (formError) {
+      formErrorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [formError])
+
   const adultosFiltrados = useMemo(() => {
     const term = search.trim().toLowerCase()
     if (!term) return adultos
     return adultos.filter(a => a.nombre.toLowerCase().includes(term))
   }, [adultos, search])
+
+  useEffect(() => {
+    setActiveIndex(-1)
+  }, [dropdownOpen, adultosFiltrados])
+
+  const seleccionarAdulto = (a: Adulto) => {
+    setAdultoId(a.id)
+    setSearch(a.nombre)
+    setDropdownOpen(false)
+  }
+
+  const handleBuscarKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!dropdownOpen) return
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev + 1) % Math.max(adultosFiltrados.length, 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev <= 0 ? adultosFiltrados.length - 1 : prev - 1))
+    } else if (e.key === 'Enter') {
+      if (activeIndex >= 0 && activeIndex < adultosFiltrados.length) {
+        e.preventDefault()
+        seleccionarAdulto(adultosFiltrados[activeIndex])
+      }
+    } else if (e.key === 'Escape') {
+      setDropdownOpen(false)
+    }
+  }
 
   const adultoSeleccionado = useMemo(
     () => adultos.find(a => a.id === adultoId) ?? null,
@@ -160,10 +198,19 @@ export default function MedicamentosPage() {
   }
 
   const cerrarModal = () => {
+    if (saving) return
     setShowModal(false)
     setEditingPrescripcion(null)
     setFormError(null)
   }
+
+  const cerrarModalEliminar = () => {
+    if (eliminando) return
+    setPrescripcionAEliminar(null)
+  }
+
+  useEscapeKey(showModal, cerrarModal)
+  useEscapeKey(Boolean(prescripcionAEliminar), cerrarModalEliminar)
 
   const handleGuardar = async () => {
     if (!adultoId || saving) return
@@ -284,22 +331,32 @@ export default function MedicamentosPage() {
               onChange={(e) => { setSearch(e.target.value); setDropdownOpen(true) }}
               onFocus={() => setDropdownOpen(true)}
               onBlur={() => setTimeout(() => setDropdownOpen(false), 120)}
+              onKeyDown={handleBuscarKeyDown}
               autoComplete="off"
               disabled={loading || !!error}
+              role="combobox"
+              aria-expanded={dropdownOpen}
+              aria-controls="medicamentos-buscar-listbox"
+              aria-autocomplete="list"
+              aria-activedescendant={activeIndex >= 0 && adultosFiltrados[activeIndex] ? `medicamentos-opcion-${adultosFiltrados[activeIndex].id}` : undefined}
             />
-            <div className={styles.pacDropdown} style={{ display: dropdownOpen ? 'block' : 'none' }}>
+            <div
+              id="medicamentos-buscar-listbox"
+              role="listbox"
+              className={styles.pacDropdown}
+              style={{ display: dropdownOpen ? 'block' : 'none' }}
+            >
               {adultosFiltrados.length === 0 ? (
                 <div className={`${styles.pacOption} ${styles.pacOptionNoResults}`}>Sin resultados</div>
               ) : (
-                adultosFiltrados.map(a => (
+                adultosFiltrados.map((a, i) => (
                   <div
                     key={a.id}
-                    className={styles.pacOption}
-                    onMouseDown={() => {
-                      setAdultoId(a.id)
-                      setSearch(a.nombre)
-                      setDropdownOpen(false)
-                    }}
+                    id={`medicamentos-opcion-${a.id}`}
+                    role="option"
+                    aria-selected={i === activeIndex}
+                    className={`${styles.pacOption} ${i === activeIndex ? styles.selected : ''}`}
+                    onMouseDown={() => seleccionarAdulto(a)}
                   >
                     {a.nombre}
                   </div>
@@ -402,13 +459,16 @@ export default function MedicamentosPage() {
 
       {/* Modal agregar / editar */}
       {showModal && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) cerrarModal() }}
+        >
           <div className={modalStyles.modalContent}>
             <div className={modalStyles.modalHeaderRow}>
               <p className={modalStyles.modalTitle}>
                 {editingPrescripcion ? 'Editar medicamento' : 'Agregar medicamento'}
               </p>
-              <button className={modalStyles.iconButton} onClick={cerrarModal} disabled={saving}>
+              <button type="button" className={modalStyles.iconButton} onClick={cerrarModal} disabled={saving} aria-label="Cerrar modal">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
@@ -417,7 +477,7 @@ export default function MedicamentosPage() {
             </div>
 
             {formError && (
-              <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{formError}</div>
+              <div ref={formErrorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{formError}</div>
             )}
 
             <div className={modalStyles.formStack}>
@@ -472,7 +532,10 @@ export default function MedicamentosPage() {
 
       {/* Modal eliminar */}
       {prescripcionAEliminar && (
-        <div className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}>
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) cerrarModalEliminar() }}
+        >
           <div className={modalStyles.modalContentDanger}>
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>¿Eliminar medicamento?</p>
             <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
@@ -480,7 +543,7 @@ export default function MedicamentosPage() {
             </p>
             <div className={modalStyles.formActions}>
               <button
-                onClick={() => setPrescripcionAEliminar(null)}
+                onClick={cerrarModalEliminar}
                 disabled={eliminando}
               >
                 Cancelar

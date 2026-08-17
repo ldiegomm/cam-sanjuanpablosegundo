@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import styles from '../styles/login.module.css'
 
 function LoginPageContent() {
@@ -105,12 +106,12 @@ function LoginPageContent() {
         >
           {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </button>
-        <p
-          onClick={() => router.push('/forgot-password')}
-          style={{ fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', cursor: 'pointer' }}
+        <Link
+          href="/forgot-password"
+          style={{ display: 'block', fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', textDecoration: 'none' }}
         >
           ¿Olvidaste tu contraseña?
-        </p>
+        </Link>
 
       </div>
     </div>
