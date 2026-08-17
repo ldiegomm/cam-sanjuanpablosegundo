@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
+import ErrorState from '@/app/(main)/components/ErrorState'
 
 interface Adulto {
   id: number
@@ -37,18 +38,44 @@ export default function AdultosPage() {
   const [adultos, setAdultos] = useState<Adulto[]>([])
   const [busqueda, setBusqueda] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [eliminando, setEliminando] = useState(false)
   const [adultoAEliminar, setAdultoAEliminar] = useState<Adulto | null>(null)
   const [toast, setToast] = useState<string | null>(null)
+  const [toastType, setToastType] = useState<'success' | 'error'>('success')
 
-  useEffect(() => {
+  const cargarAdultos = useCallback(() => {
     fetch('/api/adultos')
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error('No se pudo cargar la lista de pacientes.')
+        return res.json()
+      })
       .then(data => {
         setAdultos(data.adultos || [])
+      })
+      .catch(() => {
+        setError('Ocurrió un error cargando la lista de pacientes.')
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [])
+
+  useEffect(() => {
+    cargarAdultos()
+  }, [cargarAdultos])
+
+  const reintentarCargarAdultos = () => {
+    setLoading(true)
+    setError(null)
+    cargarAdultos()
+  }
+
+  useEffect(() => {
+    if (!toast) return
+    const timer = window.setTimeout(() => setToast(null), 3000)
+    return () => window.clearTimeout(timer)
+  }, [toast])
 
   const filtrados = adultos.filter(a =>
     a.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -63,14 +90,20 @@ export default function AdultosPage() {
       const res = await fetch(`/api/adultos/${adultoAEliminar.id}`, { method: 'DELETE' })
       const data = await res.json()
 
-      if (data.success) {
-        setAdultos(prev => prev.filter(a => a.id !== adultoAEliminar.id))
-        setToast(`${adultoAEliminar.nombre} fue eliminado correctamente.`)
-        setTimeout(() => setToast(null), 3000)
-        setAdultoAEliminar(null)
+      if (!res.ok || !data.success) {
+        setToastType('error')
+        setToast('Error al eliminar el registro. Intentá de nuevo.')
+        return
       }
+
+      setAdultos(prev => prev.filter(a => a.id !== adultoAEliminar.id))
+      setToastType('success')
+      setToast(`${adultoAEliminar.nombre} fue eliminado correctamente.`)
+      setAdultoAEliminar(null)
     } catch (error) {
       console.error('Error eliminando:', error)
+      setToastType('error')
+      setToast('Error de conexión al eliminar el registro.')
     } finally {
       setEliminando(false)
     }
@@ -110,6 +143,13 @@ export default function AdultosPage() {
       {/* Lista */}
       {loading ? (
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>Cargando...</p>
+      ) : error ? (
+        <ErrorState
+          title="Error al cargar la lista"
+          description={error}
+          actionLabel="Reintentar"
+          onAction={reintentarCargarAdultos}
+        />
       ) : filtrados.length === 0 ? (
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>No se encontraron resultados.</p>
       ) : (
@@ -156,7 +196,7 @@ export default function AdultosPage() {
 
       {/* Toast */}
       {toast && (
-        <div className={`${styles.toast} ${styles.toastSuccess}`}>
+        <div className={`${styles.toast} ${toastType === 'success' ? styles.toastSuccess : styles.toastError}`}>
           {toast}
         </div>
       )}

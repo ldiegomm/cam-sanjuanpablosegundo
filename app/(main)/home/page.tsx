@@ -1,7 +1,8 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
+import ErrorState from '@/app/(main)/components/ErrorState'
 
 interface Prescripcion {
   nombre_medicamento: string
@@ -22,15 +23,34 @@ interface Paciente {
 export default function HomePage() {
   const [pacientes, setPacientes] = useState<Paciente[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const cargarDashboard = useCallback(() => {
     fetch('/api/dashboard')
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error('No se pudo cargar el panel de inicio.')
+        return res.json()
+      })
       .then(data => {
         setPacientes(data.pacientes || [])
+      })
+      .catch(() => {
+        setError('Ocurrió un error cargando el panel de inicio. Intentá de nuevo.')
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [])
+
+  useEffect(() => {
+    cargarDashboard()
+  }, [cargarDashboard])
+
+  const reintentarCargarDashboard = () => {
+    setLoading(true)
+    setError(null)
+    cargarDashboard()
+  }
 
   const fecha = () => {
     const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado']
@@ -63,19 +83,28 @@ export default function HomePage() {
       <h2 className={utilStyles.mb1}>Panel de inicio</h2>
       <p className={utilStyles.muted} style={{ fontSize: '13px', marginBottom: '1.25rem' }}>{fecha()}</p>
 
+      {error && (
+        <ErrorState
+          title="Error al cargar el panel de inicio"
+          description={error}
+          actionLabel="Reintentar"
+          onAction={reintentarCargarDashboard}
+        />
+      )}
+
       {/* Métricas */}
       <div className={utilStyles.grid3} style={{ marginBottom: '1.25rem' }}>
         <div className={styles.metric}>
           <p className={styles.metricLabel}>Personas registradas</p>
-          <p className={styles.metricValue}>{loading ? '—' : totalPacientes}</p>
+          <p className={styles.metricValue}>{loading || error ? '—' : totalPacientes}</p>
         </div>
         <div className={styles.metric}>
           <p className={styles.metricLabel}>Con medicamentos hoy</p>
-          <p className={styles.metricValue}>{loading ? '—' : conMeds}</p>
+          <p className={styles.metricValue}>{loading || error ? '—' : conMeds}</p>
         </div>
         <div className={styles.metric}>
           <p className={styles.metricLabel}>Dosis programadas</p>
-          <p className={styles.metricValue}>{loading ? '—' : totalDosis}</p>
+          <p className={styles.metricValue}>{loading || error ? '—' : totalDosis}</p>
         </div>
       </div>
 
@@ -100,6 +129,8 @@ export default function HomePage() {
           <tbody>
             {loading ? (
               <tr><td colSpan={8} style={{ textAlign: 'center', color: '#888780', padding: '2rem' }}>Cargando...</td></tr>
+            ) : error ? (
+              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#888780', padding: '2rem' }}>No se pudo cargar la información.</td></tr>
             ) : pacientes.filter(p => p.prescripciones.length > 0).map((paciente, i) => {
               const horarios = paciente.prescripciones.reduce((acc, pr) => ({
                 ayunas:       acc.ayunas || pr.ayunas,

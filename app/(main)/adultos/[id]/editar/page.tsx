@@ -10,6 +10,7 @@ export default function EditarPage() {
   const params = useParams()
   const [guardando, setGuardando] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
   const [error, setError] = useState('')
   const [toast, setToast] = useState<string | null>(null)
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
@@ -36,30 +37,39 @@ export default function EditarPage() {
 
   useEffect(() => {
     fetch(`/api/adultos/${params.id}`)
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error('No se pudo cargar el registro.')
+        return res.json()
+      })
       .then(data => {
         const a = data.adulto
-        if (a) {
-          setForm({
-            nombre:              a.nombre || '',
-            cedula:              a.cedula || '',
-            fecha_nacimiento:    a.fecha_nacimiento || '',
-            sexo:                a.sexo || '',
-            estado_civil:        a.estado_civil || '',
-            telefono:            a.telefono || '',
-            pension_ivm:         a.pension_ivm ? 'Sí' : 'No',
-            provincia:           a.provincia || '',
-            canton:              a.canton || '',
-            distrito:            a.distrito || '',
-            barrio:              a.barrio || '',
-            familiar_nombre:     a.familiar_nombre || '',
-            familiar_cedula:     a.familiar_cedula || '',
-            familiar_telefono:   a.familiar_telefono || '',
-            familiar_direccion:  a.familiar_direccion || '',
-            emergencia_nombre:   a.emergencia_nombre || '',
-            emergencia_telefono: a.emergencia_telefono || '',
-          })
+        if (!a) {
+          throw new Error('No se pudo cargar el registro.')
         }
+        setForm({
+          nombre:              a.nombre || '',
+          cedula:              a.cedula || '',
+          fecha_nacimiento:    a.fecha_nacimiento || '',
+          sexo:                a.sexo || '',
+          estado_civil:        a.estado_civil || '',
+          telefono:            a.telefono || '',
+          pension_ivm:         a.pension_ivm ? 'Sí' : 'No',
+          provincia:           a.provincia || '',
+          canton:              a.canton || '',
+          distrito:            a.distrito || '',
+          barrio:              a.barrio || '',
+          familiar_nombre:     a.familiar_nombre || '',
+          familiar_cedula:     a.familiar_cedula || '',
+          familiar_telefono:   a.familiar_telefono || '',
+          familiar_direccion:  a.familiar_direccion || '',
+          emergencia_nombre:   a.emergencia_nombre || '',
+          emergencia_telefono: a.emergencia_telefono || '',
+        })
+      })
+      .catch(() => {
+        setLoadError('No se pudo cargar el registro del paciente. Por favor, intentá de nuevo.')
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [params.id])
@@ -122,6 +132,20 @@ export default function EditarPage() {
   }
 
   if (loading) return <div className={utilStyles.page}><p className={utilStyles.muted}>Cargando...</p></div>
+
+  if (loadError) {
+    return (
+      <div className={utilStyles.page}>
+        <div className={utilStyles.row} style={{ marginBottom: '1.25rem' }}>
+          <button className={styles.btnSm} onClick={() => router.push(`/adultos/${params.id}`)}>← Volver</button>
+          <h2>Editar paciente</h2>
+        </div>
+        <div style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px' }}>
+          {loadError}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={utilStyles.page}>

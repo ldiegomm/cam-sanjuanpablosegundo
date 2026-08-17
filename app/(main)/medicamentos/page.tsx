@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
+import ErrorState from '@/app/(main)/components/ErrorState'
 
 type Adulto = {
   id: number
@@ -81,7 +82,7 @@ export default function MedicamentosPage() {
   const [prescripcionAEliminar, setPrescripcionAEliminar] = useState<Prescripcion | null>(null)
   const [eliminando, setEliminando] = useState(false)
 
-  useEffect(() => {
+  const cargarMedicamentos = useCallback(() => {
     fetch('/api/medicamentos')
       .then(async res => {
         if (!res.ok) throw new Error()
@@ -97,6 +98,16 @@ export default function MedicamentosPage() {
       })
       .finally(() => setLoading(false))
   }, [])
+
+  useEffect(() => {
+    cargarMedicamentos()
+  }, [cargarMedicamentos])
+
+  const reintentarCargarMedicamentos = () => {
+    setLoading(true)
+    setError(null)
+    cargarMedicamentos()
+  }
 
   useEffect(() => {
     if (!toast) return
@@ -309,7 +320,12 @@ export default function MedicamentosPage() {
       {loading ? (
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>Cargando...</p>
       ) : error ? (
-        <p className={utilStyles.muted} style={{ fontSize: '13px' }}>{error}</p>
+        <ErrorState
+          title="Error al cargar los medicamentos"
+          description={error}
+          actionLabel="Reintentar"
+          onAction={reintentarCargarMedicamentos}
+        />
       ) : !adultoSeleccionado ? (
         <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
           <p style={{ fontSize: '14px', color: '#888780', marginBottom: '6px' }}>No hay persona seleccionada</p>

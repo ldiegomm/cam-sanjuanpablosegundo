@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
+import ErrorState from '@/app/(main)/components/ErrorState'
 
 interface Adulto {
   id: number
@@ -50,18 +51,68 @@ export default function PerfilPage() {
   const params = useParams()
   const [adulto, setAdulto] = useState<Adulto | null>(null)
   const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const cargarAdulto = useCallback(() => {
     fetch(`/api/adultos/${params.id}`)
-      .then(res => res.json())
+      .then(async res => {
+        if (res.status === 404) {
+          setNotFound(true)
+          return null
+        }
+        if (!res.ok) throw new Error('No se pudo cargar el paciente.')
+        return res.json()
+      })
       .then(data => {
-        setAdulto(data.adulto)
+        if (data) setAdulto(data.adulto)
+      })
+      .catch(() => {
+        setError('Error al cargar el paciente. Intentá de nuevo.')
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [params.id])
 
+  useEffect(() => {
+    cargarAdulto()
+  }, [cargarAdulto])
+
+  const reintentarCargarAdulto = () => {
+    setLoading(true)
+    setNotFound(false)
+    setError(null)
+    cargarAdulto()
+  }
+
   if (loading) return <div className={utilStyles.page}><p className={utilStyles.muted}>Cargando...</p></div>
-  if (!adulto) return <div className={utilStyles.page}><p className={utilStyles.muted}>Paciente no encontrado.</p></div>
+
+  if (notFound) {
+    return (
+      <div className={utilStyles.page}>
+        <ErrorState
+          title="Paciente no encontrado"
+          description="El adulto mayor que buscás no existe o fue eliminado."
+          actionLabel="Volver a la lista"
+          onAction={() => router.push('/adultos')}
+        />
+      </div>
+    )
+  }
+
+  if (error || !adulto) {
+    return (
+      <div className={utilStyles.page}>
+        <ErrorState
+          title="Error al cargar el paciente"
+          description={error || 'Error al cargar el paciente. Intentá de nuevo.'}
+          actionLabel="Reintentar"
+          onAction={reintentarCargarAdulto}
+        />
+      </div>
+    )
+  }
 
   const direccion = [adulto.provincia, adulto.canton, adulto.distrito].filter(Boolean).join(', ')
 

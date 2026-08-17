@@ -1,10 +1,11 @@
 'use client'
 
-import { Suspense, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
+import ErrorState from '@/app/(main)/components/ErrorState'
 
 type Adulto = {
   id: number
@@ -123,7 +124,7 @@ function HistorialPageContent() {
     cantidad_ejersicio_demanal: 0
   })
 
-  useEffect(() => {
+  const cargarHistorial = useCallback(() => {
     fetch('/api/historial')
       .then(async res => {
         if (!res.ok) throw new Error('No se pudo cargar el historial de salud.')
@@ -156,6 +157,16 @@ function HistorialPageContent() {
         setLoading(false)
       })
   }, [searchParams])
+
+  useEffect(() => {
+    cargarHistorial()
+  }, [cargarHistorial])
+
+  const reintentarCargarHistorial = () => {
+    setLoading(true)
+    setError(null)
+    cargarHistorial()
+  }
 
   const adultosFiltrados = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -366,7 +377,12 @@ function HistorialPageContent() {
       {loading ? (
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>Cargando...</p>
       ) : error ? (
-        <p className={utilStyles.muted} style={{ fontSize: '13px' }}>{error}</p>
+        <ErrorState
+          title="Error al cargar el historial"
+          description={error}
+          actionLabel="Reintentar"
+          onAction={reintentarCargarHistorial}
+        />
       ) : (
         <>
           {!adultoSeleccionado ? (

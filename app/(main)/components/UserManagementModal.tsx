@@ -215,7 +215,7 @@ export default function UserManagementModal({
 
       if (!response.ok || !data.success || !data.usuario) {
         setToastType('error')
-        setToast(isEditing ? 'Error al actualizar el usuario. Intentá de nuevo.' : 'Error al crear el usuario. Intentá de nuevo.')
+        setToast(data.message || (isEditing ? 'Error al actualizar el usuario. Intentá de nuevo.' : 'Error al crear el usuario. Intentá de nuevo.'))
         return
       }
 
@@ -260,7 +260,7 @@ export default function UserManagementModal({
 
       if (!response.ok || !data.success) {
         setToastType('error')
-        setToast('Error al eliminar el usuario. Intentá de nuevo.')
+        setToast(data.message || 'Error al eliminar el usuario. Intentá de nuevo.')
         return
       }
 

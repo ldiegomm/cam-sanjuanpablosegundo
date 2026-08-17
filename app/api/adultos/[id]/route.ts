@@ -34,13 +34,18 @@ export async function GET(
       .eq('activo', true)
       .single()
 
-    if (error) throw error
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ adulto: null, message: 'Paciente no encontrado.' }, { status: 404 })
+      }
+      throw error
+    }
 
     return NextResponse.json({ adulto: data })
 
   } catch (error) {
     console.error('Error obteniendo adulto:', error)
-    return NextResponse.json({ adulto: null }, { status: 500 })
+    return NextResponse.json({ adulto: null, message: 'Error al obtener el paciente.' }, { status: 500 })
   }
 }
 
