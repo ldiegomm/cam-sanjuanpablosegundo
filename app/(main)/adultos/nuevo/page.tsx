@@ -21,7 +21,7 @@ export default function NuevoPage() {
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
   const [showUnsavedModal, setShowUnsavedModal] = useState(false)
   const [errorAttempt, setErrorAttempt] = useState(0)
-  const errorRef = useRef<HTMLDivElement>(null)
+  const formTitleRef = useRef<HTMLHeadingElement>(null)
 
   const [form, setForm] = useState({
     nombre: '',
@@ -48,7 +48,7 @@ export default function NuevoPage() {
 
   useEffect(() => {
     if (error) {
-      errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      formTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [error, errorAttempt])
 
@@ -144,11 +144,11 @@ export default function NuevoPage() {
 
       <div className={utilStyles.row} style={{ marginBottom: '1.25rem' }}>
         <button className={styles.btnSm} onClick={requestSalir}>← Volver</button>
-        <h2>Nuevo registro</h2>
+        <h2 ref={formTitleRef} style={{ scrollMarginTop: '16px' }}>Nuevo registro</h2>
       </div>
 
       {error && (
-        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem', scrollMarginTop: '16px' }}>
+        <div style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
           {error}
         </div>
       )}

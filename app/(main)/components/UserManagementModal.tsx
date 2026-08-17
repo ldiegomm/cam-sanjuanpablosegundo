@@ -90,9 +90,9 @@ export default function UserManagementModal({
   const [toast, setToast] = useState<string | null>(null)
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
   const [errorAttempt, setErrorAttempt] = useState(0)
-  const errorRef = useRef<HTMLDivElement>(null)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [revealAttempt, setRevealAttempt] = useState(0)
+  const formTitleRef = useRef<HTMLParagraphElement>(null)
   const nombreInputRef = useRef<HTMLInputElement>(null)
 
   const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
@@ -117,13 +117,13 @@ export default function UserManagementModal({
 
   useEffect(() => {
     if (error) {
-      errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      formTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [error, errorAttempt])
 
   useEffect(() => {
     if (mostrarFormulario) {
-      nombreInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      formTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       nombreInputRef.current?.focus()
     }
   }, [mostrarFormulario, revealAttempt])
@@ -344,7 +344,7 @@ export default function UserManagementModal({
             </button>
           </div>
 
-          {error && <div ref={errorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
+          {error && <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
 
           <div
             className={modalStyles.adminModalGrid}
@@ -430,7 +430,7 @@ export default function UserManagementModal({
             {mostrarFormulario && (
               <section className={modalStyles.adminPanel}>
                 <div className={modalStyles.panelHeaderStack}>
-                  <p className={modalStyles.panelTitle}>
+                  <p ref={formTitleRef} className={modalStyles.panelTitle}>
                     {editingUserId ? 'Editar usuario' : 'Crear usuario'}
                   </p>
                   <p className={modalStyles.panelMeta}>

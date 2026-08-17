@@ -83,7 +83,7 @@ function MedicamentosPageContent() {
   const [formError, setFormError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [formErrorAttempt, setFormErrorAttempt] = useState(0)
-  const formErrorRef = useRef<HTMLDivElement>(null)
+  const modalTitleRef = useRef<HTMLParagraphElement>(null)
 
   const [prescripcionAEliminar, setPrescripcionAEliminar] = useState<Prescripcion | null>(null)
   const [eliminando, setEliminando] = useState(false)
@@ -136,7 +136,7 @@ function MedicamentosPageContent() {
 
   useEffect(() => {
     if (formError) {
-      formErrorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      modalTitleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [formError, formErrorAttempt])
 
@@ -483,7 +483,7 @@ function MedicamentosPageContent() {
         >
           <div className={modalStyles.modalContent}>
             <div className={modalStyles.modalHeaderRow}>
-              <p className={modalStyles.modalTitle}>
+              <p ref={modalTitleRef} className={modalStyles.modalTitle}>
                 {editingPrescripcion ? 'Editar medicamento' : 'Agregar medicamento'}
               </p>
               <button type="button" className={modalStyles.iconButton} onClick={cerrarModal} disabled={saving} aria-label="Cerrar modal">
@@ -495,7 +495,7 @@ function MedicamentosPageContent() {
             </div>
 
             {formError && (
-              <div ref={formErrorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{formError}</div>
+              <div className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{formError}</div>
             )}
 
             <div className={modalStyles.formStack}>
