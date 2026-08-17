@@ -22,17 +22,35 @@ export async function GET() {
       return auth.error
     }
 
-    const { data, error } = await supabaseAdmin
-      .from('adultos_mayores')
-      .select(`
-        id, nombre, cedula, fecha_nacimiento, sexo,
-        prescripciones (id),
-        historial_salud (id)
-      `)
-      .eq('activo', true)
-      .order('nombre')
+    const [{ data: adultos, error: adultosError }, { data: historialRows, error: historialError }] = await Promise.all([
+      supabaseAdmin
+        .from('adultos_mayores')
+        .select(`
+          id, nombre, cedula, fecha_nacimiento, sexo,
+          prescripciones (id)
+        `)
+        .eq('activo', true)
+        .order('nombre'),
+      supabaseAdmin
+        .from('historial_salud')
+        .select('id, id_adulto_mayor')
+    ])
 
-    if (error) throw error
+    if (adultosError) throw adultosError
+    if (historialError) throw historialError
+
+    const historialPorAdulto = new Map<number, { id: number }[]>()
+
+    for (const row of historialRows ?? []) {
+      const lista = historialPorAdulto.get(row.id_adulto_mayor) ?? []
+      lista.push({ id: row.id })
+      historialPorAdulto.set(row.id_adulto_mayor, lista)
+    }
+
+    const data = (adultos ?? []).map(adulto => ({
+      ...adulto,
+      historial_salud: historialPorAdulto.get(adulto.id) ?? []
+    }))
 
     return NextResponse.json({ adultos: data })
 

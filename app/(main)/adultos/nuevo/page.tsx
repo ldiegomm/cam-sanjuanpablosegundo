@@ -20,6 +20,7 @@ export default function NuevoPage() {
   const [toast, setToast] = useState<string | null>(null)
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
   const [showUnsavedModal, setShowUnsavedModal] = useState(false)
+  const [errorAttempt, setErrorAttempt] = useState(0)
   const errorRef = useRef<HTMLDivElement>(null)
 
   const [form, setForm] = useState({
@@ -49,7 +50,7 @@ export default function NuevoPage() {
     if (error) {
       errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [error])
+  }, [error, errorAttempt])
 
   const initialSnapshotRef = useRef(JSON.stringify({ form, mismoFamiliar }))
   const isDirty = JSON.stringify({ form, mismoFamiliar }) !== initialSnapshotRef.current
@@ -102,6 +103,7 @@ export default function NuevoPage() {
 
   const handleGuardar = async () => {
     setError('')
+    setErrorAttempt(n => n + 1)
 
     if (!form.nombre.trim() || !form.cedula.trim() || !form.fecha_nacimiento || !form.sexo) {
       setError('Los campos Nombre, Cédula, Fecha de nacimiento y Sexo son obligatorios.')
@@ -146,7 +148,7 @@ export default function NuevoPage() {
       </div>
 
       {error && (
-        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
+        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem', scrollMarginTop: '16px' }}>
           {error}
         </div>
       )}

@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
@@ -61,7 +62,8 @@ const HORARIOS: { key: keyof PrescripcionForm; label: string }[] = [
   { key: 'acostarse',     label: 'Acostarse' },
 ]
 
-export default function MedicamentosPage() {
+function MedicamentosPageContent() {
+  const searchParams = useSearchParams()
   const [adultos, setAdultos] = useState<Adulto[]>([])
   const [prescripciones, setPrescripciones] = useState<Prescripcion[]>([])
   const [loading, setLoading] = useState(true)
@@ -80,6 +82,7 @@ export default function MedicamentosPage() {
   const [form, setForm] = useState<PrescripcionForm>(FORM_INICIAL)
   const [formError, setFormError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const [formErrorAttempt, setFormErrorAttempt] = useState(0)
   const formErrorRef = useRef<HTMLDivElement>(null)
 
   const [prescripcionAEliminar, setPrescripcionAEliminar] = useState<Prescripcion | null>(null)
@@ -92,15 +95,28 @@ export default function MedicamentosPage() {
         return res.json()
       })
       .then(data => {
-        setAdultos(data.adultos || [])
+        const adultosData: Adulto[] = data.adultos || []
+        setAdultos(adultosData)
         setPrescripciones(data.prescripciones || [])
+
+        const idParam = Number(searchParams.get('id'))
+        const existeIdParam = Number.isFinite(idParam) && adultosData.some(a => a.id === idParam)
+
+        if (existeIdParam) {
+          setAdultoId(idParam)
+          const adulto = adultosData.find(a => a.id === idParam)
+          setSearch(adulto?.nombre || '')
+        } else {
+          setAdultoId(null)
+          setSearch('')
+        }
       })
       .catch(err => {
         console.error(err)
         setError('Ocurrió un error cargando los medicamentos.')
       })
       .finally(() => setLoading(false))
-  }, [])
+  }, [searchParams])
 
   useEffect(() => {
     cargarMedicamentos()
@@ -122,7 +138,7 @@ export default function MedicamentosPage() {
     if (formError) {
       formErrorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [formError])
+  }, [formError, formErrorAttempt])
 
   const adultosFiltrados = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -214,6 +230,8 @@ export default function MedicamentosPage() {
 
   const handleGuardar = async () => {
     if (!adultoId || saving) return
+
+    setFormErrorAttempt(n => n + 1)
 
     if (!form.nombre_medicamento.trim()) {
       setFormError('El nombre del medicamento es obligatorio.')
@@ -567,5 +585,19 @@ export default function MedicamentosPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function MedicamentosPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className={utilStyles.page}>
+          <p className={utilStyles.muted} style={{ fontSize: '13px' }}>Cargando...</p>
+        </div>
+      }
+    >
+      <MedicamentosPageContent />
+    </Suspense>
   )
 }

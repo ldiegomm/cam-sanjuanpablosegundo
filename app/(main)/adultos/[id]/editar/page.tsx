@@ -24,6 +24,7 @@ export default function EditarPage() {
   const [mismoFamiliar, setMismoFamiliar] = useState(false)
   const [editSnapshot, setEditSnapshot] = useState('')
   const [showUnsavedModal, setShowUnsavedModal] = useState(false)
+  const [errorAttempt, setErrorAttempt] = useState(0)
   const errorRef = useRef<HTMLDivElement>(null)
 
   const [form, setForm] = useState({
@@ -94,7 +95,7 @@ export default function EditarPage() {
     if (error) {
       errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [error])
+  }, [error, errorAttempt])
 
   const isDirty = !loading && !loadError && editSnapshot !== '' && JSON.stringify({ form, mismoFamiliar }) !== editSnapshot
 
@@ -146,6 +147,7 @@ export default function EditarPage() {
 
   const handleGuardar = async () => {
     setError('')
+    setErrorAttempt(n => n + 1)
 
     if (!form.nombre.trim() || !form.cedula.trim() || !form.fecha_nacimiento || !form.sexo) {
       setError('Los campos Nombre, Cédula, Fecha de nacimiento y Sexo son obligatorios.')
@@ -206,7 +208,7 @@ export default function EditarPage() {
       </div>
 
       {error && (
-        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem' }}>
+        <div ref={errorRef} style={{ fontSize: '12px', color: '#b91c1c', background: '#fee2e2', border: '0.5px solid #fca5a5', borderRadius: '8px', padding: '8px 12px', marginBottom: '1rem', scrollMarginTop: '16px' }}>
           {error}
         </div>
       )}

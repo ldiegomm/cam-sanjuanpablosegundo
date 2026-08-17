@@ -89,6 +89,7 @@ export default function UserManagementModal({
   const [error, setError] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
+  const [errorAttempt, setErrorAttempt] = useState(0)
   const errorRef = useRef<HTMLDivElement>(null)
 
   const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
@@ -115,7 +116,7 @@ export default function UserManagementModal({
     if (error) {
       errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [error])
+  }, [error, errorAttempt])
 
   const loadUsuarios = async () => {
     setLoading(true)
@@ -170,6 +171,7 @@ export default function UserManagementModal({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError(null)
+    setErrorAttempt(n => n + 1)
 
     if (!form.nombre.trim() || !form.apellidos.trim() || !form.email.trim() || !form.rol) {
       setError('Nombre, apellidos, correo y rol son obligatorios.')
