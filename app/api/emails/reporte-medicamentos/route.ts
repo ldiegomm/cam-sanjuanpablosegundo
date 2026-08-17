@@ -47,6 +47,11 @@ function getMomentos(prescripcion: Prescripcion): string {
 
 export async function POST(request: Request) {
   try {
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     if (!process.env.EMAIL_NOTIFICACIONES) {
       return NextResponse.json({
         error: 'EMAIL_NOTIFICACIONES no está configurado'
