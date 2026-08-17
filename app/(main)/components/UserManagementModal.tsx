@@ -91,6 +91,9 @@ export default function UserManagementModal({
   const [toastType, setToastType] = useState<'success' | 'error'>('success')
   const [errorAttempt, setErrorAttempt] = useState(0)
   const errorRef = useRef<HTMLDivElement>(null)
+  const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const [revealAttempt, setRevealAttempt] = useState(0)
+  const nombreInputRef = useRef<HTMLInputElement>(null)
 
   const adminCount = usuarios.filter(usuario => isAdminRole(usuario.rol)).length
   const editingUser =
@@ -117,6 +120,13 @@ export default function UserManagementModal({
       errorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [error, errorAttempt])
+
+  useEffect(() => {
+    if (mostrarFormulario) {
+      nombreInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      nombreInputRef.current?.focus()
+    }
+  }, [mostrarFormulario, revealAttempt])
 
   const loadUsuarios = async () => {
     setLoading(true)
@@ -147,6 +157,8 @@ export default function UserManagementModal({
     setEditingUserId(null)
     setForm(initialForm)
     setError(null)
+    setMostrarFormulario(true)
+    setRevealAttempt(n => n + 1)
   }
 
   const handleEdit = (usuario: Usuario) => {
@@ -162,6 +174,15 @@ export default function UserManagementModal({
       activo: usuario.activo
     })
     setError(null)
+    setMostrarFormulario(true)
+    setRevealAttempt(n => n + 1)
+  }
+
+  const handleCancelarFormulario = () => {
+    setEditingUserId(null)
+    setForm(initialForm)
+    setError(null)
+    setMostrarFormulario(false)
   }
 
   const handleChange = <K extends keyof FormState>(field: K, value: FormState[K]) => {
@@ -241,6 +262,7 @@ export default function UserManagementModal({
       await loadUsuarios()
       setEditingUserId(null)
       setForm(initialForm)
+      setMostrarFormulario(false)
       setToastType('success')
       setToast(isEditing ? 'Usuario actualizado exitosamente' : 'Usuario creado exitosamente')
     } catch {
@@ -324,7 +346,10 @@ export default function UserManagementModal({
 
           {error && <div ref={errorRef} className={`${modalStyles.banner} ${modalStyles.bannerError}`}>{error}</div>}
 
-          <div className={modalStyles.adminModalGrid}>
+          <div
+            className={modalStyles.adminModalGrid}
+            style={mostrarFormulario ? undefined : { gridTemplateColumns: '1fr' }}
+          >
             <section className={modalStyles.adminPanel}>
               <div className={modalStyles.panelHeaderRow}>
                 <div>
@@ -402,24 +427,26 @@ export default function UserManagementModal({
               </div>
             </section>
 
-            <section className={modalStyles.adminPanel}>
-              <div className={modalStyles.panelHeaderStack}>
-                <p className={modalStyles.panelTitle}>
-                  {editingUserId ? 'Editar usuario' : 'Crear usuario'}
-                </p>
-                <p className={modalStyles.panelMeta}>
-                  {editingUserId
-                    ? 'Actualizá nombre, correo, rol o contraseña del usuario.'
-                    : 'Definí los datos iniciales para el nuevo acceso al sistema.'}
-                </p>
-              </div>
+            {mostrarFormulario && (
+              <section className={modalStyles.adminPanel}>
+                <div className={modalStyles.panelHeaderStack}>
+                  <p className={modalStyles.panelTitle}>
+                    {editingUserId ? 'Editar usuario' : 'Crear usuario'}
+                  </p>
+                  <p className={modalStyles.panelMeta}>
+                    {editingUserId
+                      ? 'Actualizá nombre, correo, rol o contraseña del usuario.'
+                      : 'Definí los datos iniciales para el nuevo acceso al sistema.'}
+                  </p>
+                </div>
 
-              <form onSubmit={handleSubmit} className={modalStyles.formStack}>
+                <form onSubmit={handleSubmit} className={modalStyles.formStack}>
                 <div className={modalStyles.fieldGrid}>
                   <div>
                     <label htmlFor="usuario-nombre">Nombre</label>
                     <input
                       id="usuario-nombre"
+                      ref={nombreInputRef}
                       value={form.nombre}
                       onChange={event => handleChange('nombre', event.target.value)}
                       placeholder="Nombre"
@@ -488,8 +515,8 @@ export default function UserManagementModal({
                 </label>
 
                 <div className={modalStyles.formActions}>
-                  <button type="button" onClick={handleNewUser}>
-                    Limpiar
+                  <button type="button" onClick={handleCancelarFormulario}>
+                    Cancelar
                   </button>
                   <button
                     type="submit"
@@ -499,8 +526,9 @@ export default function UserManagementModal({
                     {submitting ? 'Guardando...' : editingUserId ? 'Guardar cambios' : 'Crear usuario'}
                   </button>
                 </div>
-              </form>
-            </section>
+                </form>
+              </section>
+            )}
           </div>
         </div>
       </div>
