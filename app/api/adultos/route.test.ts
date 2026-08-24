@@ -160,7 +160,7 @@ describe('/api/adultos', () => {
         fecha_nacimiento: '1950-01-01',
         sexo: 'M',
       }
-      const mockCreatedAdulto = { id: 1, ...mockAdultoData, activo: true }
+      const mockCreatedAdulto = { id: 1, ...mockAdultoData }
 
       ;(getSession as jest.Mock).mockResolvedValue(mockSession)
 
@@ -186,7 +186,6 @@ describe('/api/adultos', () => {
         expect.objectContaining({
           nombre: mockAdultoData.nombre,
           cedula: mockAdultoData.cedula,
-          activo: true,
         }),
       ])
     })

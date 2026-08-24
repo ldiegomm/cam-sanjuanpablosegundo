@@ -31,7 +31,6 @@ export async function GET(
       .from('adultos_mayores')
       .select('*')
       .eq('id', id)
-      .eq('activo', true)
       .single()
 
     if (error) {

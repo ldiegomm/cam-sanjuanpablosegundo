@@ -29,7 +29,6 @@ export async function GET() {
           id, nombre, cedula, fecha_nacimiento, sexo,
           prescripciones (id)
         `)
-        .eq('activo', true)
         .order('nombre'),
       supabaseAdmin
         .from('historial_salud')
@@ -89,8 +88,7 @@ export async function POST(request: Request) {
         familiar_telefono:    body.familiar_telefono || null,
         familiar_direccion:   body.familiar_direccion || null,
         emergencia_nombre:    body.emergencia_nombre || null,
-        emergencia_telefono:  body.emergencia_telefono || null,
-        activo:               true
+        emergencia_telefono:  body.emergencia_telefono || null
       }])
       .select()
       .single()

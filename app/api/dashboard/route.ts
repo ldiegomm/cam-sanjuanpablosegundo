@@ -37,8 +37,6 @@ export async function GET() {
           acostarse
         )
       `)
-      .eq('activo', true)
-      .eq('prescripciones.activo', true)
       .order('nombre')
 
     if (error) throw error

@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
     const { fecha } = await request.json();
 
-    // 1. Query usando el mismo criterio de "activo" que usa el dashboard
+    // 1. Query de adultos mayores con sus prescripciones
     const { data: pacientes, error } = await supabaseAdmin
       .from('adultos_mayores')
       .select(`
@@ -78,8 +78,6 @@ export async function POST(request: Request) {
           acostarse
         )
       `)
-      .eq('activo', true)
-      .eq('prescripciones.activo', true)
       .order('nombre');
 
     if (error) {

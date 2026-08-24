@@ -27,7 +27,6 @@ export async function GET() {
         supabaseAdmin
           .from('adultos_mayores')
           .select('id, nombre, cedula')
-          .eq('activo', true)
           .order('nombre'),
         supabaseAdmin
           .from('prescripciones')

@@ -166,7 +166,6 @@ export async function GET() {
       supabaseAdmin
         .from('adultos_mayores')
         .select('id, nombre')
-        .eq('activo', true)
         .order('nombre'),
       supabaseAdmin
         .from('historial_salud')
