@@ -74,7 +74,7 @@ describe('/api/auth/login', () => {
 
       expect(response.status).toBe(401)
       expect(data.success).toBe(false)
-      expect(data.message).toContain('Credenciales incorrectas')
+      expect(data.message).toContain('Correo o contraseña incorrectos')
     })
 
     it('debe retornar 401 si la contraseña es incorrecta', async () => {
@@ -108,7 +108,7 @@ describe('/api/auth/login', () => {
 
       expect(response.status).toBe(401)
       expect(data.success).toBe(false)
-      expect(data.message).toContain('Credenciales incorrectas')
+      expect(data.message).toContain('Correo o contraseña incorrectos')
     })
 
     it('debe autenticar exitosamente con credenciales correctas', async () => {

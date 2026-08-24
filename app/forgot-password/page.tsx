@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
         setError(data.message)
       }
     } catch {
-      setError('Error de conexión. Por favor contacte al administrador.')
+      setError('Error de conexión. Verificá tu conexión a internet e intentá de nuevo.')
     } finally {
       setLoading(false)
     }

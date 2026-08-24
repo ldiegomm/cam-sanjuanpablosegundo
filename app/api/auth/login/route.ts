@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     if (!usuarios || usuarios.length === 0) {
       return NextResponse.json({
         success: false,
-        message: 'Credenciales incorrectas. Por favor contacte al administrador del sistema.'
+        message: 'Correo o contraseña incorrectos. Verificá tus datos e intentá de nuevo.'
       }, { status: 401 })
     }
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     if (!passwordValida) {
       return NextResponse.json({
         success: false,
-        message: 'Credenciales incorrectas. Por favor contacte al administrador del sistema.'
+        message: 'Correo o contraseña incorrectos. Verificá tus datos e intentá de nuevo.'
       }, { status: 401 })
     }
 
