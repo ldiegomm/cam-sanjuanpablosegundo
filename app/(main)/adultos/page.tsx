@@ -173,13 +173,13 @@ export default function AdultosPage() {
                   Cédula: {adulto.cedula} · {calcularEdad(adulto.fecha_nacimiento)} años
                 </p>
                 <div style={{ display: 'flex', gap: '4px', marginTop: '4px', flexWrap: 'wrap' }}>
-                  {(adulto.prescripciones?.length ?? 0) > 0 && (
-                    <span className={styles.badgeGreen}>{adulto.prescripciones.length} med{adulto.prescripciones.length !== 1 ? 's.' : '.'}</span>
-                  )}
                   {(adulto.historial_salud?.length ?? 0) > 0
                     ? <span className={styles.badgeGreen}>Con historial</span>
                     : <span className={styles.badgeYellow}>Sin historial</span>
                   }
+                  {(adulto.prescripciones?.length ?? 0) > 0 && (
+                    <span className={styles.badgeGreen}>{adulto.prescripciones.length} med{adulto.prescripciones.length !== 1 ? 's.' : '.'}</span>
+                  )}
                 </div>
               </div>
             </div>

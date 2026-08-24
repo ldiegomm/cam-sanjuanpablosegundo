@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import styles from '../styles/login.module.css'
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function LoginPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -29,6 +31,12 @@ function LoginPageContent() {
   const handleSubmit = async (e: React.FormEvent | React.KeyboardEvent) => {
     e.preventDefault()
     setError('')
+
+    if (!EMAIL_REGEX.test(email)) {
+      setError('Ingresá un correo electrónico válido.')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -44,6 +52,7 @@ function LoginPageContent() {
         router.push('/home')
       } else {
         setError(data.message)
+        setPassword('')
       }
     } catch {
       setError('Error de conexión. Verificá tu conexión a internet e intentá de nuevo.')

@@ -42,6 +42,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const [pendingNavigation, setPendingNavigation] = useState<PendingNavigation>(null)
   const [currentUser, setCurrentUser] = useState<SessionUser | null>(null)
   const [showUsersModal, setShowUsersModal] = useState(false)
+  const [showLogoutConfirmModal, setShowLogoutConfirmModal] = useState(false)
 
   const isAdmin = String(currentUser?.rol || '').toLowerCase() === 'admin'
 
@@ -66,13 +67,20 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     goToPath(path)
   }
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     if (hasUnsavedChanges()) {
       setPendingNavigation({ type: 'logout' })
       setShowUnsavedModal(true)
       return
     }
 
+    setShowLogoutConfirmModal(true)
+  }
+
+  const closeLogoutConfirmModal = () => setShowLogoutConfirmModal(false)
+
+  const confirmLogout = async () => {
+    setShowLogoutConfirmModal(false)
     await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/login?logout=1')
   }
@@ -98,6 +106,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   }
 
   useEscapeKey(showUnsavedModal, closeUnsavedModal)
+  useEscapeKey(showLogoutConfirmModal, closeLogoutConfirmModal)
 
   useEffect(() => {
     const onUnsavedChange = () => {
@@ -270,6 +279,29 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 style={{ background: '#FBF3DC', color: '#7A5C1E', borderColor: '#E8C96A' }}
               >
                 Salir sin guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showLogoutConfirmModal && (
+        <div
+          className={`${modalStyles.overlay} ${modalStyles.overlayOpen}`}
+          onClick={(e) => { if (e.target === e.currentTarget) closeLogoutConfirmModal() }}
+        >
+          <div className={modalStyles.modalContentSm}>
+            <h2 style={{ fontSize: '16px', marginBottom: '8px' }}>Cerrar sesión</h2>
+            <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
+              ¿Estás seguro que querés cerrar sesión?
+            </p>
+            <div className={modalStyles.formActions}>
+              <button onClick={closeLogoutConfirmModal}>Cancelar</button>
+              <button
+                onClick={confirmLogout}
+                style={{ background: '#14B8A6', color: '#fff', borderColor: '#14B8A6' }}
+              >
+                Sí, cerrar sesión
               </button>
             </div>
           </div>
