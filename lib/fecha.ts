@@ -43,17 +43,20 @@ export function formatearFechaLarga(fechaISO: string): string {
 
 export type MomentoDia = 'ayunas' | 'desayuno' | 'media_manana' | 'almuerzo' | 'merienda_tarde' | 'cena' | 'acostarse'
 
-// Rangos horarios aproximados de cada momento (hora de Costa Rica, 24h). No vienen de ningún dato
-// real de la aplicación, son un supuesto razonable para resaltar "qué toca ahora"; si no reflejan
-// la rutina real del centro, ajustar estos números es el único cambio necesario.
+// Rangos horarios aproximados de cada momento (hora de Costa Rica, 24h). No vienen del horario real
+// del centro, que no estaba disponible; se dedujeron de prácticas típicas de administración de
+// medicamentos en residencias de adultos mayores: cena servida entre 4 y 6pm, dosis de "hora de
+// dormir" (HS) alrededor de las 8pm, y tomas "antes de comida" (AC) de referencia hospitalaria en
+// 6am, 11am y 4pm. Si no reflejan la rutina real del centro, ajustar estos números es el único
+// cambio necesario.
 const MOMENTOS_HORARIO: { momento: MomentoDia; horaInicio: number }[] = [
   { momento: 'ayunas', horaInicio: 5 },
   { momento: 'desayuno', horaInicio: 7 },
-  { momento: 'media_manana', horaInicio: 9.5 },
-  { momento: 'almuerzo', horaInicio: 12 },
-  { momento: 'merienda_tarde', horaInicio: 15 },
-  { momento: 'cena', horaInicio: 18.5 },
-  { momento: 'acostarse', horaInicio: 20.5 },
+  { momento: 'media_manana', horaInicio: 9 },
+  { momento: 'almuerzo', horaInicio: 11 },
+  { momento: 'merienda_tarde', horaInicio: 14 },
+  { momento: 'cena', horaInicio: 16 },
+  { momento: 'acostarse', horaInicio: 19 },
 ]
 
 /** Momento del día que corresponde ahora mismo en Costa Rica, según los rangos horarios aproximados de arriba. */
