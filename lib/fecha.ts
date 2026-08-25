@@ -72,6 +72,15 @@ export function obtenerMomentoActualCR(momento: Date = new Date()): MomentoDia {
   return (actual ?? MOMENTOS_HORARIO[MOMENTOS_HORARIO.length - 1]).momento
 }
 
+/** Hora actual en formato corto, por ejemplo "10:32 a. m.", según el reloj de Costa Rica. */
+export function formatearHoraCR(momento: Date = new Date()): string {
+  return new Intl.DateTimeFormat('es-CR', {
+    timeZone: ZONA_HORARIA_CR,
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(momento)
+}
+
 /** Edad en años a partir de una fecha de nacimiento YYYY-MM-DD, calculada contra "hoy" en Costa Rica. */
 export function calcularEdad(fechaNacimiento: string, hoyISO: string = obtenerFechaCR()): number {
   const [anioNac, mesNac, diaNac] = fechaNacimiento.split('-').map(Number)

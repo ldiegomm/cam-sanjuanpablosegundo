@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
-import { obtenerMomentoActualCR } from '@/lib/fecha'
+import { obtenerMomentoActualCR, formatearHoraCR } from '@/lib/fecha'
 
 interface Prescripcion {
   nombre_medicamento: string
@@ -41,6 +41,7 @@ export default function HomePage() {
   const [pacientes, setPacientes] = useState<Paciente[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [ultimaActualizacion, setUltimaActualizacion] = useState<string | null>(null)
 
   const cargarDashboard = useCallback((silencioso = false) => {
     fetch('/api/dashboard')
@@ -50,6 +51,7 @@ export default function HomePage() {
       })
       .then(data => {
         setPacientes(data.pacientes || [])
+        setUltimaActualizacion(formatearHoraCR())
       })
       .catch(() => {
         // En el refresco silencioso no se pisa el panel con un error por una falla de red pasajera,
@@ -99,6 +101,9 @@ export default function HomePage() {
 
   const pacientesConMedsHoy = pacientes.filter(p => p.prescripciones.length > 0)
   const momentoActual = obtenerMomentoActualCR()
+  const dosisAhora = pacientes.reduce((acc, p) => {
+    return acc + p.prescripciones.filter(pr => pr[momentoActual]).length
+  }, 0)
 
   return (
       <div className={utilStyles.page}>
@@ -134,13 +139,19 @@ export default function HomePage() {
         <div className={styles.metric}>
           <p className={styles.metricLabel}>Dosis programadas</p>
           <p className={styles.metricValue}>{loading || error ? '—' : totalDosis}</p>
+          {!loading && !error && dosisAhora > 0 && (
+            <p className={styles.metricSubValue}>{dosisAhora} ahora mismo</p>
+          )}
         </div>
       </div>
 
       {/* Medicamentos de hoy */}
       <div className={styles.tableWrap}>
-        <div style={{ padding: '1rem 1.25rem', borderBottom: '0.5px solid #dddbd2' }}>
+        <div style={{ padding: '1rem 1.25rem', borderBottom: '0.5px solid #dddbd2', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px' }}>
           <p style={{ fontSize: '14px', fontWeight: 500 }}>Medicamentos de hoy</p>
+          {ultimaActualizacion && (
+            <p style={{ fontSize: '11px', color: '#6b6a63' }}>Actualizado a las {ultimaActualizacion}</p>
+          )}
         </div>
         <div style={{ padding: '0 1.25rem' }}>
           {loading ? (

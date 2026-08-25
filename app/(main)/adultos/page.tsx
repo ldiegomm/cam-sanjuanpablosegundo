@@ -153,10 +153,10 @@ export default function AdultosPage() {
       ) : filtrados.length === 0 ? (
         <p className={utilStyles.muted} style={{ fontSize: '13px' }}>No se encontraron resultados.</p>
       ) : (
-        filtrados.map((adulto, i) => (
+        filtrados.map((adulto) => (
           <div key={adulto.id} className={styles.personItem}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div className={`${styles.personAvatar} ${styles[coloresAvatar[i % 3]]}`}>
+              <div className={`${styles.personAvatar} ${styles[coloresAvatar[adulto.id % coloresAvatar.length]]}`}>
                 {getIniciales(adulto.nombre)}
               </div>
               <div>
