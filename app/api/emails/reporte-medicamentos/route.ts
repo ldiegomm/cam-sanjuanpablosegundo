@@ -175,7 +175,7 @@ export async function POST(request: Request) {
     const info = await transporter.sendMail({
       from: `"Centro Adulto Mayor San Juan Pablo II" <${process.env.GMAIL_USER}>`,
       to: [process.env.EMAIL_NOTIFICACIONES],
-      subject: `Reporte de Medicamentos - ${fecha}`,
+      subject: `Reporte de Medicamentos - ${fechaFormateada}`,
       html: emailHTML
     });
 
