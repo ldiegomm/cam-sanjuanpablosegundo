@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import styles from '../styles/login.module.css'
@@ -15,16 +15,20 @@ function LoginPageContent() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [loggedOut, setLoggedOut] = useState(false)
+  // Se captura una sola vez al montar: router.replace más abajo le quita el
+  // parámetro a la URL, y si searchParams siguiera como dependencia el efecto
+  // se reiniciaría al instante, cancelando el temporizador antes de los 4s.
+  const logoutParam = useRef(searchParams.get('logout')).current
 
   useEffect(() => {
-    if (searchParams.get('logout') === '1') {
+    if (logoutParam === '1') {
       setLoggedOut(true)
       router.replace('/login')
 
       const timer = setTimeout(() => setLoggedOut(false), 4000)
       return () => clearTimeout(timer)
     }
-  }, [searchParams, router])
+  }, [logoutParam, router])
 
   const dismissLogout = () => setLoggedOut(false)
 
