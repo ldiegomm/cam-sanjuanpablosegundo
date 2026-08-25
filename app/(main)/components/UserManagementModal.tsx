@@ -50,7 +50,11 @@ function formatLastAccess(value: string | null) {
     return 'Sin registro'
   }
 
-  const date = new Date(value)
+  // Si Supabase devuelve el timestamp sin offset (columna timestamp sin zona horaria),
+  // el navegador lo interpretaría como hora local en vez de UTC. Se guarda con
+  // toISOString(), así que si no trae offset se asume UTC explícitamente.
+  const tieneOffset = /Z$|[+-]\d{2}:?\d{2}$/.test(value)
+  const date = new Date(tieneOffset ? value : `${value}Z`)
 
   if (Number.isNaN(date.getTime())) {
     return 'Sin registro'
