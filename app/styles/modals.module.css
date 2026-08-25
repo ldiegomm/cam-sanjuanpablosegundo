@@ -18,6 +18,8 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 480px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
   margin: 1rem;
   border-top: 2px solid #14B8A6;
 }
@@ -29,6 +31,8 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 380px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
   margin: 1rem;
   border-top: 2px solid #14B8A6;
 }
@@ -50,6 +54,8 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 380px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
   margin: 1rem;
   border-top: 2px solid #b91c1c;
 }
