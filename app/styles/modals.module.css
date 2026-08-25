@@ -213,12 +213,12 @@
 }
 
 .diasModoBtn {
+  position: relative;
   flex: 1;
   min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   border-radius: 8px;
   border: 0.5px solid #dddbd2;
   background: #fff;
@@ -229,16 +229,16 @@
   padding: 6px 10px;
 }
 
-.diasModoBtn input {
-  width: 14px;
-  height: 14px;
-}
-
 .diasModoBtnActive {
   border-color: #14B8A6;
   background: #CCFBF1;
   color: #0F766E;
   font-weight: 500;
+}
+
+.diasModoBtn:focus-within {
+  outline: 2px solid #14B8A6;
+  outline-offset: 2px;
 }
 
 .diasChipsGrid {

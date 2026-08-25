@@ -6,6 +6,7 @@ import ErrorState from '@/app/(main)/components/ErrorState'
 
 interface Prescripcion {
   nombre_medicamento: string
+  dosis: string | null
   indicaciones: string | null
   ayunas: boolean
   desayuno: boolean
@@ -33,6 +34,10 @@ const MOMENTOS_DIA: { key: keyof Prescripcion; label: string }[] = [
 
 function momentosDe(pr: Prescripcion): string {
   return MOMENTOS_DIA.filter(m => pr[m.key]).map(m => m.label).join(', ')
+}
+
+function nombreConDosis(pr: Prescripcion): string {
+  return `${pr.nombre_medicamento}${pr.dosis ? ` ${pr.dosis}` : ''}`
 }
 
 export default function HomePage() {
@@ -143,7 +148,7 @@ export default function HomePage() {
               <ul className={styles.medsList}>
                 {paciente.prescripciones.map((pr, j) => (
                   <li key={j} className={styles.medsItem}>
-                    <span className={styles.medsItemNombre}>{pr.nombre_medicamento}</span>
+                    <span className={styles.medsItemNombre}>{nombreConDosis(pr)}</span>
                     {' — '}
                     <span className={styles.medsItemMomentos}>{momentosDe(pr)}</span>
                     {pr.indicaciones && (

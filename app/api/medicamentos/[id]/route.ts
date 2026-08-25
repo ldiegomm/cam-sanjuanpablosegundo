@@ -36,6 +36,7 @@ export async function PUT(
       .from('prescripciones')
       .update({
         nombre_medicamento: body.nombre_medicamento.trim(),
+        dosis:              body.dosis?.trim() || null,
         indicaciones:       body.indicaciones?.trim() || null,
         ayunas:             body.ayunas        ?? false,
         desayuno:           body.desayuno      ?? false,

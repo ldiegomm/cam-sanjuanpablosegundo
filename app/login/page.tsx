@@ -28,7 +28,7 @@ function LoginPageContent() {
 
   const dismissLogout = () => setLoggedOut(false)
 
-  const handleSubmit = async (e: React.FormEvent | React.KeyboardEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
 
@@ -84,40 +84,41 @@ function LoginPageContent() {
 
         {error && <div className={styles.error}>{error}</div>}
 
-        <div className={styles.field}>
-          <label htmlFor="login-email">Correo electrónico</label>
-          <input
-            id="login-email"
-            type="email"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); dismissLogout() }}
-            onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-            placeholder="correo@ejemplo.com"
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label htmlFor="login-email">Correo electrónico</label>
+            <input
+              id="login-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); dismissLogout() }}
+              placeholder="correo@ejemplo.com"
+            />
+          </div>
 
-        <div className={styles.field}>
-          <label htmlFor="login-password">Contraseña</label>
-          <input
-            id="login-password"
-            type="password"
-            value={password}
-            onChange={(e) => { setPassword(e.target.value); dismissLogout() }}
-            onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-            placeholder="••••••••"
-          />
-        </div>
+          <div className={styles.field}>
+            <label htmlFor="login-password">Contraseña</label>
+            <input
+              id="login-password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); dismissLogout() }}
+            />
+          </div>
 
-        <button
-          className={styles.btnLogin}
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-        </button>
+          <button
+            type="submit"
+            className={styles.btnLogin}
+            disabled={loading}
+          >
+            {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          </button>
+        </form>
         <Link
           href="/forgot-password"
-          style={{ display: 'block', fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', textDecoration: 'none' }}
+          style={{ display: 'block', fontSize: '12px', color: '#14B8A6', textAlign: 'center', marginTop: '16px', textDecoration: 'none', fontWeight: 500 }}
         >
           ¿Olvidaste tu contraseña?
         </Link>

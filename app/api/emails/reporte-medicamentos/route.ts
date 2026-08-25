@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
 
 type Prescripcion = {
   nombre_medicamento: string;
+  dosis: string | null;
   indicaciones: string | null;
   ayunas: boolean;
   desayuno: boolean;
@@ -53,6 +54,10 @@ function getMomentos(prescripcion: Prescripcion): string {
     .join(', ');
 }
 
+function getNombreConDosis(prescripcion: Prescripcion): string {
+  return `${prescripcion.nombre_medicamento}${prescripcion.dosis ? ` ${prescripcion.dosis}` : ''}`;
+}
+
 export async function POST(request: Request) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -76,6 +81,7 @@ export async function POST(request: Request) {
         cedula,
         prescripciones (
           nombre_medicamento,
+          dosis,
           indicaciones,
           ayunas,
           desayuno,
@@ -136,7 +142,7 @@ export async function POST(request: Request) {
       paciente.prescripciones.forEach((prescripcion) => {
         emailHTML += `
           <li style="margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px;">
-            <strong style="color: #2563eb;">💊 ${prescripcion.nombre_medicamento}</strong><br>
+            <strong style="color: #2563eb;">💊 ${getNombreConDosis(prescripcion)}</strong><br>
             <span style="color: #059669;">⏰ ${getMomentos(prescripcion)}</span><br>
             ${prescripcion.indicaciones ? `<em style="color: #9ca3af;">📝 ${prescripcion.indicaciones}</em>` : ''}
           </li>

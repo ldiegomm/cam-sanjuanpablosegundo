@@ -18,6 +18,7 @@ type Prescripcion = {
   id: number
   id_adulto_mayor: number
   nombre_medicamento: string
+  dosis: string | null
   indicaciones: string | null
   ayunas: boolean
   desayuno: boolean
@@ -37,6 +38,7 @@ type Prescripcion = {
 
 type PrescripcionForm = {
   nombre_medicamento: string
+  dosis: string
   indicaciones: string
   ayunas: boolean
   desayuno: boolean
@@ -56,6 +58,7 @@ type PrescripcionForm = {
 
 const FORM_INICIAL: PrescripcionForm = {
   nombre_medicamento: '',
+  dosis: '',
   indicaciones: '',
   ayunas: false,
   desayuno: false,
@@ -221,6 +224,8 @@ function MedicamentosPageContent() {
     ? <span className={styles.check}>✓</span>
     : <span className={styles.dash}>—</span>
 
+  const nombreConDosis = (p: Prescripcion) => `${p.nombre_medicamento}${p.dosis ? ` ${p.dosis}` : ''}`
+
   const diasActivos = (p: Prescripcion) => DIAS_SEMANA.filter(d => p[d.key])
 
   const diasResumen = (p: Prescripcion) => {
@@ -241,6 +246,7 @@ function MedicamentosPageContent() {
     setEditingPrescripcion(p)
     setForm({
       nombre_medicamento: p.nombre_medicamento,
+      dosis:              p.dosis ?? '',
       indicaciones:       p.indicaciones ?? '',
       ayunas:             p.ayunas,
       desayuno:           p.desayuno,
@@ -322,6 +328,7 @@ function MedicamentosPageContent() {
         body: JSON.stringify({
           id_adulto_mayor:   adultoId,
           nombre_medicamento: form.nombre_medicamento.trim(),
+          dosis:             form.dosis.trim() || null,
           indicaciones:      form.indicaciones.trim() || null,
           ayunas:            form.ayunas,
           desayuno:          form.desayuno,
@@ -349,6 +356,7 @@ function MedicamentosPageContent() {
             ? {
                 ...p,
                 nombre_medicamento: form.nombre_medicamento.trim(),
+                dosis:              form.dosis.trim() || null,
                 indicaciones:       form.indicaciones.trim() || null,
                 ayunas:             form.ayunas,
                 desayuno:           form.desayuno,
@@ -524,7 +532,7 @@ function MedicamentosPageContent() {
                   prescripcionesDelPaciente.map(p => (
                     <tr key={p.id}>
                       <td>
-                        <span style={{ fontWeight: 500 }}>{p.nombre_medicamento}</span>
+                        <span style={{ fontWeight: 500 }}>{nombreConDosis(p)}</span>
                         {p.indicaciones && (
                           <p style={{ fontSize: '11px', color: '#6b6a63', marginTop: '2px' }}>{p.indicaciones}</p>
                         )}
@@ -598,13 +606,25 @@ function MedicamentosPageContent() {
 
             <div className={modalStyles.formStack}>
               <div>
-                <label>Nombre del medicamento</label>
+                <label htmlFor="medicamento-nombre">Nombre del medicamento</label>
                 <input
+                  id="medicamento-nombre"
                   type="text"
                   value={form.nombre_medicamento}
                   onChange={e => setForm(prev => ({ ...prev, nombre_medicamento: e.target.value }))}
-                  placeholder="Ej: Metformina 500mg"
+                  placeholder="Ej: Metformina"
                   autoFocus
+                />
+              </div>
+
+              <div>
+                <label htmlFor="medicamento-dosis">Dosis</label>
+                <input
+                  id="medicamento-dosis"
+                  type="text"
+                  value={form.dosis}
+                  onChange={e => setForm(prev => ({ ...prev, dosis: e.target.value }))}
+                  placeholder="Ej: 500mg"
                 />
               </div>
 
@@ -631,6 +651,7 @@ function MedicamentosPageContent() {
                       name="dias-modo"
                       checked={diasModo === 'todos'}
                       onChange={() => handleDiasModoChange('todos')}
+                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0 }}
                     />
                     Todos los días
                   </label>
@@ -644,6 +665,7 @@ function MedicamentosPageContent() {
                       name="dias-modo"
                       checked={diasModo === 'especificos'}
                       onChange={() => handleDiasModoChange('especificos')}
+                      style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0 }}
                     />
                     Días específicos
                   </label>
@@ -711,7 +733,7 @@ function MedicamentosPageContent() {
           <div className={modalStyles.modalContentDanger}>
             <p style={{ fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>¿Eliminar medicamento?</p>
             <p style={{ fontSize: '13px', color: '#6b6a63', marginBottom: '1.25rem' }}>
-              Se eliminará <strong>{prescripcionAEliminar.nombre_medicamento}</strong>. Esta acción no se puede deshacer.
+              Se eliminará <strong>{nombreConDosis(prescripcionAEliminar)}</strong>. Esta acción no se puede deshacer.
             </p>
             <div className={modalStyles.formActions}>
               <button

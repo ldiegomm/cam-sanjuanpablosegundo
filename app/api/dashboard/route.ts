@@ -5,6 +5,7 @@ import { obtenerDiaSemanaHoyCR } from '@/lib/fecha'
 
 type Prescripcion = {
   nombre_medicamento: string
+  dosis: string | null
   indicaciones: string | null
   ayunas: boolean
   desayuno: boolean
@@ -53,6 +54,7 @@ export async function GET() {
         nombre,
         prescripciones (
           nombre_medicamento,
+          dosis,
           indicaciones,
           ayunas,
           desayuno,
