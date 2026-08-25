@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
+import { obtenerMomentoActualCR } from '@/lib/fecha'
 
 interface Prescripcion {
   nombre_medicamento: string
@@ -32,10 +33,6 @@ const MOMENTOS_DIA: { key: keyof Prescripcion; label: string }[] = [
   { key: 'acostarse',     label: 'Acostarse' },
 ]
 
-function momentosDe(pr: Prescripcion): string {
-  return MOMENTOS_DIA.filter(m => pr[m.key]).map(m => m.label).join(', ')
-}
-
 function nombreConDosis(pr: Prescripcion): string {
   return `${pr.nombre_medicamento}${pr.dosis ? ` ${pr.dosis}` : ''}`
 }
@@ -45,7 +42,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const cargarDashboard = useCallback(() => {
+  const cargarDashboard = useCallback((silencioso = false) => {
     fetch('/api/dashboard')
       .then(async res => {
         if (!res.ok) throw new Error('No se pudo cargar el panel de inicio.')
@@ -55,7 +52,11 @@ export default function HomePage() {
         setPacientes(data.pacientes || [])
       })
       .catch(() => {
-        setError('Ocurrió un error cargando el panel de inicio. Intentá de nuevo.')
+        // En el refresco silencioso no se pisa el panel con un error por una falla de red pasajera,
+        // se mantienen los últimos datos buenos y se reintenta solo en el próximo ciclo.
+        if (!silencioso) {
+          setError('Ocurrió un error cargando el panel de inicio. Intentá de nuevo.')
+        }
       })
       .finally(() => {
         setLoading(false)
@@ -64,6 +65,11 @@ export default function HomePage() {
 
   useEffect(() => {
     cargarDashboard()
+  }, [cargarDashboard])
+
+  useEffect(() => {
+    const intervalo = setInterval(() => cargarDashboard(true), 10 * 60 * 1000)
+    return () => clearInterval(intervalo)
   }, [cargarDashboard])
 
   const reintentarCargarDashboard = () => {
@@ -92,6 +98,7 @@ export default function HomePage() {
   }, 0)
 
   const pacientesConMedsHoy = pacientes.filter(p => p.prescripciones.length > 0)
+  const momentoActual = obtenerMomentoActualCR()
 
   return (
       <div className={utilStyles.page}>
@@ -149,8 +156,17 @@ export default function HomePage() {
                 {paciente.prescripciones.map((pr, j) => (
                   <li key={j} className={styles.medsItem}>
                     <span className={styles.medsItemNombre}>{nombreConDosis(pr)}</span>
-                    {' — '}
-                    <span className={styles.medsItemMomentos}>{momentosDe(pr)}</span>
+                    <div className={styles.medsMomentosRow}>
+                      {MOMENTOS_DIA.filter(m => pr[m.key]).map(m => (
+                        <span
+                          key={m.key}
+                          className={`${styles.medsMomentoBadge} ${m.key === momentoActual ? styles.medsMomentoBadgeActual : ''}`}
+                          title={m.key === momentoActual ? `${m.label} — momento actual` : undefined}
+                        >
+                          {m.label}
+                        </span>
+                      ))}
+                    </div>
                     {pr.indicaciones && (
                       <p className={styles.medsItemIndicacion}>{pr.indicaciones}</p>
                     )}

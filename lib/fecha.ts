@@ -41,6 +41,37 @@ export function formatearFechaLarga(fechaISO: string): string {
   return `${partes.weekday} ${partes.day} de ${partes.month} de ${partes.year}`
 }
 
+export type MomentoDia = 'ayunas' | 'desayuno' | 'media_manana' | 'almuerzo' | 'merienda_tarde' | 'cena' | 'acostarse'
+
+// Rangos horarios aproximados de cada momento (hora de Costa Rica, 24h). No vienen de ningún dato
+// real de la aplicación, son un supuesto razonable para resaltar "qué toca ahora"; si no reflejan
+// la rutina real del centro, ajustar estos números es el único cambio necesario.
+const MOMENTOS_HORARIO: { momento: MomentoDia; horaInicio: number }[] = [
+  { momento: 'ayunas', horaInicio: 5 },
+  { momento: 'desayuno', horaInicio: 7 },
+  { momento: 'media_manana', horaInicio: 9.5 },
+  { momento: 'almuerzo', horaInicio: 12 },
+  { momento: 'merienda_tarde', horaInicio: 15 },
+  { momento: 'cena', horaInicio: 18.5 },
+  { momento: 'acostarse', horaInicio: 20.5 },
+]
+
+/** Momento del día que corresponde ahora mismo en Costa Rica, según los rangos horarios aproximados de arriba. */
+export function obtenerMomentoActualCR(momento: Date = new Date()): MomentoDia {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: ZONA_HORARIA_CR,
+    hourCycle: 'h23',
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+  const partes = Object.fromEntries(formatter.formatToParts(momento).map(p => [p.type, p.value]))
+  const horaActual = Number(partes.hour) + Number(partes.minute) / 60
+
+  // De madrugada, antes de que empiece "ayunas", todavía se considera parte de "acostarse" de la noche anterior.
+  const actual = [...MOMENTOS_HORARIO].reverse().find(m => horaActual >= m.horaInicio)
+  return (actual ?? MOMENTOS_HORARIO[MOMENTOS_HORARIO.length - 1]).momento
+}
+
 /** Edad en años a partir de una fecha de nacimiento YYYY-MM-DD, calculada contra "hoy" en Costa Rica. */
 export function calcularEdad(fechaNacimiento: string, hoyISO: string = obtenerFechaCR()): number {
   const [anioNac, mesNac, diaNac] = fechaNacimiento.split('-').map(Number)

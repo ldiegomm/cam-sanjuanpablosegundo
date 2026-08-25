@@ -60,10 +60,26 @@
 .medsList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 
 .medsItem       { font-size: 13px; }
-.medsItemNombre { font-weight: 500; color: #1a1a18; }
-.medsItemMomentos { color: #14B8A6; font-weight: 500; }
+.medsItemNombre { display: block; font-weight: 500; color: #1a1a18; margin-bottom: 6px; }
 
-.medsItemIndicacion { font-size: 12px; font-style: italic; color: #7a7970; margin-top: 2px; }
+.medsMomentosRow { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.medsMomentoBadge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #0F766E;
+  background: #CCFBF1;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.medsMomentoBadgeActual {
+  color: #fff;
+  background: #14B8A6;
+  font-weight: 700;
+}
+
+.medsItemIndicacion { font-size: 12px; font-style: italic; color: #7a7970; margin-top: 6px; }
 
 /* BUSCADOR */
 .pacSearchWrap { position: relative; }
