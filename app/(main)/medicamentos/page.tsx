@@ -619,7 +619,7 @@ function MedicamentosPageContent() {
               </div>
 
               <div>
-                <label id="dias-modo-label" style={{ marginBottom: '8px' }}>Días de la semana</label>
+                <label id="dias-modo-label" style={{ marginBottom: '8px' }}>Días de toma</label>
                 <div className={modalStyles.diasModoToggle} role="radiogroup" aria-labelledby="dias-modo-label">
                   <label
                     htmlFor="dias-modo-todos"
