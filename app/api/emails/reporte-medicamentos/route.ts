@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { supabaseAdmin } from '@/lib/supabase';
-import { obtenerDiaSemanaCR } from '@/lib/fecha';
+import { obtenerDiaSemanaCR, formatearFechaLarga } from '@/lib/fecha';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -120,14 +120,19 @@ export async function POST(request: Request) {
     if (pacientesConMedicamentos.length === 0) {
       return NextResponse.json({
         success: true,
-        message: 'No hay medicamentos activos registrados'
+        message: 'No hay medicamentos programados para hoy'
       });
     }
 
     // 2. Generar HTML del email
+    const fechaFormateada = formatearFechaLarga(fecha);
+
     let emailHTML = `
       <h1 style="color: #2563eb;">📋 Reporte de Medicamentos</h1>
-      <h2>${fecha}</h2>
+      <p style="color: #1f2937; margin: 4px 0 0;">Buenos días,</p>
+      <p style="color: #1f2937; margin: 4px 0 16px;">
+        Este es el detalle de los medicamentos que corresponde administrar hoy, ${fechaFormateada}, en el Centro Adulto Mayor San Juan Pablo II.
+      </p>
       <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
     `;
 
@@ -162,7 +167,8 @@ export async function POST(request: Request) {
 
     emailHTML += `
       <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
-      <p style="color: #6b7280;"><strong>Total:</strong> ${pacientesConMedicamentos.length} adultos mayores con medicamentos activos</p>
+      <p style="color: #6b7280;"><strong>Total:</strong> ${pacientesConMedicamentos.length} adultos mayores con medicamentos programados para hoy</p>
+      <p style="color: #9ca3af; font-size: 12px; margin-top: 8px;">Esta es una notificación automática, no es necesario responderla.</p>
     `;
 
     // 3. Enviar email

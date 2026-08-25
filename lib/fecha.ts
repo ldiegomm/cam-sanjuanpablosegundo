@@ -27,6 +27,20 @@ export function obtenerDiaSemanaHoyCR(): DiaSemana {
   return obtenerDiaSemanaCR(obtenerFechaCR())
 }
 
+/** Formatea una fecha YYYY-MM-DD como texto largo en español, por ejemplo "lunes 24 de agosto de 2026". */
+export function formatearFechaLarga(fechaISO: string): string {
+  const fecha = new Date(`${fechaISO}T12:00:00-06:00`)
+  const formatter = new Intl.DateTimeFormat('es-CR', {
+    timeZone: ZONA_HORARIA_CR,
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+  const partes = Object.fromEntries(formatter.formatToParts(fecha).map(p => [p.type, p.value]))
+  return `${partes.weekday} ${partes.day} de ${partes.month} de ${partes.year}`
+}
+
 /** Edad en años a partir de una fecha de nacimiento YYYY-MM-DD, calculada contra "hoy" en Costa Rica. */
 export function calcularEdad(fechaNacimiento: string, hoyISO: string = obtenerFechaCR()): number {
   const [anioNac, mesNac, diaNac] = fechaNacimiento.split('-').map(Number)
