@@ -57,6 +57,7 @@ function formatLastAccess(value: string | null) {
   }
 
   return new Intl.DateTimeFormat('es-CR', {
+    timeZone: 'America/Costa_Rica',
     dateStyle: 'short',
     timeStyle: 'short'
   }).format(date)

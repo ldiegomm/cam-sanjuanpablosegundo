@@ -7,6 +7,7 @@ import utilStyles from '@/app/styles/utilities.module.css'
 import modalStyles from '@/app/styles/modals.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
 import { useEscapeKey } from '@/app/(main)/components/useEscapeKey'
+import { calcularEdad } from '@/lib/fecha'
 
 interface Adulto {
   id: number
@@ -16,15 +17,6 @@ interface Adulto {
   sexo: string
   prescripciones: { id: number }[]
   historial_salud: { id: number }[]
-}
-
-function calcularEdad(fechaNacimiento: string): number {
-  const hoy = new Date()
-  const nac = new Date(fechaNacimiento)
-  let edad = hoy.getFullYear() - nac.getFullYear()
-  const m = hoy.getMonth() - nac.getMonth()
-  if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--
-  return edad
 }
 
 function getIniciales(nombre: string): string {

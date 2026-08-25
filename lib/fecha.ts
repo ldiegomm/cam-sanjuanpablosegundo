@@ -26,3 +26,14 @@ export function obtenerDiaSemanaCR(fechaISO: string): DiaSemana {
 export function obtenerDiaSemanaHoyCR(): DiaSemana {
   return obtenerDiaSemanaCR(obtenerFechaCR())
 }
+
+/** Edad en años a partir de una fecha de nacimiento YYYY-MM-DD, calculada contra "hoy" en Costa Rica. */
+export function calcularEdad(fechaNacimiento: string, hoyISO: string = obtenerFechaCR()): number {
+  const [anioNac, mesNac, diaNac] = fechaNacimiento.split('-').map(Number)
+  const [anioHoy, mesHoy, diaHoy] = hoyISO.split('-').map(Number)
+
+  let edad = anioHoy - anioNac
+  const mesDiff = mesHoy - mesNac
+  if (mesDiff < 0 || (mesDiff === 0 && diaHoy < diaNac)) edad--
+  return edad
+}

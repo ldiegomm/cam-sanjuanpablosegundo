@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import styles from '@/app/styles/componentes.module.css'
 import utilStyles from '@/app/styles/utilities.module.css'
 import ErrorState from '@/app/(main)/components/ErrorState'
+import { calcularEdad } from '@/lib/fecha'
 
 interface Adulto {
   id: number
@@ -25,15 +26,6 @@ interface Adulto {
   familiar_direccion: string
   emergencia_nombre: string
   emergencia_telefono: string
-}
-
-function calcularEdad(fechaNacimiento: string): number {
-  const hoy = new Date()
-  const nac = new Date(fechaNacimiento)
-  let edad = hoy.getFullYear() - nac.getFullYear()
-  const m = hoy.getMonth() - nac.getMonth()
-  if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--
-  return edad
 }
 
 function formatFecha(fecha: string): string {
