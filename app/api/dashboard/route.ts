@@ -1,6 +1,31 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
+import { obtenerDiaSemanaHoyCR } from '@/lib/fecha'
+
+type Prescripcion = {
+  nombre_medicamento: string
+  indicaciones: string | null
+  ayunas: boolean
+  desayuno: boolean
+  media_manana: boolean
+  almuerzo: boolean
+  merienda_tarde: boolean
+  cena: boolean
+  acostarse: boolean
+  lunes: boolean
+  martes: boolean
+  miercoles: boolean
+  jueves: boolean
+  viernes: boolean
+  sabado: boolean
+  domingo: boolean
+}
+
+type Paciente = {
+  nombre: string
+  prescripciones: Prescripcion[]
+}
 
 async function requireAuth() {
   const session = await getSession()
@@ -28,20 +53,35 @@ export async function GET() {
         nombre,
         prescripciones (
           nombre_medicamento,
+          indicaciones,
           ayunas,
           desayuno,
           media_manana,
           almuerzo,
           merienda_tarde,
           cena,
-          acostarse
+          acostarse,
+          lunes,
+          martes,
+          miercoles,
+          jueves,
+          viernes,
+          sabado,
+          domingo
         )
       `)
       .order('nombre')
 
     if (error) throw error
 
-    return NextResponse.json({ pacientes: data })
+    const diaSemana = obtenerDiaSemanaHoyCR()
+
+    const pacientes = ((data ?? []) as Paciente[]).map((paciente) => ({
+      nombre: paciente.nombre,
+      prescripciones: paciente.prescripciones.filter((p) => p[diaSemana]),
+    }))
+
+    return NextResponse.json({ pacientes })
 
   } catch (error) {
     console.error('Error en dashboard:', error)

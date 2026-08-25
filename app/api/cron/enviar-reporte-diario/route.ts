@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { obtenerFechaCR } from '@/lib/fecha';
 
 export async function GET(request: Request) {
   console.log('========================================');
@@ -29,9 +30,9 @@ export async function GET(request: Request) {
     }
     console.log('✅ SITIO_URL configurado:', process.env.SITIO_URL);
     
-    // 3. Obtener fecha de hoy
+    // 3. Obtener fecha de hoy (calendario de Costa Rica, no UTC del servidor)
     console.log('3. Obteniendo fecha...');
-    const hoy = new Date().toISOString().split('T')[0];
+    const hoy = obtenerFechaCR();
     console.log('Fecha:', hoy);
     
     // 4. Llamar al endpoint que envía el email

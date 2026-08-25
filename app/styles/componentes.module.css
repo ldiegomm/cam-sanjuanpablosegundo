@@ -50,6 +50,21 @@
 .check { color: #14B8A6; font-weight: 700; font-size: 16px; }
 .dash  { color: #7a7970; }
 
+/* MEDICAMENTOS DE HOY (panel de inicio) */
+.medsPaciente { padding: 14px 0; border-bottom: 0.5px solid #dddbd2; }
+.medsPaciente:first-child { padding-top: 16px; }
+.medsPaciente:last-child  { border-bottom: none; padding-bottom: 16px; }
+
+.medsPacienteNombre { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 8px; }
+
+.medsList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+
+.medsItem       { font-size: 13px; }
+.medsItemNombre { font-weight: 500; color: #1a1a18; }
+.medsItemMomentos { color: #14B8A6; font-weight: 500; }
+
+.medsItemIndicacion { font-size: 12px; font-style: italic; color: #7a7970; margin-top: 2px; }
+
 /* BUSCADOR */
 .pacSearchWrap { position: relative; }
 .pacInput { width: 100%; font-size: 13px; padding: 7px 10px 7px 32px; border: 0.5px solid #b4b2a9; border-radius: 8px; color: #1a1a18; background: #fff; outline: none; transition: border-color 0.15s; font-family: inherit; }

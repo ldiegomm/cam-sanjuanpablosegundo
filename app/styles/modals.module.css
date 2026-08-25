@@ -205,6 +205,90 @@
   color: #6b6a63;
 }
 
+/* DIAS DE LA SEMANA (modal medicamento) */
+.diasModoToggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.diasModoBtn {
+  flex: 1;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 8px;
+  border: 0.5px solid #dddbd2;
+  background: #fff;
+  color: #4b4a45;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px 10px;
+}
+
+.diasModoBtn input {
+  width: 14px;
+  height: 14px;
+}
+
+.diasModoBtnActive {
+  border-color: #14B8A6;
+  background: #CCFBF1;
+  color: #0F766E;
+  font-weight: 500;
+}
+
+.diasChipsGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.diasChip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border-radius: 8px;
+  border: 0.5px solid #dddbd2;
+  background: #fff;
+  color: #6b6a63;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.diasChipActive {
+  border-color: #14B8A6;
+  background: #CCFBF1;
+  color: #0F766E;
+}
+
+.diasChip:focus-within {
+  outline: 2px solid #14B8A6;
+  outline-offset: 2px;
+}
+
+/* BADGE DE DIAS (tabla de medicamentos) */
+.diasBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #6b6a63;
+  background: #f5f4f0;
+  border: 0.5px solid #dddbd2;
+  border-radius: 999px;
+  padding: 2px 6px;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
 @media (max-width: 700px) {
   .modalContent,
   .modalContentSm,
@@ -235,5 +319,13 @@
 
   .horarioGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .diasChipsGrid {
+    gap: 4px;
+  }
+
+  .diasModoToggle {
+    flex-direction: column;
   }
 }

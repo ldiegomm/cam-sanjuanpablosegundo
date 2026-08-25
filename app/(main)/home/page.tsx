@@ -6,6 +6,7 @@ import ErrorState from '@/app/(main)/components/ErrorState'
 
 interface Prescripcion {
   nombre_medicamento: string
+  indicaciones: string | null
   ayunas: boolean
   desayuno: boolean
   media_manana: boolean
@@ -18,6 +19,20 @@ interface Prescripcion {
 interface Paciente {
   nombre: string
   prescripciones: Prescripcion[]
+}
+
+const MOMENTOS_DIA: { key: keyof Prescripcion; label: string }[] = [
+  { key: 'ayunas',        label: 'Ayunas' },
+  { key: 'desayuno',      label: 'Desayuno' },
+  { key: 'media_manana',  label: 'M. mañana' },
+  { key: 'almuerzo',      label: 'Almuerzo' },
+  { key: 'merienda_tarde', label: 'M. tarde' },
+  { key: 'cena',          label: 'Cena' },
+  { key: 'acostarse',     label: 'Acostarse' },
+]
+
+function momentosDe(pr: Prescripcion): string {
+  return MOMENTOS_DIA.filter(m => pr[m.key]).map(m => m.label).join(', ')
 }
 
 export default function HomePage() {
@@ -53,10 +68,14 @@ export default function HomePage() {
   }
 
   const fecha = () => {
-    const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado']
-    const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre']
-    const hoy = new Date()
-    return `Resumen del día — ${dias[hoy.getDay()]} ${hoy.getDate()} de ${meses[hoy.getMonth()]}`
+    const formatter = new Intl.DateTimeFormat('es-CR', {
+      timeZone: 'America/Costa_Rica',
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    })
+    const partes = Object.fromEntries(formatter.formatToParts(new Date()).map(p => [p.type, p.value]))
+    return `Resumen del día — ${partes.weekday} ${partes.day} de ${partes.month}`
   }
 
   const totalPacientes = pacientes.length
@@ -67,9 +86,7 @@ export default function HomePage() {
     }, 0)
   }, 0)
 
-  const check = (val: boolean) => val
-    ? <span className={styles.check}>✓</span>
-    : <span className={styles.dash}>—</span>
+  const pacientesConMedsHoy = pacientes.filter(p => p.prescripciones.length > 0)
 
   return (
       <div className={utilStyles.page}>
@@ -108,56 +125,36 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Tabla */}
-      <p className={styles.scrollHint}>← Deslizá para ver más →</p>
+      {/* Medicamentos de hoy */}
       <div className={styles.tableWrap}>
         <div style={{ padding: '1rem 1.25rem', borderBottom: '0.5px solid #dddbd2' }}>
-          <p style={{ fontSize: '14px', fontWeight: 500 }}>Horario de medicamentos del día</p>
+          <p style={{ fontSize: '14px', fontWeight: 500 }}>Medicamentos de hoy</p>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Persona</th>
-              <th>Ayunas</th>
-              <th>Desayuno</th>
-              <th>M. mañana</th>
-              <th>Almuerzo</th>
-              <th>M. tarde</th>
-              <th>Cena</th>
-              <th>Acostarse</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem' }}>Cargando...</td></tr>
-            ) : error ? (
-              <tr><td colSpan={8} style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem' }}>No se pudo cargar la información.</td></tr>
-            ) : pacientes.filter(p => p.prescripciones.length > 0).map((paciente, i) => {
-              const horarios = paciente.prescripciones.reduce((acc, pr) => ({
-                ayunas:       acc.ayunas || pr.ayunas,
-                desayuno:     acc.desayuno || pr.desayuno,
-                media_manana: acc.media_manana || pr.media_manana,
-                almuerzo:     acc.almuerzo || pr.almuerzo,
-                merienda_tarde: acc.merienda_tarde || pr.merienda_tarde,
-                cena:         acc.cena || pr.cena,
-                acostarse:    acc.acostarse || pr.acostarse,
-              }), { ayunas: false, desayuno: false, media_manana: false, almuerzo: false, merienda_tarde: false, cena: false, acostarse: false })
-
-              return (
-                <tr key={i}>
-                  <td>{paciente.nombre}</td>
-                  <td>{check(horarios.ayunas)}</td>
-                  <td>{check(horarios.desayuno)}</td>
-                  <td>{check(horarios.media_manana)}</td>
-                  <td>{check(horarios.almuerzo)}</td>
-                  <td>{check(horarios.merienda_tarde)}</td>
-                  <td>{check(horarios.cena)}</td>
-                  <td>{check(horarios.acostarse)}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <div style={{ padding: '0 1.25rem' }}>
+          {loading ? (
+            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>Cargando...</p>
+          ) : error ? (
+            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No se pudo cargar la información.</p>
+          ) : pacientesConMedsHoy.length === 0 ? (
+            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No hay medicamentos programados para hoy.</p>
+          ) : pacientesConMedsHoy.map((paciente, i) => (
+            <div key={i} className={styles.medsPaciente}>
+              <p className={styles.medsPacienteNombre}>{paciente.nombre}</p>
+              <ul className={styles.medsList}>
+                {paciente.prescripciones.map((pr, j) => (
+                  <li key={j} className={styles.medsItem}>
+                    <span className={styles.medsItemNombre}>{pr.nombre_medicamento}</span>
+                    {' — '}
+                    <span className={styles.medsItemMomentos}>{momentosDe(pr)}</span>
+                    {pr.indicaciones && (
+                      <p className={styles.medsItemIndicacion}>{pr.indicaciones}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

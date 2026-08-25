@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { supabaseAdmin } from '@/lib/supabase';
+import { obtenerDiaSemanaCR } from '@/lib/fecha';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -20,6 +21,13 @@ type Prescripcion = {
   merienda_tarde: boolean;
   cena: boolean;
   acostarse: boolean;
+  lunes: boolean;
+  martes: boolean;
+  miercoles: boolean;
+  jueves: boolean;
+  viernes: boolean;
+  sabado: boolean;
+  domingo: boolean;
 };
 
 type PacienteRow = {
@@ -75,7 +83,14 @@ export async function POST(request: Request) {
           almuerzo,
           merienda_tarde,
           cena,
-          acostarse
+          acostarse,
+          lunes,
+          martes,
+          miercoles,
+          jueves,
+          viernes,
+          sabado,
+          domingo
         )
       `)
       .order('nombre');
@@ -87,9 +102,14 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
 
-    const pacientesConMedicamentos = ((pacientes ?? []) as PacienteRow[]).filter(
-      (paciente) => paciente.prescripciones.length > 0
-    );
+    const diaSemana = obtenerDiaSemanaCR(fecha);
+
+    const pacientesConMedicamentos = ((pacientes ?? []) as PacienteRow[])
+      .map((paciente) => ({
+        ...paciente,
+        prescripciones: paciente.prescripciones.filter((p) => p[diaSemana]),
+      }))
+      .filter((paciente) => paciente.prescripciones.length > 0);
 
     if (pacientesConMedicamentos.length === 0) {
       return NextResponse.json({

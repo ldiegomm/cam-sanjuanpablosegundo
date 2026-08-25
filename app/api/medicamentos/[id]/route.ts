@@ -44,6 +44,13 @@ export async function PUT(
         merienda_tarde:     body.merienda_tarde ?? false,
         cena:               body.cena          ?? false,
         acostarse:          body.acostarse     ?? false,
+        lunes:              body.lunes         ?? true,
+        martes:             body.martes        ?? true,
+        miercoles:          body.miercoles     ?? true,
+        jueves:             body.jueves        ?? true,
+        viernes:            body.viernes       ?? true,
+        sabado:             body.sabado        ?? true,
+        domingo:            body.domingo       ?? true,
       })
       .eq('id', id)
 

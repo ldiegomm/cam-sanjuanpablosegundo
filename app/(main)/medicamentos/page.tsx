@@ -26,6 +26,13 @@ type Prescripcion = {
   merienda_tarde: boolean
   cena: boolean
   acostarse: boolean
+  lunes: boolean
+  martes: boolean
+  miercoles: boolean
+  jueves: boolean
+  viernes: boolean
+  sabado: boolean
+  domingo: boolean
 }
 
 type PrescripcionForm = {
@@ -38,6 +45,13 @@ type PrescripcionForm = {
   merienda_tarde: boolean
   cena: boolean
   acostarse: boolean
+  lunes: boolean
+  martes: boolean
+  miercoles: boolean
+  jueves: boolean
+  viernes: boolean
+  sabado: boolean
+  domingo: boolean
 }
 
 const FORM_INICIAL: PrescripcionForm = {
@@ -50,6 +64,13 @@ const FORM_INICIAL: PrescripcionForm = {
   merienda_tarde: false,
   cena: false,
   acostarse: false,
+  lunes: true,
+  martes: true,
+  miercoles: true,
+  jueves: true,
+  viernes: true,
+  sabado: true,
+  domingo: true,
 }
 
 const HORARIOS: { key: keyof PrescripcionForm; label: string }[] = [
@@ -60,6 +81,16 @@ const HORARIOS: { key: keyof PrescripcionForm; label: string }[] = [
   { key: 'merienda_tarde', label: 'M. tarde' },
   { key: 'cena',          label: 'Cena' },
   { key: 'acostarse',     label: 'Acostarse' },
+]
+
+const DIAS_SEMANA: { key: keyof PrescripcionForm; label: string; nombreCompleto: string }[] = [
+  { key: 'lunes',     label: 'Lu', nombreCompleto: 'Lunes' },
+  { key: 'martes',    label: 'Ma', nombreCompleto: 'Martes' },
+  { key: 'miercoles', label: 'Mi', nombreCompleto: 'Miércoles' },
+  { key: 'jueves',    label: 'Ju', nombreCompleto: 'Jueves' },
+  { key: 'viernes',   label: 'Vi', nombreCompleto: 'Viernes' },
+  { key: 'sabado',    label: 'Sa', nombreCompleto: 'Sábado' },
+  { key: 'domingo',   label: 'Do', nombreCompleto: 'Domingo' },
 ]
 
 function MedicamentosPageContent() {
@@ -80,6 +111,7 @@ function MedicamentosPageContent() {
   const [showModal, setShowModal] = useState(false)
   const [editingPrescripcion, setEditingPrescripcion] = useState<Prescripcion | null>(null)
   const [form, setForm] = useState<PrescripcionForm>(FORM_INICIAL)
+  const [diasModo, setDiasModo] = useState<'todos' | 'especificos'>('todos')
   const [formError, setFormError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [formErrorAttempt, setFormErrorAttempt] = useState(0)
@@ -189,9 +221,18 @@ function MedicamentosPageContent() {
     ? <span className={styles.check}>✓</span>
     : <span className={styles.dash}>—</span>
 
+  const diasActivos = (p: Prescripcion) => DIAS_SEMANA.filter(d => p[d.key])
+
+  const diasResumen = (p: Prescripcion) => {
+    const activos = diasActivos(p)
+    if (activos.length === 7) return null
+    return activos
+  }
+
   const abrirModalAgregar = () => {
     setEditingPrescripcion(null)
     setForm(FORM_INICIAL)
+    setDiasModo('todos')
     setFormError(null)
     setShowModal(true)
   }
@@ -208,9 +249,33 @@ function MedicamentosPageContent() {
       merienda_tarde:     p.merienda_tarde,
       cena:               p.cena,
       acostarse:          p.acostarse,
+      lunes:              p.lunes,
+      martes:             p.martes,
+      miercoles:          p.miercoles,
+      jueves:             p.jueves,
+      viernes:            p.viernes,
+      sabado:             p.sabado,
+      domingo:            p.domingo,
     })
+    setDiasModo(DIAS_SEMANA.every(d => p[d.key]) ? 'todos' : 'especificos')
     setFormError(null)
     setShowModal(true)
+  }
+
+  const handleDiasModoChange = (modo: 'todos' | 'especificos') => {
+    setDiasModo(modo)
+    if (modo === 'todos') {
+      setForm(prev => ({
+        ...prev,
+        lunes: true,
+        martes: true,
+        miercoles: true,
+        jueves: true,
+        viernes: true,
+        sabado: true,
+        domingo: true,
+      }))
+    }
   }
 
   const cerrarModal = () => {
@@ -238,6 +303,11 @@ function MedicamentosPageContent() {
       return
     }
 
+    if (diasModo === 'especificos' && !DIAS_SEMANA.some(d => form[d.key])) {
+      setFormError('Seleccioná al menos un día de la semana.')
+      return
+    }
+
     setSaving(true)
     setFormError(null)
 
@@ -260,6 +330,13 @@ function MedicamentosPageContent() {
           merienda_tarde:    form.merienda_tarde,
           cena:              form.cena,
           acostarse:         form.acostarse,
+          lunes:             form.lunes,
+          martes:            form.martes,
+          miercoles:         form.miercoles,
+          jueves:            form.jueves,
+          viernes:           form.viernes,
+          sabado:            form.sabado,
+          domingo:           form.domingo,
         }),
       })
 
@@ -280,6 +357,13 @@ function MedicamentosPageContent() {
                 merienda_tarde:     form.merienda_tarde,
                 cena:               form.cena,
                 acostarse:          form.acostarse,
+                lunes:              form.lunes,
+                martes:             form.martes,
+                miercoles:          form.miercoles,
+                jueves:             form.jueves,
+                viernes:            form.viernes,
+                sabado:             form.sabado,
+                domingo:            form.domingo,
               }
             : p
         ))
@@ -444,6 +528,20 @@ function MedicamentosPageContent() {
                         {p.indicaciones && (
                           <p style={{ fontSize: '11px', color: '#6b6a63', marginTop: '2px' }}>{p.indicaciones}</p>
                         )}
+                        {diasResumen(p) && (
+                          <span
+                            className={modalStyles.diasBadge}
+                            title={`Días: ${diasActivos(p).map(d => d.nombreCompleto).join(', ')}`}
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                              <rect x="3" y="4" width="18" height="18" rx="2" />
+                              <line x1="16" y1="2" x2="16" y2="6" />
+                              <line x1="8" y1="2" x2="8" y2="6" />
+                              <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            {diasActivos(p).map(d => d.label).join(' ')}
+                          </span>
+                        )}
                       </td>
                       <td>{check(p.ayunas)}</td>
                       <td>{check(p.desayuno)}</td>
@@ -518,6 +616,62 @@ function MedicamentosPageContent() {
                   onChange={e => setForm(prev => ({ ...prev, indicaciones: e.target.value }))}
                   placeholder="Ej: Tomar con abundante agua"
                 />
+              </div>
+
+              <div>
+                <label id="dias-modo-label" style={{ marginBottom: '8px' }}>Días de la semana</label>
+                <div className={modalStyles.diasModoToggle} role="radiogroup" aria-labelledby="dias-modo-label">
+                  <label
+                    htmlFor="dias-modo-todos"
+                    className={`${modalStyles.diasModoBtn} ${diasModo === 'todos' ? modalStyles.diasModoBtnActive : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      id="dias-modo-todos"
+                      name="dias-modo"
+                      checked={diasModo === 'todos'}
+                      onChange={() => handleDiasModoChange('todos')}
+                    />
+                    Todos los días
+                  </label>
+                  <label
+                    htmlFor="dias-modo-especificos"
+                    className={`${modalStyles.diasModoBtn} ${diasModo === 'especificos' ? modalStyles.diasModoBtnActive : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      id="dias-modo-especificos"
+                      name="dias-modo"
+                      checked={diasModo === 'especificos'}
+                      onChange={() => handleDiasModoChange('especificos')}
+                    />
+                    Días específicos
+                  </label>
+                </div>
+
+                {diasModo === 'especificos' && (
+                  <div className={modalStyles.diasChipsGrid}>
+                    {DIAS_SEMANA.map(({ key, label, nombreCompleto }) => (
+                      <label
+                        key={key}
+                        htmlFor={`dia-${key}`}
+                        className={`${modalStyles.diasChip} ${form[key] ? modalStyles.diasChipActive : ''}`}
+                      >
+                        <input
+                          type="checkbox"
+                          id={`dia-${key}`}
+                          checked={form[key] as boolean}
+                          onChange={e => setForm(prev => ({ ...prev, [key]: e.target.checked }))}
+                          style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0 }}
+                        />
+                        <span aria-hidden="true">{label}</span>
+                        <span style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+                          {nombreCompleto}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div>

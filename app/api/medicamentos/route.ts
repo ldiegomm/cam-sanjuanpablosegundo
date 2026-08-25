@@ -30,7 +30,7 @@ export async function GET() {
           .order('nombre'),
         supabaseAdmin
           .from('prescripciones')
-          .select('id, id_adulto_mayor, nombre_medicamento, indicaciones, ayunas, desayuno, media_manana, almuerzo, merienda_tarde, cena, acostarse')
+          .select('id, id_adulto_mayor, nombre_medicamento, indicaciones, ayunas, desayuno, media_manana, almuerzo, merienda_tarde, cena, acostarse, lunes, martes, miercoles, jueves, viernes, sabado, domingo')
           .order('id'),
       ])
 
@@ -76,8 +76,15 @@ export async function POST(request: Request) {
         merienda_tarde: body.merienda_tarde ?? false,
         cena:          body.cena          ?? false,
         acostarse:     body.acostarse     ?? false,
+        lunes:         body.lunes         ?? true,
+        martes:        body.martes        ?? true,
+        miercoles:     body.miercoles     ?? true,
+        jueves:        body.jueves        ?? true,
+        viernes:       body.viernes       ?? true,
+        sabado:        body.sabado        ?? true,
+        domingo:       body.domingo       ?? true,
       })
-      .select('id, id_adulto_mayor, nombre_medicamento, indicaciones, ayunas, desayuno, media_manana, almuerzo, merienda_tarde, cena, acostarse')
+      .select('id, id_adulto_mayor, nombre_medicamento, indicaciones, ayunas, desayuno, media_manana, almuerzo, merienda_tarde, cena, acostarse, lunes, martes, miercoles, jueves, viernes, sabado, domingo')
       .single()
 
     if (error) throw error
