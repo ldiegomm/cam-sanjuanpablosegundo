@@ -101,9 +101,9 @@ export default function HomePage() {
 
   const pacientesConMedsHoy = pacientes.filter(p => p.prescripciones.length > 0)
   const momentoActual = obtenerMomentoActualCR()
-  const dosisAhora = pacientes.reduce((acc, p) => {
-    return acc + p.prescripciones.filter(pr => pr[momentoActual]).length
-  }, 0)
+  const dosisAhora = momentoActual
+    ? pacientes.reduce((acc, p) => acc + p.prescripciones.filter(pr => pr[momentoActual]).length, 0)
+    : 0
 
   return (
       <div className={utilStyles.page}>

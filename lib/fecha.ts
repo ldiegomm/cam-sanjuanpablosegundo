@@ -59,8 +59,13 @@ const MOMENTOS_HORARIO: { momento: MomentoDia; horaInicio: number }[] = [
   { momento: 'acostarse', horaInicio: 19 },
 ]
 
-/** Momento del día que corresponde ahora mismo en Costa Rica, según los rangos horarios aproximados de arriba. */
-export function obtenerMomentoActualCR(momento: Date = new Date()): MomentoDia {
+/**
+ * Momento del día que corresponde ahora mismo en Costa Rica, según los rangos horarios aproximados
+ * de arriba. Devuelve null de madrugada, entre la medianoche y que empiece "ayunas", porque ese
+ * tramo ya no es la ventana real de "acostarse" de la noche anterior ni todavía la de "ayunas" del
+ * día que empieza, así que no tiene sentido resaltar ningún momento como si fuera el actual.
+ */
+export function obtenerMomentoActualCR(momento: Date = new Date()): MomentoDia | null {
   const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: ZONA_HORARIA_CR,
     hourCycle: 'h23',
@@ -70,9 +75,8 @@ export function obtenerMomentoActualCR(momento: Date = new Date()): MomentoDia {
   const partes = Object.fromEntries(formatter.formatToParts(momento).map(p => [p.type, p.value]))
   const horaActual = Number(partes.hour) + Number(partes.minute) / 60
 
-  // De madrugada, antes de que empiece "ayunas", todavía se considera parte de "acostarse" de la noche anterior.
   const actual = [...MOMENTOS_HORARIO].reverse().find(m => horaActual >= m.horaInicio)
-  return (actual ?? MOMENTOS_HORARIO[MOMENTOS_HORARIO.length - 1]).momento
+  return actual?.momento ?? null
 }
 
 /** Hora actual en formato corto, por ejemplo "10:32 a. m.", según el reloj de Costa Rica. */
