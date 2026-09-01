@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/keep-alive",
       "schedule": "0 14 * * *"
+    },
+    {
+      "path": "/api/cron/backup-quincenal",
+      "schedule": "0 16 * * 0"
     }
   ]
 }
