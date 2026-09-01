@@ -1,9 +1,18 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import bcrypt from 'bcryptjs'
+import nodemailer from 'nodemailer'
 import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
 import { normalizeUserRole } from '@/lib/userRoles'
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+})
 
 type UsuarioPayload = {
   nombre?: string
@@ -166,8 +175,10 @@ export async function PUT(
       activo: body.activo ?? true
     }
 
-    if (body.password && body.password.trim()) {
-      updateData.password_hash = await bcrypt.hash(body.password.trim(), 10)
+    const passwordCambiada = Boolean(body.password && body.password.trim())
+
+    if (passwordCambiada) {
+      updateData.password_hash = await bcrypt.hash(body.password!.trim(), 10)
     }
 
     const { data, error } = await supabaseAdmin
@@ -179,6 +190,31 @@ export async function PUT(
 
     if (error) {
       throw error
+    }
+
+    if (passwordCambiada && String(auth.session.id) !== String(id)) {
+      try {
+        const fechaHora = new Date().toLocaleString('es-CR', {
+          dateStyle: 'long',
+          timeStyle: 'short',
+          timeZone: 'America/Costa_Rica'
+        })
+
+        await transporter.sendMail({
+          from: `"Centro Adulto Mayor San Juan Pablo II" <${process.env.GMAIL_USER}>`,
+          to: data.email,
+          subject: 'Tu contraseña fue actualizada por un administrador',
+          html: `
+            <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:2rem;">
+              <h2 style="font-size:18px;font-weight:500;margin-bottom:8px;">Tu contraseña fue actualizada por un administrador</h2>
+              <p style="font-size:14px;color:#888780;margin-bottom:1.5rem;">Hola${data.nombre ? ` ${data.nombre}` : ''}, un administrador del sistema actualizó tu contraseña de acceso el ${fechaHora}.</p>
+              <p style="font-size:12px;color:#888780;margin-top:1.5rem;">Si no esperabas este cambio o tenés dudas, contactá al administrador del sistema para confirmarlo.</p>
+            </div>
+          `
+        })
+      } catch (error) {
+        console.error('Error enviando correo de notificación de cambio de contraseña por administrador:', error)
+      }
     }
 
     const response = NextResponse.json({ success: true, usuario: data })
