@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
 
             <Link
               href="/login"
-              style={{ display: 'block', fontSize: '12px', color: '#6b6a63', textAlign: 'center', marginTop: '16px', textDecoration: 'none' }}
+              style={{ display: 'block', fontSize: '12px', color: '#14B8A6', textAlign: 'center', marginTop: '16px', textDecoration: 'none', fontWeight: 500 }}
             >
               ← Volver al inicio de sesión
             </Link>
