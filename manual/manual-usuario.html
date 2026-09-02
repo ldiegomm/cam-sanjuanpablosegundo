@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Manual de Usuario - Centro Adulto Mayor San Juan Pablo II</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm;
+    @bottom-center {
+      content: "Página " counter(page) " de " counter(pages);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #2b2a27;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  h1, h2, h3, h4 { color: #14532d; font-weight: 700; }
+  .cover {
+    height: 250mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+  }
+  .cover .badge {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: linear-gradient(135deg,#14B8A6,#0d9488);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size: 34px; font-weight: 700; margin-bottom: 24px;
+  }
+  .cover h1 { font-size: 30px; margin-bottom: 6px; }
+  .cover h2 { font-size: 17px; color:#4b4a45; font-weight:500; margin-top:0;}
+  .cover .sub { margin-top: 40px; font-size: 13px; color:#6b6a63; }
+  .toc { page-break-after: always; }
+  .toc h1 { border-bottom: 3px solid #14B8A6; padding-bottom: 8px; }
+  .toc ol { font-size: 13px; }
+  .toc li { margin-bottom: 6px; }
+  section { page-break-before: always; }
+  section:first-of-type { page-break-before: auto; }
+  h1.section-title {
+    font-size: 21px;
+    border-bottom: 3px solid #14B8A6;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  h2 { font-size: 16px; margin-top: 26px; border-left: 4px solid #E8C96A; padding-left: 8px; }
+  h3 { font-size: 13.5px; margin-top: 18px; color:#0f766e; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 6px 0 10px 0; padding-left: 22px; }
+  li { margin-bottom: 3px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 16px 0; font-size: 11.5px; }
+  th, td { border: 1px solid #d8d6cf; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f9f8; color:#0f766e; }
+  tr:nth-child(even) td { background: #fafaf8; }
+  .box {
+    background: #f7f6f2; border: 1px solid #e6e3d8; border-left: 4px solid #14B8A6;
+    border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+  }
+  .warn {
+    background: #FBF3DC; border: 1px solid #E8C96A; border-left: 4px solid #b8860b;
+    border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+  }
+  .step {
+    background: #fff; border: 1px solid #e2e0d6; border-radius: 6px;
+    padding: 8px 12px; margin: 6px 0; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .step .num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    background: #14B8A6; color: #fff; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  code, .tag {
+    background: #eef2f0; border: 1px solid #d8d6cf; border-radius: 4px;
+    padding: 1px 6px; font-family: Consolas, monospace; font-size: 11px; color: #14532d;
+  }
+  .msg-ok { color: #0f7a3d; font-weight: 600; }
+  .msg-err { color: #b91c1c; font-weight: 600; }
+  .footer-note { font-size: 10.5px; color: #8a8880; margin-top: 30px; border-top: 1px solid #e2e0d6; padding-top: 8px;}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="badge">CAM</div>
+  <h1>Manual de Usuario</h1>
+  <h2>Sistema de Gestión — Centro Adulto Mayor San Juan Pablo II</h2>
+  <div class="sub">
+    Guía de uso para el personal administrativo y colaboradores<br>
+    Versión 1.0 — Septiembre 2026
+  </div>
+</div>
+
+<!-- TABLA DE CONTENIDO -->
+<div class="toc">
+  <h1>Índice</h1>
+  <ol>
+    <li>Introducción al sistema</li>
+    <li>Inicio de sesión y recuperación de contraseña</li>
+    <li>Panel de inicio (dashboard)</li>
+    <li>Gestión de adultos mayores</li>
+    <li>Gestión de medicamentos</li>
+    <li>Historial de salud</li>
+    <li>Gestión de usuarios del sistema (solo administradores)</li>
+    <li>Roles y permisos</li>
+    <li>Procesos automáticos del sistema</li>
+    <li>Preguntas frecuentes y solución de problemas</li>
+  </ol>
+</div>
+
+<!-- 1. INTRODUCCIÓN -->
+<section>
+<h1 class="section-title">1. Introducción al sistema</h1>
+
+<p>El presente sistema es una herramienta web desarrollada para el <strong>Centro Adulto Mayor San Juan Pablo II</strong>, con el objetivo de centralizar y facilitar la administración de la información de las personas residentes, sus medicamentos y su historial de salud.</p>
+
+<h2>¿Qué permite hacer el sistema?</h2>
+<ul>
+  <li>Registrar y consultar los datos personales de los adultos mayores del centro.</li>
+  <li>Registrar y controlar los medicamentos que toma cada persona, con horarios y días específicos.</li>
+  <li>Llevar un historial de salud (padecimientos, lesiones, hábitos y operaciones).</li>
+  <li>Visualizar un panel de inicio con un resumen de los medicamentos que corresponden en el día.</li>
+  <li>Administrar los usuarios que tienen acceso al sistema (solo administradores).</li>
+  <li>Recibir automáticamente por correo un reporte diario de medicamentos.</li>
+  <li>Contar con respaldos automáticos semanales de la información.</li>
+</ul>
+
+<h2>Requisitos para usar el sistema</h2>
+<ul>
+  <li>Una computadora, tablet o celular con conexión a internet.</li>
+  <li>Un navegador web actualizado (Google Chrome, Microsoft Edge, Firefox o Safari).</li>
+  <li>Un usuario y contraseña otorgados por el administrador del sistema.</li>
+</ul>
+
+<div class="box">
+  <strong>Nota:</strong> Todo el sistema funciona en idioma español y su diseño se adapta a pantallas de computadora, tablet y celular.
+</div>
+</section>
+
+<!-- 2. LOGIN -->
+<section>
+<h1 class="section-title">2. Inicio de sesión y recuperación de contraseña</h1>
+
+<h2>2.1 Iniciar sesión</h2>
+<p>Al ingresar a la dirección del sistema se muestra la pantalla <strong>"Bienvenido"</strong>, correspondiente al Centro Adulto Mayor San Juan Pablo II.</p>
+
+<div class="step"><div class="num">1</div><div>Escribí tu <strong>correo electrónico</strong> registrado en el campo correspondiente.</div></div>
+<div class="step"><div class="num">2</div><div>Escribí tu <strong>contraseña</strong>.</div></div>
+<div class="step"><div class="num">3</div><div>Hacé clic en el botón <strong>"Iniciar sesión"</strong>.</div></div>
+
+<p>Mientras el sistema valida los datos, el botón muestra el texto <em>"Iniciando sesión..."</em> y queda deshabilitado.</p>
+
+<table>
+<tr><th>Situación</th><th>Mensaje que muestra el sistema</th></tr>
+<tr><td>Correo con formato incorrecto</td><td class="msg-err">"Ingresá un correo electrónico válido."</td></tr>
+<tr><td>Correo o contraseña incorrectos</td><td class="msg-err">"Correo o contraseña incorrectos. Verificá tus datos e intentá de nuevo."</td></tr>
+<tr><td>Sin conexión a internet</td><td class="msg-err">"Error de conexión. Verificá tu conexión a internet e intentá de nuevo."</td></tr>
+</table>
+
+<p>Una vez ingresado correctamente, el sistema te redirige automáticamente al <strong>Panel de inicio</strong> (<code>/home</code>).</p>
+
+<h2>2.2 Recuperar contraseña olvidada</h2>
+<p>Si no recordás tu contraseña, hacé clic en el enlace <strong>"¿Olvidaste tu contraseña?"</strong> ubicado debajo del botón de inicio de sesión.</p>
+
+<div class="step"><div class="num">1</div><div>Ingresá el correo electrónico con el que estás registrado en el sistema.</div></div>
+<div class="step"><div class="num">2</div><div>Hacé clic en <strong>"Enviar link de recuperación"</strong>.</div></div>
+<div class="step"><div class="num">3</div><div>El sistema muestra la pantalla de confirmación <strong>"Solicitud enviada"</strong> con el mensaje: <em>"Si tu correo está registrado en el sistema, te enviamos un enlace para restablecer tu contraseña. Revisá tu bandeja de entrada (y la carpeta de spam) durante la próxima hora."</em></div></div>
+<div class="step"><div class="num">4</div><div>Revisá tu correo (incluida la carpeta de spam/no deseado) y hacé clic en el enlace recibido. El enlace es válido por <strong>1 hora</strong>.</div></div>
+
+<h2>2.3 Restablecer la contraseña</h2>
+<p>Al abrir el enlace de recuperación se muestra el formulario para definir una nueva contraseña.</p>
+
+<div class="step"><div class="num">1</div><div>Escribí la <strong>nueva contraseña</strong> (mínimo 8 caracteres).</div></div>
+<div class="step"><div class="num">2</div><div>Repetí la contraseña en el campo <strong>"Confirmar contraseña"</strong>.</div></div>
+<div class="step"><div class="num">3</div><div>Hacé clic en <strong>"Guardar nueva contraseña"</strong>.</div></div>
+
+<table>
+<tr><th>Situación</th><th>Mensaje</th></tr>
+<tr><td>Contraseña de menos de 8 caracteres</td><td class="msg-err">"La contraseña debe tener al menos 8 caracteres."</td></tr>
+<tr><td>Las contraseñas no coinciden</td><td class="msg-err">"Las contraseñas no coinciden."</td></tr>
+<tr><td>Cambio exitoso</td><td class="msg-ok">"¡Contraseña actualizada! Tu contraseña fue cambiada exitosamente. Serás redirigido al inicio de sesión en unos segundos."</td></tr>
+</table>
+
+<div class="box">Si el enlace ya no es válido (venció la hora) o no tenés un token en la dirección web, el sistema te redirige nuevamente a la pantalla de inicio de sesión.</div>
+</section>
+
+<!-- 3. DASHBOARD -->
+<section>
+<h1 class="section-title">3. Panel de inicio (Dashboard)</h1>
+<p>Es la primera pantalla que se ve después de iniciar sesión (<code>/home</code>). Muestra un resumen general del centro y de los medicamentos que corresponden en el día actual.</p>
+
+<h2>3.1 Encabezado</h2>
+<p>Se muestra el título <strong>"Panel de inicio"</strong> y la fecha del día, por ejemplo: <em>"Resumen del día — martes 18 de septiembre"</em>.</p>
+
+<h2>3.2 Tarjetas de métricas</h2>
+<table>
+<tr><th>Tarjeta</th><th>Qué muestra</th></tr>
+<tr><td>Personas registradas</td><td>Cantidad total de adultos mayores en el sistema.</td></tr>
+<tr><td>Con medicamentos hoy</td><td>Cantidad de personas que tienen algún medicamento programado para el día actual.</td></tr>
+<tr><td>Dosis programadas</td><td>Total de dosis a administrar en el día. Si corresponde alguna dosis en el momento actual, se indica "X ahora mismo".</td></tr>
+</table>
+
+<h2>3.3 Momentos del día reconocidos por el sistema</h2>
+<p>El sistema calcula automáticamente en qué "momento del día" se encuentra (hora de Costa Rica) para resaltar los medicamentos correspondientes:</p>
+<table>
+<tr><th>Momento</th><th>Horario</th></tr>
+<tr><td>Ayunas</td><td>6:00 – 7:00</td></tr>
+<tr><td>Desayuno</td><td>7:00 – 9:00</td></tr>
+<tr><td>Media mañana</td><td>10:00 – 11:00</td></tr>
+<tr><td>Almuerzo</td><td>12:00 – 14:00</td></tr>
+<tr><td>Merienda de tarde</td><td>15:00 – 16:00</td></tr>
+<tr><td>Cena</td><td>18:00 – 20:00</td></tr>
+<tr><td>Acostarse</td><td>21:00 – 22:00</td></tr>
+</table>
+
+<h2>3.4 Tabla "Medicamentos de hoy"</h2>
+<p>Lista, ordenada alfabéticamente por paciente, todos los medicamentos que corresponden administrar en la fecha actual, indicando el nombre, la dosis, los momentos en que se debe tomar (destacando el momento actual) y las indicaciones especiales si existen.</p>
+<p>Esta tabla se actualiza automáticamente cada 10 minutos, mostrando la leyenda <em>"Actualizado a las HH:MM"</em>.</p>
+
+<div class="box">Si no hay medicamentos programados para el día, se muestra el mensaje: <em>"No hay medicamentos programados para hoy."</em></div>
+<div class="warn">Si ocurre un error al cargar la información, se muestra "Error al cargar el panel de inicio" junto con un botón <strong>"Reintentar"</strong>.</div>
+</section>
+
+<!-- 4. ADULTOS MAYORES -->
+<section>
+<h1 class="section-title">4. Gestión de adultos mayores</h1>
+
+<h2>4.1 Lista de adultos mayores (<code>/adultos</code>)</h2>
+<p>Muestra el listado completo de personas registradas, con un contador "X persona(s) registrada(s)".</p>
+<ul>
+  <li><strong>Buscador:</strong> permite filtrar en tiempo real por nombre o número de cédula.</li>
+  <li><strong>Botón "+ Nuevo registro":</strong> abre el formulario para registrar una nueva persona.</li>
+</ul>
+<p>Cada persona se muestra en una tarjeta con: avatar con iniciales, nombre completo, cédula, edad calculada automáticamente, y etiquetas de estado ("Con historial" / "Sin historial", cantidad de medicamentos).</p>
+<p>Cada tarjeta tiene los botones <strong>"Ver"</strong> (abre el perfil completo) y <strong>"Eliminar"</strong>.</p>
+
+<div class="warn">
+<strong>Eliminar un registro es una acción irreversible.</strong> Al presionar "Eliminar" se solicita confirmación con el mensaje: <em>"¿Eliminar paciente? Esta acción eliminará a [nombre] junto con todo su historial y medicamentos. No se puede deshacer."</em> Se debe confirmar con el botón "Sí, eliminar".
+</div>
+
+<h2>4.2 Perfil del adulto mayor (<code>/adultos/[id]</code>)</h2>
+<p>Muestra toda la información de la persona: datos personales, dirección, familiar solicitante y contacto de emergencia.</p>
+<ul>
+  <li><strong>Botón "Editar":</strong> abre el formulario de edición de datos.</li>
+  <li><strong>Botón "Ver historial":</strong> lleva directamente al historial de salud de esta persona.</li>
+  <li><strong>Botón "Ver medicamentos":</strong> lleva directamente a los medicamentos de esta persona.</li>
+</ul>
+
+<h2>4.3 Registrar una nueva persona (<code>/adultos/nuevo</code>)</h2>
+<p>Formulario dividido en tres secciones:</p>
+
+<h3>Datos personales (obligatorios marcados con *)</h3>
+<table>
+<tr><th>Campo</th><th>Obligatorio</th><th>Detalle</th></tr>
+<tr><td>Nombre completo</td><td>Sí</td><td>Texto libre</td></tr>
+<tr><td>Número de cédula</td><td>Sí</td><td>Formato sugerido: 0-000-0000</td></tr>
+<tr><td>Fecha de nacimiento</td><td>Sí</td><td>Selector de calendario</td></tr>
+<tr><td>Sexo</td><td>Sí</td><td>Masculino / Femenino</td></tr>
+<tr><td>Estado civil</td><td>No</td><td>Soltero/a, Casado/a, Viudo/a, Divorciado/a</td></tr>
+<tr><td>Teléfono</td><td>No</td><td>Formato sugerido: 0000-0000</td></tr>
+<tr><td>Recibe pensión IVM</td><td>No</td><td>Sí / No</td></tr>
+<tr><td>Provincia, Cantón, Distrito, Barrio</td><td>No</td><td>Dirección de residencia</td></tr>
+</table>
+
+<h3>Familiar solicitante (opcional)</h3>
+<p>Nombre completo, cédula, teléfono y dirección del familiar que solicitó el ingreso.</p>
+
+<h3>Contacto de emergencia (opcional)</h3>
+<p>Nombre y teléfono de la persona a contactar en caso de emergencia. Existe la casilla <strong>"Es el mismo que el familiar solicitante"</strong>, que copia automáticamente esos datos.</p>
+
+<div class="step"><div class="num">1</div><div>Completá los campos obligatorios: nombre, cédula, fecha de nacimiento y sexo.</div></div>
+<div class="step"><div class="num">2</div><div>Completá, si corresponde, los datos adicionales de dirección, familiar solicitante y contacto de emergencia.</div></div>
+<div class="step"><div class="num">3</div><div>Hacé clic en <strong>"Guardar registro"</strong>.</div></div>
+
+<table>
+<tr><th>Situación</th><th>Mensaje</th></tr>
+<tr><td>Faltan campos obligatorios</td><td class="msg-err">"Los campos Nombre, Cédula, Fecha de nacimiento y Sexo son obligatorios."</td></tr>
+<tr><td>Registro exitoso</td><td class="msg-ok">"Registro guardado exitosamente."</td></tr>
+<tr><td>Error al guardar</td><td class="msg-err">"Error al guardar el registro." / "Error de conexión."</td></tr>
+</table>
+
+<div class="box">Si intentás salir del formulario con cambios sin guardar, el sistema pregunta: <em>"Cambios sin guardar. Tenés cambios sin guardar. Si salís ahora los vas a perder."</em> con las opciones "Quedarme" o "Salir sin guardar".</div>
+
+<h2>4.4 Editar una persona (<code>/adultos/[id]/editar</code>)</h2>
+<p>Mismo formulario que el registro nuevo, pero con los datos ya completados. Al guardar, el botón dice <strong>"Guardar cambios"</strong> y se muestra el mensaje <span class="msg-ok">"Registro actualizado exitosamente."</span></p>
+</section>
+
+<!-- 5. MEDICAMENTOS -->
+<section>
+<h1 class="section-title">5. Gestión de medicamentos</h1>
+<p>Pantalla <code>/medicamentos</code>. Permite registrar y controlar los medicamentos de cada persona con sus horarios y días de administración.</p>
+
+<h2>5.1 Seleccionar una persona</h2>
+<p>Usá el buscador <strong>"Seleccionar persona"</strong> para encontrar al paciente por nombre. Se puede navegar la lista con las flechas del teclado y confirmar con Enter.</p>
+
+<h2>5.2 Agregar un medicamento</h2>
+<div class="step"><div class="num">1</div><div>Con la persona seleccionada, hacé clic en <strong>"+ Agregar"</strong>.</div></div>
+<div class="step"><div class="num">2</div><div>Completá <strong>nombre del medicamento</strong> (obligatorio), <strong>dosis</strong> e <strong>indicaciones</strong> (opcionales, ej: "400mg", "Con agua").</div></div>
+<div class="step"><div class="num">3</div><div>Marcá los <strong>horarios de toma</strong> (al menos uno): Ayunas, Desayuno, Media mañana, Almuerzo, Merienda de tarde, Cena, Acostarse.</div></div>
+<div class="step"><div class="num">4</div><div>Elegí los <strong>días de la semana</strong>: "Todos los días" o "Específicos" (seleccionando manualmente lunes a domingo).</div></div>
+<div class="step"><div class="num">5</div><div>Hacé clic en <strong>"Agregar medicamento"</strong>.</div></div>
+
+<table>
+<tr><th>Situación</th><th>Mensaje</th></tr>
+<tr><td>Nombre vacío</td><td class="msg-err">"El nombre del medicamento es obligatorio."</td></tr>
+<tr><td>Sin días seleccionados</td><td class="msg-err">"Seleccioná al menos un día de la semana."</td></tr>
+<tr><td>Guardado exitoso</td><td class="msg-ok">"Medicamento agregado correctamente." / "Medicamento actualizado correctamente."</td></tr>
+</table>
+
+<h2>5.3 Editar o eliminar un medicamento</h2>
+<p>En la tabla de medicamentos de la persona seleccionada, cada fila tiene los botones <strong>"Editar"</strong> y <strong>"Eliminar"</strong>. Al eliminar se solicita confirmación y, al finalizar, se muestra <span class="msg-ok">"Medicamento eliminado correctamente."</span></p>
+
+<h2>5.4 Lectura de la tabla de medicamentos</h2>
+<p>Cada fila muestra el nombre y dosis del medicamento, las indicaciones, los días (si no son todos los días de la semana) y siete columnas con un check (✓) o un guion (—) según corresponda tomarlo en: Ayunas, Desayuno, Media mañana, Almuerzo, Merienda de tarde, Cena y Acostarse.</p>
+</section>
+
+<!-- 6. HISTORIAL -->
+<section>
+<h1 class="section-title">6. Historial de salud</h1>
+<p>Pantalla <code>/historial</code>. Permite consultar y editar la información médica de cada persona.</p>
+
+<h2>6.1 Consultar el historial</h2>
+<p>Seleccioná a la persona en el buscador. Se muestran cuatro bloques de información:</p>
+<table>
+<tr><th>Bloque</th><th>Contenido</th></tr>
+<tr><td>Padecimientos</td><td>Enfermedades o condiciones (ej. Hipertensión, Diabetes).</td></tr>
+<tr><td>Lesiones</td><td>Lesiones físicas relevantes (ej. Rodilla izquierda).</td></tr>
+<tr><td>Hábitos</td><td>Fuma / no fuma, consume licor / no consume, veces de ejercicio por semana.</td></tr>
+<tr><td>Operaciones</td><td>Cirugías u operaciones realizadas.</td></tr>
+</table>
+<p>Si la persona no tiene historial cargado, se muestra el mensaje: <em>"Sin historial registrado. No hay información de salud guardada para esta persona."</em></p>
+
+<h2>6.2 Editar el historial</h2>
+<div class="step"><div class="num">1</div><div>Con la persona seleccionada, hacé clic en <strong>"Editar historial"</strong>.</div></div>
+<div class="step"><div class="num">2</div><div>Completá los padecimientos y lesiones separando cada uno por comas.</div></div>
+<div class="step"><div class="num">3</div><div>Marcá las casillas "Fuma" y/o "Consume licor" si corresponde, e indicá las veces de ejercicio por semana (0 a 7).</div></div>
+<div class="step"><div class="num">4</div><div>Completá las operaciones realizadas, si las hay.</div></div>
+<div class="step"><div class="num">5</div><div>Hacé clic en <strong>"Guardar cambios"</strong>. El sistema confirma con <span class="msg-ok">"Historial actualizado correctamente."</span></div></div>
+
+<div class="box">Al igual que en el registro de adultos, si salís de la pantalla con cambios sin guardar, el sistema pedirá confirmación antes de continuar.</div>
+</section>
+
+<!-- 7. USUARIOS -->
+<section>
+<h1 class="section-title">7. Gestión de usuarios del sistema</h1>
+<p><strong>Disponible únicamente para usuarios con rol "Admin".</strong> Se accede desde el ícono de engranaje ⚙ ubicado en la esquina inferior izquierda del menú (o en la parte superior en la vista de celular).</p>
+
+<h2>7.1 Ver usuarios registrados</h2>
+<p>Se abre la ventana <strong>"Usuarios del sistema"</strong>, mostrando la lista de usuarios con su nombre, correo, rol, estado (Activo/Inactivo) y fecha del último acceso.</p>
+
+<h2>7.2 Crear un nuevo usuario</h2>
+<div class="step"><div class="num">1</div><div>Hacé clic en <strong>"+ Nuevo usuario"</strong>.</div></div>
+<div class="step"><div class="num">2</div><div>Completá nombre, apellidos, correo electrónico y una contraseña (mínimo 6 caracteres).</div></div>
+<div class="step"><div class="num">3</div><div>Seleccioná el rol: <strong>Admin</strong> o <strong>Colaborador</strong>.</div></div>
+<div class="step"><div class="num">4</div><div>Dejá marcada la casilla <strong>"Usuario activo"</strong> si el acceso debe quedar habilitado de inmediato.</div></div>
+<div class="step"><div class="num">5</div><div>Hacé clic en <strong>"Crear usuario"</strong>.</div></div>
+
+<h2>7.3 Editar un usuario existente</h2>
+<p>Hacé clic en "Editar" sobre el usuario deseado. Los mismos campos se pueden modificar; el campo de contraseña queda vacío por defecto ("Dejar en blanco para conservarla") y solo se actualiza si se completa un valor de al menos 6 caracteres.</p>
+
+<h2>7.4 Eliminar un usuario</h2>
+<p>Hacé clic en "Eliminar" y confirmá la acción. El botón queda deshabilitado si se trata del usuario actualmente conectado o del único usuario con rol Admin del sistema.</p>
+
+<table>
+<tr><th>Situación</th><th>Mensaje</th></tr>
+<tr><td>Faltan datos obligatorios</td><td class="msg-err">"Nombre, apellidos, correo y rol son obligatorios."</td></tr>
+<tr><td>Falta contraseña al crear</td><td class="msg-err">"La contraseña es obligatoria para crear un usuario."</td></tr>
+<tr><td>Contraseña muy corta</td><td class="msg-err">"La contraseña debe tener al menos 6 caracteres."</td></tr>
+<tr><td>Intento de dejar el sistema sin administradores</td><td class="msg-err">"Debe existir al menos un usuario con rol admin."</td></tr>
+<tr><td>Operación exitosa</td><td class="msg-ok">"Usuario creado exitosamente" / "Usuario actualizado exitosamente" / "Usuario eliminado exitosamente"</td></tr>
+</table>
+</section>
+
+<!-- 8. ROLES -->
+<section>
+<h1 class="section-title">8. Roles y permisos</h1>
+<table>
+<tr><th>Funcionalidad</th><th>Admin</th><th>Colaborador</th></tr>
+<tr><td>Panel de inicio</td><td>Sí</td><td>Sí</td></tr>
+<tr><td>Registrar / editar / eliminar adultos mayores</td><td>Sí</td><td>Sí</td></tr>
+<tr><td>Registrar / editar / eliminar medicamentos</td><td>Sí</td><td>Sí</td></tr>
+<tr><td>Consultar / editar historial de salud</td><td>Sí</td><td>Sí</td></tr>
+<tr><td>Administrar usuarios del sistema</td><td>Sí</td><td>No</td></tr>
+<tr><td>Cerrar sesión</td><td>Sí</td><td>Sí</td></tr>
+</table>
+<div class="box">El sistema exige que exista siempre al menos un usuario con rol <strong>Admin</strong> activo, para evitar que el centro quede sin acceso administrativo.</div>
+</section>
+
+<!-- 9. AUTOMATIZACIONES -->
+<section>
+<h1 class="section-title">9. Procesos automáticos del sistema</h1>
+
+<h2>9.1 Reporte diario de medicamentos por correo</h2>
+<p>Todos los días, el sistema envía automáticamente un correo electrónico con el listado completo de adultos mayores, sus medicamentos, dosis, horarios y días de administración, a la dirección de correo configurada para notificaciones.</p>
+
+<h2>9.2 Respaldo semanal de la información</h2>
+<p>Una vez por semana el sistema genera un respaldo (backup) de la información de adultos mayores, medicamentos, historial de salud y usuarios (sin contraseñas), almacenándolo de forma segura. Se conservan los respaldos de las últimas 6 semanas.</p>
+
+<h2>9.3 Actualización automática del panel de inicio</h2>
+<p>La tabla de medicamentos del día en el Panel de inicio se actualiza automáticamente cada 10 minutos, sin necesidad de recargar la página manualmente.</p>
+
+<div class="box">Estos procesos son completamente automáticos y no requieren ninguna acción por parte del personal del centro.</div>
+</section>
+
+<!-- 10. FAQ -->
+<section>
+<h1 class="section-title">10. Preguntas frecuentes y solución de problemas</h1>
+
+<h3>¿Qué hago si olvidé mi contraseña?</h3>
+<p>Hacé clic en "¿Olvidaste tu contraseña?" en la pantalla de inicio de sesión y seguí los pasos indicados en la sección 2.2 de este manual.</p>
+
+<h3>¿Qué hago si el sistema muestra "Error de conexión"?</h3>
+<p>Verificá tu conexión a internet e intentá nuevamente. Si el problema persiste, contactá al administrador del sistema.</p>
+
+<h3>¿Puedo recuperar un registro eliminado?</h3>
+<p>No. La eliminación de un adulto mayor, un medicamento o un usuario es una acción irreversible. Antes de eliminar, el sistema siempre solicita una confirmación explícita.</p>
+
+<h3>¿Qué pasa si intento salir de un formulario sin guardar los cambios?</h3>
+<p>El sistema te avisará con el mensaje "Cambios sin guardar" para que elijas entre continuar editando ("Quedarme") o descartar los cambios ("Salir sin guardar").</p>
+
+<h3>No veo el ícono de administración de usuarios</h3>
+<p>Ese ícono solo aparece para usuarios con rol <strong>Admin</strong>. Si necesitás realizar cambios de usuarios, solicitalo a un administrador del sistema.</p>
+
+<h3>¿Cómo cierro sesión de forma segura?</h3>
+<p>Hacé clic en "Salir" (menú lateral) o en "Cerrar sesión" (pie del menú), confirmá en la ventana emergente y el sistema te llevará nuevamente a la pantalla de inicio de sesión.</p>
+
+<div class="footer-note">
+Manual de Usuario — Sistema de Gestión del Centro Adulto Mayor San Juan Pablo II. Documento de referencia para el personal administrativo y colaboradores del centro.
+</div>
+</section>
+
+</body>
+</html>
