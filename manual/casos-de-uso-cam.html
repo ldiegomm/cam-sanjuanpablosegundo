@@ -156,68 +156,68 @@
     <div class="badge">CU</div>
     <h1>Casos de Uso del Sistema</h1>
     <p class="subtitle">Centro Adulto Mayor San Juan Pablo II</p>
-    <p class="muted">Documento funcional basado en la aplicacion web actual</p>
-    <p class="muted">Version 1.0 - Septiembre 2026</p>
+    <p class="muted">Documento funcional basado en la aplicación web actual</p>
+    <p class="muted">Versión 1.0 - Septiembre 2026</p>
   </div>
 
   <div class="toc">
-    <h2>Indice</h2>
+    <h2>Índice</h2>
     <ol>
       <li>Objetivo del documento</li>
       <li>Actores del sistema</li>
-      <li>Resumen del catalogo de casos de uso</li>
+      <li>Resumen del catálogo de casos de uso</li>
       <li>Casos de uso detallados</li>
       <li>Reglas generales del sistema</li>
     </ol>
   </div>
 
   <h2>1. Objetivo del documento</h2>
-  <p>Este documento describe los principales casos de uso del sistema del Centro Adulto Mayor San Juan Pablo II desde la perspectiva del usuario. Los flujos fueron derivados de las pantallas, validaciones, permisos y acciones disponibles actualmente en la aplicacion.</p>
+  <p>Este documento describe los principales casos de uso del sistema del Centro Adulto Mayor San Juan Pablo II desde la perspectiva del usuario. Los flujos fueron derivados de las pantallas, validaciones, permisos y acciones disponibles actualmente en la aplicación.</p>
 
   <div class="box">
-    Los casos de uso se centran en acciones de usuario final y administrador. Los procesos automaticos del sistema, como reportes diarios y respaldos semanales, no se modelan aqui como casos de uso de usuario porque no son disparados manualmente desde la interfaz.
+    Los casos de uso se centran en acciones de usuario final y administrador. Los procesos automáticos del sistema, como reportes diarios y respaldos semanales, no se modelan aquí como casos de uso de usuario porque no son disparados manualmente desde la interfaz.
   </div>
 
   <h2>2. Actores del sistema</h2>
   <table>
     <tr>
       <th>Actor</th>
-      <th>Descripcion</th>
+      <th>Descripción</th>
       <th>Capacidades principales</th>
     </tr>
     <tr>
       <td>Colaborador</td>
       <td>Usuario operativo del centro con acceso al sistema.</td>
-      <td>Iniciar sesion, consultar panel, gestionar adultos mayores, medicamentos e historial de salud.</td>
+      <td>Iniciar sesión, consultar panel, gestionar adultos mayores, medicamentos e historial de salud.</td>
     </tr>
     <tr>
       <td>Administrador</td>
       <td>Usuario con acceso completo a funciones operativas y administrativas.</td>
-      <td>Todas las capacidades del colaborador mas la administracion de usuarios y de notificaciones del sistema.</td>
+      <td>Todas las capacidades del colaborador más la administración de usuarios y de notificaciones del sistema.</td>
     </tr>
     <tr>
       <td>Sistema</td>
-      <td>Aplicacion web y servicios backend.</td>
-      <td>Validar credenciales, guardar informacion, controlar permisos y mostrar mensajes de confirmacion o error.</td>
+      <td>Aplicación web y servicios backend.</td>
+      <td>Validar credenciales, guardar información, controlar permisos y mostrar mensajes de confirmación o error.</td>
     </tr>
   </table>
 
-  <h2>3. Resumen del catalogo de casos de uso</h2>
+  <h2>3. Resumen del catálogo de casos de uso</h2>
   <div class="grid">
     <div class="card">
       <div class="muted">Casos operativos</div>
       <div class="metric">8</div>
-      <div>Gestion diaria de pacientes, medicamentos e historial.</div>
+      <div>Gestión diaria de pacientes, medicamentos e historial.</div>
     </div>
     <div class="card">
       <div class="muted">Casos de acceso</div>
       <div class="metric">3</div>
-      <div>Ingreso, recuperacion de contrasena y cierre de sesion.</div>
+      <div>Ingreso, recuperación de contraseña y cierre de sesión.</div>
     </div>
     <div class="card">
       <div class="muted">Casos administrativos</div>
       <div class="metric">2</div>
-      <div>Usuarios y configuracion de notificaciones por rol Admin.</div>
+      <div>Usuarios y configuración de notificaciones por rol Admin.</div>
     </div>
   </div>
 
@@ -227,9 +227,9 @@
       <th>Nombre del caso de uso</th>
       <th>Actor principal</th>
     </tr>
-    <tr><td>CU-01</td><td>Iniciar sesion</td><td>Colaborador / Administrador</td></tr>
-    <tr><td>CU-02</td><td>Recuperar contrasena</td><td>Colaborador / Administrador</td></tr>
-    <tr><td>CU-03</td><td>Cerrar sesion</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-01</td><td>Iniciar sesión</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-02</td><td>Recuperar contraseña</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-03</td><td>Cerrar sesión</td><td>Colaborador / Administrador</td></tr>
     <tr><td>CU-04</td><td>Consultar panel de inicio</td><td>Colaborador / Administrador</td></tr>
     <tr><td>CU-05</td><td>Registrar adulto mayor</td><td>Colaborador / Administrador</td></tr>
     <tr><td>CU-06</td><td>Consultar y editar perfil de adulto mayor</td><td>Colaborador / Administrador</td></tr>
@@ -239,7 +239,7 @@
     <tr><td>CU-10</td><td>Configurar notificaciones de medicamentos</td><td>Administrador</td></tr>
     <tr><td>CU-11</td><td>Administrar usuarios del sistema</td><td>Administrador</td></tr>
     <tr><td>CU-12</td><td>Buscar y seleccionar pacientes</td><td>Colaborador / Administrador</td></tr>
-    <tr><td>CU-13</td><td>Navegar entre modulos con control de cambios sin guardar</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-13</td><td>Navegar entre módulos con control de cambios sin guardar</td><td>Colaborador / Administrador</td></tr>
   </table>
 
   <div class="section-break"></div>
@@ -247,96 +247,96 @@
   <h2>4. Casos de uso detallados</h2>
 
   <div class="use-case">
-    <h3>CU-01. Iniciar sesion</h3>
+    <h3>CU-01. Iniciar sesión</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Acceder al sistema con credenciales validas.</p>
-    <p><span class="label">Precondiciones:</span> El usuario posee correo y contrasena registrados y se encuentra activo.</p>
-    <p><span class="label">Disparador:</span> El usuario abre la pantalla de login y presiona <strong>"Iniciar sesion"</strong>.</p>
+    <p><span class="label">Objetivo:</span> Acceder al sistema con credenciales válidas.</p>
+    <p><span class="label">Precondiciones:</span> El usuario posee correo y contraseña registrados y se encuentra activo.</p>
+    <p><span class="label">Disparador:</span> El usuario abre la pantalla de login y presiona <strong>"Iniciar sesión"</strong>.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El usuario ingresa su correo electronico.</li>
-      <li>El usuario ingresa su contrasena.</li>
-      <li>El sistema valida formato basico y credenciales.</li>
-      <li>El sistema crea la sesion y redirige al panel de inicio.</li>
+      <li>El usuario ingresa su correo electrónico.</li>
+      <li>El usuario ingresa su contraseña.</li>
+      <li>El sistema valida formato básico y credenciales.</li>
+      <li>El sistema crea la sesión y redirige al panel de inicio.</li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
-      <li>Si el correo no es valido, el sistema muestra: <em>"Ingresá un correo electrónico válido."</em></li>
-      <li>Si el correo o la contrasena son incorrectos, el sistema muestra: <em>"Correo o contraseña incorrectos. Verificá tus datos e intentá de nuevo."</em></li>
+      <li>Si el correo no es válido, el sistema muestra: <em>"Ingresá un correo electrónico válido."</em></li>
+      <li>Si el correo o la contraseña son incorrectos, el sistema muestra: <em>"Correo o contraseña incorrectos. Verificá tus datos e intentá de nuevo."</em></li>
       <li>Si ocurre un problema de red, el sistema muestra: <em>"Error de conexión. Verificá tu conexión a internet e intentá de nuevo."</em></li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> El usuario autenticado queda en la pantalla <code>/home</code> con sesion activa.</p>
+    <p><span class="label">Postcondiciones:</span> El usuario autenticado queda en la pantalla <code>/home</code> con sesión activa.</p>
   </div>
 
   <div class="use-case">
-    <h3>CU-02. Recuperar contrasena</h3>
+    <h3>CU-02. Recuperar contraseña</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Solicitar un enlace para restablecer la contrasena.</p>
+    <p><span class="label">Objetivo:</span> Solicitar un enlace para restablecer la contraseña.</p>
     <p><span class="label">Precondiciones:</span> El usuario conoce el correo con el que fue registrado.</p>
     <p><span class="label">Disparador:</span> El usuario selecciona <strong>"¿Olvidaste tu contraseña?"</strong>.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El usuario ingresa su correo en la pantalla de recuperacion.</li>
+      <li>El usuario ingresa su correo en la pantalla de recuperación.</li>
       <li>El usuario presiona <strong>"Enviar link de recuperación"</strong>.</li>
-      <li>El sistema procesa la solicitud y muestra la pantalla de confirmacion.</li>
+      <li>El sistema procesa la solicitud y muestra la pantalla de confirmación.</li>
       <li>El usuario revisa su correo y usa el enlace recibido.</li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
-      <li>Si hay error de conexion, se informa al usuario.</li>
-      <li>Si el enlace es invalido o expira, el flujo debe reiniciarse desde la solicitud de recuperacion.</li>
+      <li>Si hay error de conexión, se informa al usuario.</li>
+      <li>Si el enlace es inválido o expira, el flujo debe reiniciarse desde la solicitud de recuperación.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> El sistema deja al usuario listo para definir una nueva contrasena.</p>
+    <p><span class="label">Postcondiciones:</span> El sistema deja al usuario listo para definir una nueva contraseña.</p>
   </div>
 
   <div class="use-case">
-    <h3>CU-03. Cerrar sesion</h3>
+    <h3>CU-03. Cerrar sesión</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Finalizar la sesion activa de forma segura.</p>
+    <p><span class="label">Objetivo:</span> Finalizar la sesión activa de forma segura.</p>
     <p><span class="label">Precondiciones:</span> El usuario se encuentra autenticado.</p>
     <p><span class="label">Disparador:</span> El usuario presiona <strong>"Salir"</strong> o <strong>"Cerrar sesión"</strong>.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema pregunta: <em>"¿Estás seguro que querés cerrar sesión?"</em></li>
-      <li>El usuario confirma la accion.</li>
-      <li>El sistema elimina la sesion y redirige al login.</li>
+      <li>El usuario confirma la acción.</li>
+      <li>El sistema elimina la sesión y redirige al login.</li>
       <li>El sistema muestra el mensaje <em>"Sesión cerrada correctamente."</em></li>
     </ol>
-    <p><span class="label">Flujos alternos:</span> Si existen cambios sin guardar en formularios, el sistema primero solicita confirmacion para descartar cambios.</p>
-    <p><span class="label">Postcondiciones:</span> La sesion queda cerrada y el usuario vuelve a la pantalla de acceso.</p>
+    <p><span class="label">Flujos alternos:</span> Si existen cambios sin guardar en formularios, el sistema primero solicita confirmación para descartar cambios.</p>
+    <p><span class="label">Postcondiciones:</span> La sesión queda cerrada y el usuario vuelve a la pantalla de acceso.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-04. Consultar panel de inicio</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Visualizar el resumen diario del centro y los medicamentos programados.</p>
-    <p><span class="label">Precondiciones:</span> El usuario inicio sesion correctamente.</p>
+    <p><span class="label">Precondiciones:</span> El usuario inició sesión correctamente.</p>
     <p><span class="label">Disparador:</span> El sistema redirige a <code>/home</code> o el usuario selecciona <strong>"Inicio"</strong>.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema carga el total de personas registradas.</li>
       <li>El sistema calcula quienes tienen medicamentos hoy.</li>
       <li>El sistema muestra el total de dosis programadas.</li>
-      <li>El sistema lista los medicamentos del dia por paciente y momento de toma.</li>
+      <li>El sistema lista los medicamentos del día por paciente y momento de toma.</li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
-      <li>Si no hay medicamentos para el dia, se muestra: <em>"No hay medicamentos programados para hoy."</em></li>
-      <li>Si la carga falla, aparece una pantalla de error con accion <strong>"Reintentar"</strong>.</li>
+      <li>Si no hay medicamentos para el día, se muestra: <em>"No hay medicamentos programados para hoy."</em></li>
+      <li>Si la carga falla, aparece una pantalla de error con acción <strong>"Reintentar"</strong>.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> El usuario obtiene un panorama actualizado del dia.</p>
+    <p><span class="label">Postcondiciones:</span> El usuario obtiene un panorama actualizado del día.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-05. Registrar adulto mayor</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Crear un nuevo registro de adulto mayor en el sistema.</p>
-    <p><span class="label">Precondiciones:</span> El usuario tiene sesion activa y permisos operativos.</p>
-    <p><span class="label">Disparador:</span> El usuario presiona <strong>"+ Nuevo registro"</strong> en el modulo Adultos.</p>
+    <p><span class="label">Precondiciones:</span> El usuario tiene sesión activa y permisos operativos.</p>
+    <p><span class="label">Disparador:</span> El usuario presiona <strong>"+ Nuevo registro"</strong> en el módulo Adultos.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El usuario completa nombre, cedula, fecha de nacimiento y sexo.</li>
-      <li>Opcionalmente agrega telefono, estado civil, pension IVM, direccion y datos de contacto.</li>
+      <li>El usuario completa nombre, cédula, fecha de nacimiento y sexo.</li>
+      <li>Opcionalmente agrega teléfono, estado civil, pensión IVM, dirección y datos de contacto.</li>
       <li>El usuario presiona <strong>"Guardar registro"</strong>.</li>
       <li>El sistema valida los datos y almacena el nuevo registro.</li>
       <li>El sistema muestra: <em>"Registro guardado exitosamente."</em> y redirige al listado.</li>
@@ -344,7 +344,7 @@
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
       <li>Si faltan campos obligatorios, el sistema informa: <em>"Los campos Nombre, Cédula, Fecha de nacimiento y Sexo son obligatorios."</em></li>
-      <li>Si falla la persistencia, se muestra un error de guardado o de conexion.</li>
+      <li>Si falla la persistencia, se muestra un error de guardado o de conexión.</li>
     </ul>
     <p><span class="label">Postcondiciones:</span> Existe un nuevo adulto mayor disponible para consulta, historial y medicamentos.</p>
   </div>
@@ -352,13 +352,13 @@
   <div class="use-case">
     <h3>CU-06. Consultar y editar perfil de adulto mayor</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Revisar o actualizar la informacion de un paciente.</p>
+    <p><span class="label">Objetivo:</span> Revisar o actualizar la información de un paciente.</p>
     <p><span class="label">Precondiciones:</span> El paciente existe en el sistema.</p>
     <p><span class="label">Disparador:</span> El usuario selecciona <strong>"Ver"</strong> en la lista y luego <strong>"Editar"</strong> si desea modificar datos.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema muestra el perfil completo del paciente.</li>
-      <li>El usuario revisa datos personales, direccion, familiar solicitante y contacto de emergencia.</li>
+      <li>El usuario revisa datos personales, dirección, familiar solicitante y contacto de emergencia.</li>
       <li>Si desea editar, abre el formulario correspondiente.</li>
       <li>Modifica los campos necesarios y presiona <strong>"Guardar cambios"</strong>.</li>
       <li>El sistema confirma con <em>"Registro actualizado exitosamente."</em></li>
@@ -368,73 +368,73 @@
       <li>Si el paciente fue eliminado o no existe, se muestra el estado <em>"Paciente no encontrado"</em>.</li>
       <li>Si el usuario abandona el formulario con cambios pendientes, el sistema muestra el modal de cambios sin guardar.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> La informacion del paciente queda actualizada si el guardado fue exitoso.</p>
+    <p><span class="label">Postcondiciones:</span> La información del paciente queda actualizada si el guardado fue exitoso.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-07. Eliminar adulto mayor</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Eliminar un paciente junto con su historial y medicamentos asociados.</p>
-    <p><span class="label">Precondiciones:</span> El paciente existe y el usuario confirma la accion.</p>
+    <p><span class="label">Precondiciones:</span> El paciente existe y el usuario confirma la acción.</p>
     <p><span class="label">Disparador:</span> El usuario presiona <strong>"Eliminar"</strong> en la lista de adultos.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El sistema muestra una advertencia de eliminacion irreversible.</li>
+      <li>El sistema muestra una advertencia de eliminación irreversible.</li>
       <li>El usuario selecciona <strong>"Sí, eliminar"</strong>.</li>
       <li>El sistema elimina el registro y sus dependencias.</li>
       <li>El sistema informa: <em>"[nombre] fue eliminado correctamente."</em></li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
-      <li>Si el usuario cancela, no se realiza ninguna accion.</li>
-      <li>Si falla la operacion, se muestra un mensaje de error y el registro permanece.</li>
+      <li>Si el usuario cancela, no se realiza ninguna acción.</li>
+      <li>Si falla la operación, se muestra un mensaje de error y el registro permanece.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> El paciente deja de estar disponible en el sistema si la eliminacion fue exitosa.</p>
+    <p><span class="label">Postcondiciones:</span> El paciente deja de estar disponible en el sistema si la eliminación fue exitosa.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-08. Gestionar medicamentos</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Registrar, consultar, editar o eliminar medicamentos asociados a un paciente.</p>
-    <p><span class="label">Precondiciones:</span> El usuario selecciono previamente a un adulto mayor.</p>
-    <p><span class="label">Disparador:</span> El usuario entra al modulo <strong>"Medicamentos"</strong> y elige un paciente.</p>
+    <p><span class="label">Precondiciones:</span> El usuario seleccionó previamente a un adulto mayor.</p>
+    <p><span class="label">Disparador:</span> El usuario entra al módulo <strong>"Medicamentos"</strong> y elige un paciente.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El usuario busca y selecciona una persona.</li>
       <li>El sistema muestra sus prescripciones existentes.</li>
-      <li>El usuario puede agregar un medicamento con nombre, dosis, indicaciones, horarios y dias.</li>
+      <li>El usuario puede agregar un medicamento con nombre, dosis, indicaciones, horarios y días.</li>
       <li>El usuario puede editar o eliminar un medicamento existente.</li>
-      <li>El sistema confirma cada alta, actualizacion o eliminacion.</li>
+      <li>El sistema confirma cada alta, actualización o eliminación.</li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
       <li>Si no hay persona seleccionada, el sistema no permite agregar medicamentos.</li>
       <li>Si falta el nombre del medicamento, el sistema rechaza el formulario.</li>
-      <li>Si no se define una combinacion valida de dias, el sistema solicita corregirla.</li>
+      <li>Si no se define una combinación válida de días, el sistema solicita corregirla.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> La pauta de medicacion del paciente queda actualizada.</p>
+    <p><span class="label">Postcondiciones:</span> La pauta de medicación del paciente queda actualizada.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-09. Consultar y actualizar historial de salud</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Mantener la informacion clinica basica de cada adulto mayor.</p>
-    <p><span class="label">Precondiciones:</span> Existe un paciente seleccionado en el modulo Historial.</p>
-    <p><span class="label">Disparador:</span> El usuario accede al modulo <strong>"Historial"</strong> y selecciona una persona.</p>
+    <p><span class="label">Objetivo:</span> Mantener la información clínica básica de cada adulto mayor.</p>
+    <p><span class="label">Precondiciones:</span> Existe un paciente seleccionado en el módulo Historial.</p>
+    <p><span class="label">Disparador:</span> El usuario accede al módulo <strong>"Historial"</strong> y selecciona una persona.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El sistema muestra padecimientos, lesiones, habitos y operaciones del paciente.</li>
+      <li>El sistema muestra padecimientos, lesiones, hábitos y operaciones del paciente.</li>
       <li>El usuario selecciona <strong>"Editar historial"</strong>.</li>
-      <li>El usuario modifica la informacion requerida.</li>
+      <li>El usuario modifica la información requerida.</li>
       <li>El usuario presiona <strong>"Guardar cambios"</strong>.</li>
       <li>El sistema confirma con <em>"Historial actualizado correctamente."</em></li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
-      <li>Si no existe historial previo, el sistema muestra un estado vacio y permite comenzar la carga.</li>
+      <li>Si no existe historial previo, el sistema muestra un estado vacío y permite comenzar la carga.</li>
       <li>Si el usuario intenta salir con cambios pendientes, se activa el control de cambios sin guardar.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> El historial del paciente refleja la ultima informacion guardada.</p>
+    <p><span class="label">Postcondiciones:</span> El historial del paciente refleja la última información guardada.</p>
   </div>
 
   <div class="use-case">
@@ -442,7 +442,7 @@
     <p><span class="label">Actor principal:</span> Administrador</p>
     <p><span class="label">Objetivo:</span> Activar, apagar o restringir por días el envío del correo automático de medicamentos.</p>
     <p><span class="label">Precondiciones:</span> El usuario autenticado posee rol <code>admin</code>.</p>
-    <p><span class="label">Disparador:</span> El administrador ingresa al modulo <strong>"Notificaciones"</strong> desde el menú lateral.</p>
+    <p><span class="label">Disparador:</span> El administrador ingresa al módulo <strong>"Notificaciones"</strong> desde el menú lateral.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema carga la configuración actual de notificaciones.</li>
@@ -465,76 +465,76 @@
     <p><span class="label">Actor principal:</span> Administrador</p>
     <p><span class="label">Objetivo:</span> Crear, editar, activar, desactivar o eliminar cuentas de acceso.</p>
     <p><span class="label">Precondiciones:</span> El usuario autenticado posee rol <code>admin</code>.</p>
-    <p><span class="label">Disparador:</span> El administrador presiona el icono de configuracion para abrir <strong>"Usuarios del sistema"</strong>.</p>
+    <p><span class="label">Disparador:</span> El administrador presiona el icono de configuración para abrir <strong>"Usuarios del sistema"</strong>.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema muestra la lista de usuarios registrados.</li>
       <li>El administrador selecciona <strong>"+ Nuevo usuario"</strong> o <strong>"Editar"</strong>.</li>
       <li>Completa nombre, apellidos, correo, rol y estado.</li>
-      <li>Si se trata de un alta, define una contrasena inicial.</li>
-      <li>El sistema guarda la informacion y confirma la accion.</li>
+      <li>Si se trata de un alta, define una contraseña inicial.</li>
+      <li>El sistema guarda la información y confirma la acción.</li>
     </ol>
     <p><span class="label">Flujos alternos:</span></p>
     <ul>
       <li>Si faltan datos requeridos, el sistema bloquea el guardado.</li>
-      <li>Si la contrasena es demasiado corta, se informa al administrador.</li>
-      <li>El sistema impide dejar la aplicacion sin al menos un usuario administrador.</li>
-      <li>El usuario autenticado no puede eliminarse a si mismo desde el modal.</li>
+      <li>Si la contraseña es demasiado corta, se informa al administrador.</li>
+      <li>El sistema impide dejar la aplicación sin al menos un usuario administrador.</li>
+      <li>El usuario autenticado no puede eliminarse a sí mismo desde el modal.</li>
     </ul>
-    <p><span class="label">Postcondiciones:</span> La configuracion de accesos queda actualizada segun la operacion ejecutada.</p>
+    <p><span class="label">Postcondiciones:</span> La configuración de accesos queda actualizada según la operación ejecutada.</p>
   </div>
 
   <div class="use-case">
     <h3>CU-12. Buscar y seleccionar pacientes</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Localizar rapidamente a un adulto mayor para ver o modificar su informacion.</p>
+    <p><span class="label">Objetivo:</span> Localizar rápidamente a un adulto mayor para ver o modificar su información.</p>
     <p><span class="label">Precondiciones:</span> Existen pacientes cargados en el sistema.</p>
     <p><span class="label">Disparador:</span> El usuario usa el buscador de Adultos, Historial o Medicamentos.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
-      <li>El usuario escribe parte del nombre o la cedula.</li>
+      <li>El usuario escribe parte del nombre o la cédula.</li>
       <li>El sistema filtra o despliega coincidencias en tiempo real.</li>
       <li>El usuario selecciona el paciente deseado.</li>
-      <li>El sistema carga el contexto asociado al modulo actual.</li>
+      <li>El sistema carga el contexto asociado al módulo actual.</li>
     </ol>
-    <p><span class="label">Flujos alternos:</span> Si no existen coincidencias, se muestra un estado vacio o un mensaje equivalente a que no hay resultados.</p>
-    <p><span class="label">Postcondiciones:</span> El paciente queda seleccionado para la siguiente operacion.</p>
+    <p><span class="label">Flujos alternos:</span> Si no existen coincidencias, se muestra un estado vacío o un mensaje equivalente a que no hay resultados.</p>
+    <p><span class="label">Postcondiciones:</span> El paciente queda seleccionado para la siguiente operación.</p>
   </div>
 
   <div class="use-case">
-    <h3>CU-13. Navegar entre modulos con control de cambios sin guardar</h3>
+    <h3>CU-13. Navegar entre módulos con control de cambios sin guardar</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
-    <p><span class="label">Objetivo:</span> Cambiar de pantalla sin perder informacion por accidente.</p>
+    <p><span class="label">Objetivo:</span> Cambiar de pantalla sin perder información por accidente.</p>
     <p><span class="label">Precondiciones:</span> El usuario tiene un formulario de adultos o historial con cambios pendientes.</p>
-    <p><span class="label">Disparador:</span> El usuario intenta volver, cambiar de modulo o cerrar sesion.</p>
+    <p><span class="label">Disparador:</span> El usuario intenta volver, cambiar de módulo o cerrar sesión.</p>
     <p><span class="label">Flujo principal:</span></p>
     <ol>
       <li>El sistema detecta que hay cambios sin guardar.</li>
       <li>El sistema muestra el modal <em>"Cambios sin guardar"</em>.</li>
       <li>El usuario elige <strong>"Quedarme"</strong> o <strong>"Salir sin guardar"</strong>.</li>
-      <li>Segun la eleccion, el sistema conserva la edicion actual o continua la navegacion solicitada.</li>
+      <li>Según la elección, el sistema conserva la edición actual o continúa la navegación solicitada.</li>
     </ol>
-    <p><span class="label">Flujos alternos:</span> Si no existen cambios pendientes, la navegacion ocurre de inmediato sin modal.</p>
+    <p><span class="label">Flujos alternos:</span> Si no existen cambios pendientes, la navegación ocurre de inmediato sin modal.</p>
     <p><span class="label">Postcondiciones:</span> El usuario conserva el control sobre sus cambios antes de abandonar la pantalla actual.</p>
   </div>
 
   <h2>5. Reglas generales del sistema</h2>
   <ul>
-    <li>Solo usuarios autenticados pueden ingresar a los modulos principales.</li>
+    <li>Solo usuarios autenticados pueden ingresar a los módulos principales.</li>
     <li>Solo los administradores pueden gestionar usuarios y la configuración de notificaciones.</li>
-    <li>La eliminacion de adultos mayores y usuarios requiere confirmacion explicita.</li>
-    <li>La sesion se maneja mediante cookie segura y el sistema actualiza el ultimo acceso al iniciar sesion.</li>
-    <li>Los formularios criticos detectan cambios sin guardar para evitar perdida accidental de informacion.</li>
-    <li>El panel de inicio se actualiza automaticamente y usa la logica diaria de medicamentos del sistema.</li>
-    <li>Las notificaciones de medicamentos pueden apagarse completamente o limitarse a dias especificos.</li>
+    <li>La eliminación de adultos mayores y usuarios requiere confirmación explícita.</li>
+    <li>La sesión se maneja mediante cookie segura y el sistema actualiza el último acceso al iniciar sesión.</li>
+    <li>Los formularios críticos detectan cambios sin guardar para evitar pérdida accidental de información.</li>
+    <li>El panel de inicio se actualiza automáticamente y usa la lógica diaria de medicamentos del sistema.</li>
+    <li>Las notificaciones de medicamentos pueden apagarse completamente o limitarse a días específicos.</li>
   </ul>
 
   <div class="box warn">
-    Si mas adelante se agregan reportes manuales, exportaciones, auditoria o aprobaciones de cambios, conviene ampliar este catalogo con nuevos casos de uso en lugar de mezclar esos flujos dentro de los ya existentes.
+    Si más adelante se agregan reportes manuales, exportaciones, auditoría o aprobaciones de cambios, conviene ampliar este catálogo con nuevos casos de uso en lugar de mezclar esos flujos dentro de los ya existentes.
   </div>
 
   <div class="footer">
-    Documento de casos de uso generado a partir de la aplicacion CAM San Juan Pablo II y su comportamiento actual en interfaz, autenticacion, permisos y formularios.
+    Documento de casos de uso generado a partir de la aplicación CAM San Juan Pablo II y su comportamiento actual en interfaz, autenticación, permisos y formularios.
   </div>
 </body>
 </html>

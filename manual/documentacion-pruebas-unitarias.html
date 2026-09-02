@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Documentacion de Pruebas Unitarias - CAM San Juan Pablo II</title>
+<title>Documentación de Pruebas Unitarias - CAM San Juan Pablo II</title>
 <style>
   @page {
     size: A4;
@@ -135,14 +135,14 @@
 <body>
   <div class="cover">
     <div class="badge">UT</div>
-    <h1>Documentacion de Pruebas Unitarias</h1>
+    <h1>Documentación de Pruebas Unitarias</h1>
     <p class="subtitle">Centro Adulto Mayor San Juan Pablo II</p>
     <p class="muted">Proyecto Next.js con Jest y React Testing Library</p>
     <p class="muted">Generado el 02/09/2026</p>
   </div>
 
   <h2>1. Resumen ejecutivo</h2>
-  <p>Esta documentacion describe el estado actual de las pruebas unitarias del proyecto, las areas cubiertas, la configuracion de ejecucion, los mocks utilizados y las brechas de cobertura detectadas al momento de generar el reporte.</p>
+  <p>Esta documentación describe el estado actual de las pruebas unitarias del proyecto, las áreas cubiertas, la configuración de ejecución, los mocks utilizados y las brechas de cobertura detectadas al momento de generar el reporte.</p>
 
   <div class="grid">
     <div class="card">
@@ -158,15 +158,15 @@
     <div class="card">
       <div class="muted">Tiempo total</div>
       <div class="metric">6.31 s</div>
-      <div>Ejecucion con <code>--runInBand</code>.</div>
+      <div>Ejecución con <code>--runInBand</code>.</div>
     </div>
   </div>
 
   <div class="box">
-    El estado funcional de la suite es bueno: todas las pruebas automatizadas pasan. El principal punto debil no es estabilidad, sino alcance: la cobertura total es baja porque gran parte del frontend y varias rutas API aun no tienen pruebas directas.
+    El estado funcional de la suite es bueno: todas las pruebas automatizadas pasan. El principal punto débil no es estabilidad, sino alcance: la cobertura total es baja porque gran parte del frontend y varias rutas API aún no tienen pruebas directas.
   </div>
 
-  <h2>2. Stack y configuracion</h2>
+  <h2>2. Stack y configuración</h2>
   <ul>
     <li>Framework de pruebas: <code>jest</code></li>
     <li>Preset TypeScript: <code>ts-jest</code></li>
@@ -178,7 +178,7 @@
 
   <table>
     <tr>
-      <th>Configuracion</th>
+      <th>Configuración</th>
       <th>Valor actual</th>
       <th>Impacto</th>
     </tr>
@@ -203,9 +203,9 @@
       <td>Centraliza polyfills y mocks globales.</td>
     </tr>
     <tr>
-      <td>Patron de pruebas</td>
+      <td>Patrón de pruebas</td>
       <td><code>*.test.ts</code> y <code>*.test.tsx</code></td>
-      <td>Detecta pruebas junto al codigo fuente.</td>
+      <td>Detecta pruebas junto al código fuente.</td>
     </tr>
   </table>
 
@@ -245,43 +245,43 @@
       <td>app/(main)/components/ErrorState.test.tsx</td>
       <td>UI</td>
       <td>10</td>
-      <td>Render, iconos, descripcion, boton de accion y estilos.</td>
+      <td>Render, iconos, descripción, botón de acción y estilos.</td>
     </tr>
     <tr>
       <td>app/(main)/components/useEscapeKey.test.ts</td>
       <td>Hook</td>
       <td>6</td>
-      <td>Escape, activacion, limpieza y rerender.</td>
+      <td>Escape, activación, limpieza y rerender.</td>
     </tr>
     <tr>
       <td>app/api/adultos/route.test.ts</td>
       <td>API</td>
       <td>8</td>
-      <td>Autenticacion, listado, agrupacion de historial y alta de adulto.</td>
+      <td>Autenticación, listado, agrupación de historial y alta de adulto.</td>
     </tr>
     <tr>
       <td>app/api/auth/login/route.test.ts</td>
       <td>API</td>
       <td>9</td>
-      <td>Login, validaciones, cookie de sesion y ultimo acceso.</td>
+      <td>Login, validaciones, cookie de sesión y último acceso.</td>
     </tr>
     <tr>
       <td>app/api/configuracion-notificaciones/route.test.ts</td>
       <td>API</td>
       <td>5</td>
-      <td>Lectura de configuracion, permisos admin, validacion y apagado de notificaciones.</td>
+      <td>Lectura de configuración, permisos admin, validación y apagado de notificaciones.</td>
     </tr>
     <tr>
       <td>app/api/emails/reporte-medicamentos/route.test.ts</td>
       <td>API</td>
       <td>2</td>
-      <td>Token cron y omision del envio cuando las notificaciones estan desactivadas.</td>
+      <td>Token cron y omisión del envío cuando las notificaciones están desactivadas.</td>
     </tr>
     <tr>
       <td>app/api/medicamentos/route.test.ts</td>
       <td>API</td>
       <td>12</td>
-      <td>Lectura, validaciones y creacion de prescripciones.</td>
+      <td>Lectura, validaciones y creación de prescripciones.</td>
     </tr>
     <tr>
       <td>BD/Acceso.test.ts</td>
@@ -293,22 +293,22 @@
       <td>lib/auth.test.ts</td>
       <td>Utilidad</td>
       <td>7</td>
-      <td>Lectura de sesion y guard de autenticacion.</td>
+      <td>Lectura de sesión y guard de autenticación.</td>
     </tr>
     <tr>
       <td>lib/userRoles.test.ts</td>
       <td>Utilidad</td>
       <td>14</td>
-      <td>Normalizacion de roles y valores invalidos.</td>
+      <td>Normalización de roles y valores inválidos.</td>
     </tr>
   </table>
 
   <h2>5. Cobertura actual</h2>
-  <p>La cobertura fue regenerada durante la preparacion de este documento. El resumen general es el siguiente:</p>
+  <p>La cobertura fue regenerada durante la preparación de este documento. El resumen general es el siguiente:</p>
 
   <table>
     <tr>
-      <th>Metric</th>
+      <th>Métrica</th>
       <th>Valor</th>
       <th>Lectura</th>
     </tr>
@@ -320,7 +320,7 @@
     <tr>
       <td>Branches</td>
       <td>73.62%</td>
-      <td>Razonable dentro del codigo que si esta siendo ejercitado.</td>
+      <td>Razonable dentro del código que sí está siendo ejercitado.</td>
     </tr>
     <tr>
       <td>Functions</td>
@@ -415,17 +415,17 @@
     </tr>
   </table>
 
-  <h3>Areas sin cobertura relevante</h3>
+  <h3>Áreas sin cobertura relevante</h3>
   <ul>
     <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, notificaciones, forgot-password y reset-password.</li>
-    <li>Layouts de aplicacion y comportamiento de navegacion.</li>
-    <li>Componente grande de administracion: <code>UserManagementModal.tsx</code>.</li>
-    <li>Rutas API aun no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
+    <li>Layouts de aplicación y comportamiento de navegación.</li>
+    <li>Componente grande de administración: <code>UserManagementModal.tsx</code>.</li>
+    <li>Rutas API aún no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
     <li>Utilidades no cubiertas: <code>fecha.ts</code>, <code>supabase.ts</code> y <code>EnumeradoSPs.ts</code>.</li>
   </ul>
 
   <div class="box warn">
-    La cifra global de cobertura puede parecer peor de lo que realmente esta el nucleo probado, porque <code>collectCoverageFrom</code> incluye una porcion grande del proyecto que hoy no tiene suite dedicada. El problema no es que los tests actuales sean malos; es que faltan mas pruebas sobre interfaces y rutas secundarias.
+    La cifra global de cobertura puede parecer peor de lo que realmente está el núcleo probado, porque <code>collectCoverageFrom</code> incluye una porción grande del proyecto que hoy no tiene suite dedicada. El problema no es que los tests actuales sean malos; es que faltan más pruebas sobre interfaces y rutas secundarias.
   </div>
 
   <div class="page-break"></div>
@@ -434,104 +434,104 @@
 
   <h3>6.1 ErrorState.test.tsx</h3>
   <ul>
-    <li>Verifica render del titulo.</li>
+    <li>Verifica render del título.</li>
     <li>Comprueba icono por defecto y personalizado.</li>
-    <li>Valida presencia y ausencia de descripcion.</li>
-    <li>Valida que el boton solo aparezca si existen <code>actionLabel</code> y <code>onAction</code>.</li>
-    <li>Confirma ejecucion del callback al hacer click.</li>
+    <li>Valida presencia y ausencia de descripción.</li>
+    <li>Valida que el botón solo aparezca si existen <code>actionLabel</code> y <code>onAction</code>.</li>
+    <li>Confirma ejecución del callback al hacer click.</li>
     <li>Comprueba estilos base del componente.</li>
   </ul>
 
   <h3>6.2 useEscapeKey.test.ts</h3>
   <ul>
-    <li>Valida que Escape dispare el callback cuando el hook esta activo.</li>
-    <li>Confirma que otras teclas no disparan la accion.</li>
+    <li>Valida que Escape dispare el callback cuando el hook está activo.</li>
+    <li>Confirma que otras teclas no disparan la acción.</li>
     <li>Prueba cambios de estado activo via rerender.</li>
-    <li>Prueba sustitucion de callback en rerender.</li>
+    <li>Prueba sustitución de callback en rerender.</li>
     <li>Verifica limpieza del event listener al desmontar.</li>
   </ul>
 
   <h3>6.3 lib/auth.test.ts</h3>
   <ul>
-    <li>Prueba lectura de la cookie de sesion cuando existe y cuando no existe.</li>
-    <li>Valida manejo de JSON invalido o malformado.</li>
-    <li>Verifica que <code>requireAuth()</code> retorne la sesion o lance <code>No autenticado</code>.</li>
+    <li>Prueba lectura de la cookie de sesión cuando existe y cuando no existe.</li>
+    <li>Valida manejo de JSON inválido o malformado.</li>
+    <li>Verifica que <code>requireAuth()</code> retorne la sesión o lance <code>No autenticado</code>.</li>
   </ul>
 
   <h3>6.4 lib/userRoles.test.ts</h3>
   <ul>
-    <li>Prueba normalizacion de <code>admin</code> y <code>colaborador</code>.</li>
-    <li>Valida mayusculas, capitalizacion y espacios.</li>
-    <li>Verifica comportamiento con roles invalidos, vacios, null y undefined.</li>
+    <li>Prueba normalización de <code>admin</code> y <code>colaborador</code>.</li>
+    <li>Valida mayúsculas, capitalización y espacios.</li>
+    <li>Verifica comportamiento con roles inválidos, vacíos, null y undefined.</li>
     <li>Comprueba que <code>USER_ROLES</code> solo contenga los dos roles esperados.</li>
   </ul>
 
   <h3>6.5 BD/Acceso.test.ts</h3>
   <ul>
-    <li>Cubre <code>executeSupabaseQuery()</code> para exito, parametros y error.</li>
-    <li>Cubre <code>getFromTable()</code> con filtros, orden, limite y error.</li>
-    <li>Cubre <code>insertIntoTable()</code> para insercion simple, multiple y error.</li>
-    <li>Cubre <code>updateTable()</code> con filtro simple, multiple y error.</li>
-    <li>Cubre <code>deleteFromTable()</code> con filtro simple, multiple y error.</li>
+    <li>Cubre <code>executeSupabaseQuery()</code> para éxito, parámetros y error.</li>
+    <li>Cubre <code>getFromTable()</code> con filtros, orden, límite y error.</li>
+    <li>Cubre <code>insertIntoTable()</code> para inserción simple, múltiple y error.</li>
+    <li>Cubre <code>updateTable()</code> con filtro simple, múltiple y error.</li>
+    <li>Cubre <code>deleteFromTable()</code> con filtro simple, múltiple y error.</li>
   </ul>
 
   <h3>6.6 app/api/adultos/route.test.ts</h3>
   <ul>
-    <li>Valida respuesta 401 cuando no hay sesion.</li>
+    <li>Valida respuesta 401 cuando no hay sesión.</li>
     <li>Valida lectura de adultos con historial agrupado.</li>
     <li>Valida manejo de error de consulta.</li>
-    <li>Valida creacion de adulto mayor y persistencia de campos opcionales.</li>
+    <li>Valida creación de adulto mayor y persistencia de campos opcionales.</li>
   </ul>
 
   <h3>6.7 app/api/auth/login/route.test.ts</h3>
   <ul>
-    <li>Valida campos requeridos de email y contrasena.</li>
+    <li>Valida campos requeridos de email y contraseña.</li>
     <li>Valida credenciales incorrectas y usuario inexistente.</li>
-    <li>Prueba autenticacion correcta con limpieza de <code>password_hash</code> en la respuesta.</li>
-    <li>Verifica actualizacion de <code>ultimo_acceso</code>.</li>
-    <li>Verifica creacion de cookie <code>user_session</code> con atributos de seguridad.</li>
+    <li>Prueba autenticación correcta con limpieza de <code>password_hash</code> en la respuesta.</li>
+    <li>Verifica actualización de <code>ultimo_acceso</code>.</li>
+    <li>Verifica creación de cookie <code>user_session</code> con atributos de seguridad.</li>
     <li>Prueba errores de base de datos y excepciones no controladas.</li>
   </ul>
 
   <h3>6.8 app/api/configuracion-notificaciones/route.test.ts</h3>
   <ul>
-    <li>Valida 401 cuando no hay sesion en la lectura de configuracion.</li>
-    <li>Valida lectura exitosa de la configuracion actual.</li>
-    <li>Valida 403 cuando un colaborador intenta modificar la configuracion.</li>
+    <li>Valida 401 cuando no hay sesión en la lectura de configuración.</li>
+    <li>Valida lectura exitosa de la configuración actual.</li>
+    <li>Valida 403 cuando un colaborador intenta modificar la configuración.</li>
     <li>Prueba el flujo de apagar notificaciones guardando <code>activo: false</code>.</li>
-    <li>Valida rechazo de correo destino invalido.</li>
+    <li>Valida rechazo de correo destino inválido.</li>
   </ul>
 
   <h3>6.9 app/api/emails/reporte-medicamentos/route.test.ts</h3>
   <ul>
     <li>Valida 401 cuando el token del cron es incorrecto.</li>
-    <li>Prueba el flujo clave del cambio nuevo: si las notificaciones estan desactivadas, el sistema omite el envio y no llama a <code>sendMail</code>.</li>
+    <li>Prueba el flujo clave del cambio nuevo: si las notificaciones están desactivadas, el sistema omite el envío y no llama a <code>sendMail</code>.</li>
   </ul>
 
   <h3>6.10 app/api/medicamentos/route.test.ts</h3>
   <ul>
-    <li>Valida 401 sin sesion.</li>
+    <li>Valida 401 sin sesión.</li>
     <li>Valida lectura conjunta de adultos y prescripciones.</li>
     <li>Valida error cuando falla la consulta de adultos o prescripciones.</li>
     <li>Valida entrada incorrecta para <code>id_adulto_mayor</code>.</li>
     <li>Valida nombre requerido del medicamento.</li>
-    <li>Prueba normalizacion de espacios.</li>
+    <li>Prueba normalización de espacios.</li>
     <li>Prueba valores por defecto para horarios no enviados.</li>
-    <li>Valida error de insercion y alta exitosa.</li>
+    <li>Valida error de inserción y alta exitosa.</li>
   </ul>
 
   <h2>7. Mocks y entorno de prueba</h2>
-  <p>La suite depende de una capa de mocks relativamente fuerte, lo cual permite aislar el comportamiento de la UI y de las rutas sin conectarse a Supabase real ni a APIs de Next.js en tiempo de ejecucion.</p>
+  <p>La suite depende de una capa de mocks relativamente fuerte, lo cual permite aislar el comportamiento de la UI y de las rutas sin conectarse a Supabase real ni a APIs de Next.js en tiempo de ejecución.</p>
   <table>
     <tr>
       <th>Mock o polyfill</th>
-      <th>Ubicacion</th>
-      <th>Proposito</th>
+      <th>Ubicación</th>
+      <th>Propósito</th>
     </tr>
     <tr>
       <td>TextEncoder / TextDecoder</td>
       <td>jest.setup.ts</td>
-      <td>Compatibilidad con APIs usadas por Next.js y librerias.</td>
+      <td>Compatibilidad con APIs usadas por Next.js y librerías.</td>
     </tr>
     <tr>
       <td>fetch global</td>
@@ -546,7 +546,7 @@
     <tr>
       <td>next/navigation</td>
       <td>jest.setup.ts</td>
-      <td>Mock del router y hooks de navegacion.</td>
+      <td>Mock del router y hooks de navegación.</td>
     </tr>
     <tr>
       <td>next/headers</td>
@@ -561,23 +561,23 @@
     <tr>
       <td>bcryptjs.compare</td>
       <td>Login</td>
-      <td>Controlar resultado de verificacion de contrasena.</td>
+      <td>Controlar resultado de verificación de contraseña.</td>
     </tr>
   </table>
 
   <h2>8. Riesgos y limites actuales</h2>
   <ul>
     <li>No hay pruebas automatizadas sobre las pantallas completas del usuario final.</li>
-    <li>No se estan cubriendo flujos complejos con estado local, formularios extensos o navegacion entre pantallas.</li>
-    <li>No hay cobertura sobre rutas criticas como usuarios, historial, dashboard, logout o reset de contrasena.</li>
-    <li>La cobertura de ramas es buena en el codigo probado, pero todavia no protege regresiones en la mayor parte de la aplicacion.</li>
+    <li>No se están cubriendo flujos complejos con estado local, formularios extensos o navegación entre pantallas.</li>
+    <li>No hay cobertura sobre rutas críticas como usuarios, historial, dashboard, logout o reset de contraseña.</li>
+    <li>La cobertura de ramas es buena en el código probado, pero todavía no protege regresiones en la mayor parte de la aplicación.</li>
   </ul>
 
   <h2>9. Prioridades recomendadas</h2>
   <table>
     <tr>
       <th>Prioridad</th>
-      <th>Area</th>
+      <th>Área</th>
       <th>Motivo</th>
     </tr>
     <tr>
@@ -593,21 +593,21 @@
     <tr>
       <td>Alta</td>
       <td>Formularios de adultos y medicamentos</td>
-      <td>Concentran validaciones y mayor probabilidad de regresion visual/funcional.</td>
+      <td>Concentran validaciones y mayor probabilidad de regresión visual/funcional.</td>
     </tr>
     <tr>
       <td>Media</td>
       <td>Dashboard y utilidades de fecha</td>
-      <td>Importan para calculos diarios y reportes, pero hoy no estan protegidos.</td>
+      <td>Importan para cálculos diarios y reportes, pero hoy no están protegidos.</td>
     </tr>
     <tr>
       <td>Media</td>
       <td>Forgot/reset password y logout/session</td>
-      <td>Ayudan a cubrir autenticacion de punta a punta.</td>
+      <td>Ayudan a cubrir autenticación de punta a punta.</td>
     </tr>
   </table>
 
-  <h2>10. Evidencia de ejecucion usada</h2>
+  <h2>10. Evidencia de ejecución usada</h2>
   <div class="box">
     <p><strong>Resultado de suite:</strong> 10 suites aprobadas, 90 tests aprobados, 0 fallos.</p>
     <p><strong>Comando:</strong> <code>npm test -- --runInBand --json --outputFile=manual\test-results.json</code></p>
@@ -615,6 +615,6 @@
     <p><strong>Artefactos:</strong> <code>manual\test-results.json</code> y carpeta <code>coverage\</code></p>
   </div>
 
-  <p class="small muted">Documento generado automaticamente a partir de la configuracion Jest del proyecto, el inventario real de archivos .test.ts/.test.tsx y la ejecucion de la suite en fecha 02/09/2026.</p>
+  <p class="small muted">Documento generado automáticamente a partir de la configuración Jest del proyecto, el inventario real de archivos .test.ts/.test.tsx y la ejecución de la suite en fecha 02/09/2026.</p>
 </body>
 </html>
