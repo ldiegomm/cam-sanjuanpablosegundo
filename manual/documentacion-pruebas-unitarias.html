@@ -147,23 +147,23 @@
   <div class="grid">
     <div class="card">
       <div class="muted">Suites ejecutadas</div>
-      <div class="metric">10 / 10</div>
+      <div class="metric">12 / 12</div>
       <div>Todas las suites pasaron.</div>
     </div>
     <div class="card">
       <div class="muted">Tests ejecutados</div>
-      <div class="metric">90 / 90</div>
+      <div class="metric">127 / 127</div>
       <div>No hay tests fallando ni pendientes.</div>
     </div>
     <div class="card">
       <div class="muted">Tiempo total</div>
-      <div class="metric">6.31 s</div>
+      <div class="metric">3.42 s</div>
       <div>Ejecución con <code>--runInBand</code>.</div>
     </div>
   </div>
 
   <div class="box">
-    El estado funcional de la suite es bueno: todas las pruebas automatizadas pasan. El principal punto débil no es estabilidad, sino alcance: la cobertura total es baja porque gran parte del frontend y varias rutas API aún no tienen pruebas directas.
+    El estado funcional de la suite es bueno: todas las pruebas automatizadas pasan. El principal punto débil no es estabilidad, sino alcance: la cobertura total sigue siendo baja porque gran parte del frontend y varias rutas API aún no tienen pruebas directas. La funcionalidad de notificaciones, que se agregó de último y había quedado sin cobertura, ya se cerró por completo (pantalla, cron de envío y la utilidad de fechas de la que depende).
   </div>
 
   <h2>2. Stack y configuración</h2>
@@ -254,6 +254,12 @@
       <td>Escape, activación, limpieza y rerender.</td>
     </tr>
     <tr>
+      <td>app/(main)/notificaciones/page.test.tsx</td>
+      <td>UI</td>
+      <td>12</td>
+      <td>Control de acceso admin, carga de configuración, validaciones y guardado.</td>
+    </tr>
+    <tr>
       <td>app/api/adultos/route.test.ts</td>
       <td>API</td>
       <td>8</td>
@@ -268,14 +274,14 @@
     <tr>
       <td>app/api/configuracion-notificaciones/route.test.ts</td>
       <td>API</td>
-      <td>5</td>
+      <td>9</td>
       <td>Lectura de configuración, permisos admin, validación y apagado de notificaciones.</td>
     </tr>
     <tr>
       <td>app/api/emails/reporte-medicamentos/route.test.ts</td>
       <td>API</td>
-      <td>2</td>
-      <td>Token cron y omisión del envío cuando las notificaciones están desactivadas.</td>
+      <td>10</td>
+      <td>Token cron, reglas de envío (día, correo destino, sin medicamentos) y envío exitoso.</td>
     </tr>
     <tr>
       <td>app/api/medicamentos/route.test.ts</td>
@@ -296,6 +302,12 @@
       <td>Lectura de sesión y guard de autenticación.</td>
     </tr>
     <tr>
+      <td>lib/fecha.test.ts</td>
+      <td>Utilidad</td>
+      <td>13</td>
+      <td>Fecha y día de la semana en Costa Rica, momento del día, edad y formato de hora.</td>
+    </tr>
+    <tr>
       <td>lib/userRoles.test.ts</td>
       <td>Utilidad</td>
       <td>14</td>
@@ -314,22 +326,22 @@
     </tr>
     <tr>
       <td>Statements</td>
-      <td>10.32%</td>
+      <td>19.33%</td>
       <td>Muy baja por gran volumen de pantallas y rutas sin tests.</td>
     </tr>
     <tr>
       <td>Branches</td>
-      <td>73.62%</td>
-      <td>Razonable dentro del código que sí está siendo ejercitado.</td>
+      <td>83.2%</td>
+      <td>Alta dentro del código que sí está siendo ejercitado.</td>
     </tr>
     <tr>
       <td>Functions</td>
-      <td>41.37%</td>
+      <td>57.53%</td>
       <td>Intermedia, concentrada en utilidades y APIs cubiertas.</td>
     </tr>
     <tr>
       <td>Lines</td>
-      <td>10.32%</td>
+      <td>19.33%</td>
       <td>Baja por el mismo motivo que statements.</td>
     </tr>
   </table>
@@ -365,6 +377,13 @@
       <td>100%</td>
     </tr>
     <tr>
+      <td>app/(main)/notificaciones/page.tsx</td>
+      <td>100%</td>
+      <td>91.46%</td>
+      <td>90%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
       <td>app/api/adultos/route.ts</td>
       <td>100%</td>
       <td>90.47%</td>
@@ -380,17 +399,17 @@
     </tr>
     <tr>
       <td>app/api/configuracion-notificaciones/route.ts</td>
-      <td>84.21%</td>
-      <td>66.66%</td>
+      <td>97.36%</td>
+      <td>89.65%</td>
       <td>100%</td>
-      <td>84.21%</td>
+      <td>97.36%</td>
     </tr>
     <tr>
       <td>app/api/emails/reporte-medicamentos/route.ts</td>
-      <td>39.59%</td>
-      <td>40%</td>
-      <td>33.33%</td>
-      <td>39.59%</td>
+      <td>100%</td>
+      <td>87.5%</td>
+      <td>100%</td>
+      <td>100%</td>
     </tr>
     <tr>
       <td>app/api/medicamentos/route.ts</td>
@@ -407,6 +426,13 @@
       <td>100%</td>
     </tr>
     <tr>
+      <td>lib/fecha.ts</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
       <td>lib/userRoles.ts</td>
       <td>100%</td>
       <td>100%</td>
@@ -417,11 +443,11 @@
 
   <h3>Áreas sin cobertura relevante</h3>
   <ul>
-    <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, notificaciones, forgot-password y reset-password.</li>
+    <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, forgot-password y reset-password.</li>
     <li>Layouts de aplicación y comportamiento de navegación.</li>
     <li>Componente grande de administración: <code>UserManagementModal.tsx</code>.</li>
     <li>Rutas API aún no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
-    <li>Utilidades no cubiertas: <code>fecha.ts</code>, <code>supabase.ts</code> y <code>EnumeradoSPs.ts</code>.</li>
+    <li>Utilidades no cubiertas: <code>supabase.ts</code> y <code>EnumeradoSPs.ts</code>.</li>
   </ul>
 
   <div class="box warn">
@@ -497,15 +523,27 @@
   <ul>
     <li>Valida 401 cuando no hay sesión en la lectura de configuración.</li>
     <li>Valida lectura exitosa de la configuración actual.</li>
+    <li>Valida 500 cuando falla la consulta a Supabase en la lectura.</li>
     <li>Valida 403 cuando un colaborador intenta modificar la configuración.</li>
     <li>Prueba el flujo de apagar notificaciones guardando <code>activo: false</code>.</li>
     <li>Valida rechazo de correo destino inválido.</li>
+    <li>Valida rechazo cuando falta el campo <code>activo</code>.</li>
+    <li>Valida rechazo cuando falta un campo de día de la semana.</li>
+    <li>Valida 500 cuando falla la actualización en Supabase.</li>
   </ul>
 
   <h3>6.9 app/api/emails/reporte-medicamentos/route.test.ts</h3>
   <ul>
     <li>Valida 401 cuando el token del cron es incorrecto.</li>
-    <li>Prueba el flujo clave del cambio nuevo: si las notificaciones están desactivadas, el sistema omite el envío y no llama a <code>sendMail</code>.</li>
+    <li>Prueba que si las notificaciones están desactivadas, el sistema omite el envío y no llama a <code>sendMail</code>.</li>
+    <li>Valida que se omita el envío si no existe configuración de notificaciones.</li>
+    <li>Valida 500 cuando falla la consulta de la configuración.</li>
+    <li>Valida que se omita el envío cuando hoy no corresponde según los días configurados.</li>
+    <li>Valida que se omita el envío cuando falta el correo destino.</li>
+    <li>Valida 500 cuando falla la consulta de pacientes.</li>
+    <li>Valida que se omita el envío cuando ningún paciente tiene medicamentos programados hoy.</li>
+    <li>Prueba el envío exitoso del correo con el detalle de medicamentos generado.</li>
+    <li>Valida 500 ante un error inesperado no controlado.</li>
   </ul>
 
   <h3>6.10 app/api/medicamentos/route.test.ts</h3>
@@ -518,6 +556,33 @@
     <li>Prueba normalización de espacios.</li>
     <li>Prueba valores por defecto para horarios no enviados.</li>
     <li>Valida error de inserción y alta exitosa.</li>
+  </ul>
+
+  <h3>6.11 app/(main)/notificaciones/page.test.tsx</h3>
+  <ul>
+    <li>Muestra el estado de carga mientras se verifica la sesión.</li>
+    <li>Muestra un estado de acceso restringido cuando el usuario no es admin.</li>
+    <li>Carga y muestra el formulario completo cuando el usuario es admin.</li>
+    <li>Detecta el modo "días específicos" cuando no todos los días están activos.</li>
+    <li>Detecta el modo "todos los días" cuando todos los días están activos.</li>
+    <li>Muestra un error con opción de reintentar si falla la carga, y verifica que reintentar recargue.</li>
+    <li>Oculta el correo y los días al desactivar el interruptor de notificaciones.</li>
+    <li>Verifica que cambiar a "Todos los días" oculte la selección de días específicos.</li>
+    <li>Bloquea el guardado y muestra error cuando el correo es inválido.</li>
+    <li>Bloquea el guardado cuando está activo en modo específico sin ningún día seleccionado.</li>
+    <li>Prueba el guardado exitoso, el payload enviado y el toast de éxito.</li>
+    <li>Prueba el toast de error cuando falla el guardado.</li>
+  </ul>
+
+  <h3>6.12 lib/fecha.test.ts</h3>
+  <ul>
+    <li>Valida <code>obtenerFechaCR()</code> según la zona horaria de Costa Rica.</li>
+    <li>Valida <code>obtenerDiaSemanaCR()</code> para los siete días de la semana.</li>
+    <li>Valida <code>obtenerDiaSemanaHoyCR()</code> con la hora del sistema simulada.</li>
+    <li>Valida el formato en español de <code>formatearFechaLarga()</code>.</li>
+    <li>Valida <code>obtenerMomentoActualCR()</code> en distintos horarios, incluida la madrugada sin momento asignado.</li>
+    <li>Valida el formato corto de <code>formatearHoraCR()</code>.</li>
+    <li>Valida <code>calcularEdad()</code> antes, después y el mismo día del cumpleaños.</li>
   </ul>
 
   <h2>7. Mocks y entorno de prueba</h2>
@@ -567,8 +632,8 @@
 
   <h2>8. Riesgos y limites actuales</h2>
   <ul>
-    <li>No hay pruebas automatizadas sobre las pantallas completas del usuario final.</li>
-    <li>No se están cubriendo flujos complejos con estado local, formularios extensos o navegación entre pantallas.</li>
+    <li>Salvo notificaciones, no hay pruebas automatizadas sobre las demás pantallas completas del usuario final.</li>
+    <li>No se están cubriendo flujos complejos con estado local, formularios extensos o navegación entre pantallas en el resto de módulos.</li>
     <li>No hay cobertura sobre rutas críticas como usuarios, historial, dashboard, logout o reset de contraseña.</li>
     <li>La cobertura de ramas es buena en el código probado, pero todavía no protege regresiones en la mayor parte de la aplicación.</li>
   </ul>
@@ -597,8 +662,8 @@
     </tr>
     <tr>
       <td>Media</td>
-      <td>Dashboard y utilidades de fecha</td>
-      <td>Importan para cálculos diarios y reportes, pero hoy no están protegidos.</td>
+      <td>Dashboard</td>
+      <td>Importa para cálculos diarios y reportes, pero hoy no está protegido.</td>
     </tr>
     <tr>
       <td>Media</td>
@@ -609,7 +674,7 @@
 
   <h2>10. Evidencia de ejecución usada</h2>
   <div class="box">
-    <p><strong>Resultado de suite:</strong> 10 suites aprobadas, 90 tests aprobados, 0 fallos.</p>
+    <p><strong>Resultado de suite:</strong> 12 suites aprobadas, 127 tests aprobados, 0 fallos.</p>
     <p><strong>Comando:</strong> <code>npm test -- --runInBand --json --outputFile=manual\test-results.json</code></p>
     <p><strong>Cobertura:</strong> <code>npm run test:coverage -- --runInBand</code></p>
     <p><strong>Artefactos:</strong> <code>manual\test-results.json</code> y carpeta <code>coverage\</code></p>
