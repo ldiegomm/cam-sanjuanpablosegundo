@@ -193,7 +193,7 @@
     <tr>
       <td>Administrador</td>
       <td>Usuario con acceso completo a funciones operativas y administrativas.</td>
-      <td>Todas las capacidades del colaborador mas la administracion de usuarios del sistema.</td>
+      <td>Todas las capacidades del colaborador mas la administracion de usuarios y de notificaciones del sistema.</td>
     </tr>
     <tr>
       <td>Sistema</td>
@@ -216,8 +216,8 @@
     </div>
     <div class="card">
       <div class="muted">Casos administrativos</div>
-      <div class="metric">1</div>
-      <div>Administracion de usuarios por rol Admin.</div>
+      <div class="metric">2</div>
+      <div>Usuarios y configuracion de notificaciones por rol Admin.</div>
     </div>
   </div>
 
@@ -236,9 +236,10 @@
     <tr><td>CU-07</td><td>Eliminar adulto mayor</td><td>Colaborador / Administrador</td></tr>
     <tr><td>CU-08</td><td>Gestionar medicamentos</td><td>Colaborador / Administrador</td></tr>
     <tr><td>CU-09</td><td>Consultar y actualizar historial de salud</td><td>Colaborador / Administrador</td></tr>
-    <tr><td>CU-10</td><td>Administrar usuarios del sistema</td><td>Administrador</td></tr>
-    <tr><td>CU-11</td><td>Buscar y seleccionar pacientes</td><td>Colaborador / Administrador</td></tr>
-    <tr><td>CU-12</td><td>Navegar entre modulos con control de cambios sin guardar</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-10</td><td>Configurar notificaciones de medicamentos</td><td>Administrador</td></tr>
+    <tr><td>CU-11</td><td>Administrar usuarios del sistema</td><td>Administrador</td></tr>
+    <tr><td>CU-12</td><td>Buscar y seleccionar pacientes</td><td>Colaborador / Administrador</td></tr>
+    <tr><td>CU-13</td><td>Navegar entre modulos con control de cambios sin guardar</td><td>Colaborador / Administrador</td></tr>
   </table>
 
   <div class="section-break"></div>
@@ -437,7 +438,30 @@
   </div>
 
   <div class="use-case">
-    <h3>CU-10. Administrar usuarios del sistema</h3>
+    <h3>CU-10. Configurar notificaciones de medicamentos</h3>
+    <p><span class="label">Actor principal:</span> Administrador</p>
+    <p><span class="label">Objetivo:</span> Activar, apagar o restringir por días el envío del correo automático de medicamentos.</p>
+    <p><span class="label">Precondiciones:</span> El usuario autenticado posee rol <code>admin</code>.</p>
+    <p><span class="label">Disparador:</span> El administrador ingresa al modulo <strong>"Notificaciones"</strong> desde el menú lateral.</p>
+    <p><span class="label">Flujo principal:</span></p>
+    <ol>
+      <li>El sistema carga la configuración actual de notificaciones.</li>
+      <li>El administrador activa o apaga el interruptor <strong>"Recibir notificación de medicamentos por correo"</strong>.</li>
+      <li>Si la opción está activa, define correo destino y días de envío.</li>
+      <li>El administrador presiona <strong>"Guardar"</strong>.</li>
+      <li>El sistema confirma con <em>"Configuración guardada correctamente."</em></li>
+    </ol>
+    <p><span class="label">Flujos alternos:</span></p>
+    <ul>
+      <li>Si el correo tiene formato inválido, el sistema muestra: <em>"Ingresá un correo electrónico válido."</em></li>
+      <li>Si las notificaciones están activas y se selecciona modo específico sin días marcados, el sistema muestra: <em>"Seleccioná al menos un día de la semana."</em></li>
+      <li>Si la configuración no puede guardarse, el sistema informa: <em>"Error al guardar la configuración."</em></li>
+    </ul>
+    <p><span class="label">Postcondiciones:</span> El sistema actualiza la política de envío de correos automáticos; si queda apagada, los reportes diarios se omiten.</p>
+  </div>
+
+  <div class="use-case">
+    <h3>CU-11. Administrar usuarios del sistema</h3>
     <p><span class="label">Actor principal:</span> Administrador</p>
     <p><span class="label">Objetivo:</span> Crear, editar, activar, desactivar o eliminar cuentas de acceso.</p>
     <p><span class="label">Precondiciones:</span> El usuario autenticado posee rol <code>admin</code>.</p>
@@ -461,7 +485,7 @@
   </div>
 
   <div class="use-case">
-    <h3>CU-11. Buscar y seleccionar pacientes</h3>
+    <h3>CU-12. Buscar y seleccionar pacientes</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Localizar rapidamente a un adulto mayor para ver o modificar su informacion.</p>
     <p><span class="label">Precondiciones:</span> Existen pacientes cargados en el sistema.</p>
@@ -478,7 +502,7 @@
   </div>
 
   <div class="use-case">
-    <h3>CU-12. Navegar entre modulos con control de cambios sin guardar</h3>
+    <h3>CU-13. Navegar entre modulos con control de cambios sin guardar</h3>
     <p><span class="label">Actor principal:</span> Colaborador o Administrador</p>
     <p><span class="label">Objetivo:</span> Cambiar de pantalla sin perder informacion por accidente.</p>
     <p><span class="label">Precondiciones:</span> El usuario tiene un formulario de adultos o historial con cambios pendientes.</p>
@@ -497,11 +521,12 @@
   <h2>5. Reglas generales del sistema</h2>
   <ul>
     <li>Solo usuarios autenticados pueden ingresar a los modulos principales.</li>
-    <li>Solo los administradores pueden gestionar usuarios.</li>
+    <li>Solo los administradores pueden gestionar usuarios y la configuración de notificaciones.</li>
     <li>La eliminacion de adultos mayores y usuarios requiere confirmacion explicita.</li>
     <li>La sesion se maneja mediante cookie segura y el sistema actualiza el ultimo acceso al iniciar sesion.</li>
     <li>Los formularios criticos detectan cambios sin guardar para evitar perdida accidental de informacion.</li>
     <li>El panel de inicio se actualiza automaticamente y usa la logica diaria de medicamentos del sistema.</li>
+    <li>Las notificaciones de medicamentos pueden apagarse completamente o limitarse a dias especificos.</li>
   </ul>
 
   <div class="box warn">

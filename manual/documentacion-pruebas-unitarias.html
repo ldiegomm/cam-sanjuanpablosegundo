@@ -147,17 +147,17 @@
   <div class="grid">
     <div class="card">
       <div class="muted">Suites ejecutadas</div>
-      <div class="metric">8 / 8</div>
+      <div class="metric">10 / 10</div>
       <div>Todas las suites pasaron.</div>
     </div>
     <div class="card">
       <div class="muted">Tests ejecutados</div>
-      <div class="metric">83 / 83</div>
+      <div class="metric">90 / 90</div>
       <div>No hay tests fallando ni pendientes.</div>
     </div>
     <div class="card">
       <div class="muted">Tiempo total</div>
-      <div class="metric">6.17 s</div>
+      <div class="metric">6.31 s</div>
       <div>Ejecucion con <code>--runInBand</code>.</div>
     </div>
   </div>
@@ -266,6 +266,18 @@
       <td>Login, validaciones, cookie de sesion y ultimo acceso.</td>
     </tr>
     <tr>
+      <td>app/api/configuracion-notificaciones/route.test.ts</td>
+      <td>API</td>
+      <td>5</td>
+      <td>Lectura de configuracion, permisos admin, validacion y apagado de notificaciones.</td>
+    </tr>
+    <tr>
+      <td>app/api/emails/reporte-medicamentos/route.test.ts</td>
+      <td>API</td>
+      <td>2</td>
+      <td>Token cron y omision del envio cuando las notificaciones estan desactivadas.</td>
+    </tr>
+    <tr>
       <td>app/api/medicamentos/route.test.ts</td>
       <td>API</td>
       <td>12</td>
@@ -302,22 +314,22 @@
     </tr>
     <tr>
       <td>Statements</td>
-      <td>7.76%</td>
+      <td>10.32%</td>
       <td>Muy baja por gran volumen de pantallas y rutas sin tests.</td>
     </tr>
     <tr>
       <td>Branches</td>
-      <td>76.03%</td>
+      <td>73.62%</td>
       <td>Razonable dentro del codigo que si esta siendo ejercitado.</td>
     </tr>
     <tr>
       <td>Functions</td>
-      <td>36%</td>
+      <td>41.37%</td>
       <td>Intermedia, concentrada en utilidades y APIs cubiertas.</td>
     </tr>
     <tr>
       <td>Lines</td>
-      <td>7.76%</td>
+      <td>10.32%</td>
       <td>Baja por el mismo motivo que statements.</td>
     </tr>
   </table>
@@ -367,6 +379,20 @@
       <td>100%</td>
     </tr>
     <tr>
+      <td>app/api/configuracion-notificaciones/route.ts</td>
+      <td>84.21%</td>
+      <td>66.66%</td>
+      <td>100%</td>
+      <td>84.21%</td>
+    </tr>
+    <tr>
+      <td>app/api/emails/reporte-medicamentos/route.ts</td>
+      <td>39.59%</td>
+      <td>40%</td>
+      <td>33.33%</td>
+      <td>39.59%</td>
+    </tr>
+    <tr>
       <td>app/api/medicamentos/route.ts</td>
       <td>100%</td>
       <td>80.82%</td>
@@ -391,10 +417,10 @@
 
   <h3>Areas sin cobertura relevante</h3>
   <ul>
-    <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, forgot-password y reset-password.</li>
+    <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, notificaciones, forgot-password y reset-password.</li>
     <li>Layouts de aplicacion y comportamiento de navegacion.</li>
     <li>Componente grande de administracion: <code>UserManagementModal.tsx</code>.</li>
-    <li>Rutas API no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
+    <li>Rutas API aun no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
     <li>Utilidades no cubiertas: <code>fecha.ts</code>, <code>supabase.ts</code> y <code>EnumeradoSPs.ts</code>.</li>
   </ul>
 
@@ -467,7 +493,22 @@
     <li>Prueba errores de base de datos y excepciones no controladas.</li>
   </ul>
 
-  <h3>6.8 app/api/medicamentos/route.test.ts</h3>
+  <h3>6.8 app/api/configuracion-notificaciones/route.test.ts</h3>
+  <ul>
+    <li>Valida 401 cuando no hay sesion en la lectura de configuracion.</li>
+    <li>Valida lectura exitosa de la configuracion actual.</li>
+    <li>Valida 403 cuando un colaborador intenta modificar la configuracion.</li>
+    <li>Prueba el flujo de apagar notificaciones guardando <code>activo: false</code>.</li>
+    <li>Valida rechazo de correo destino invalido.</li>
+  </ul>
+
+  <h3>6.9 app/api/emails/reporte-medicamentos/route.test.ts</h3>
+  <ul>
+    <li>Valida 401 cuando el token del cron es incorrecto.</li>
+    <li>Prueba el flujo clave del cambio nuevo: si las notificaciones estan desactivadas, el sistema omite el envio y no llama a <code>sendMail</code>.</li>
+  </ul>
+
+  <h3>6.10 app/api/medicamentos/route.test.ts</h3>
   <ul>
     <li>Valida 401 sin sesion.</li>
     <li>Valida lectura conjunta de adultos y prescripciones.</li>
@@ -568,7 +609,7 @@
 
   <h2>10. Evidencia de ejecucion usada</h2>
   <div class="box">
-    <p><strong>Resultado de suite:</strong> 8 suites aprobadas, 83 tests aprobados, 0 fallos.</p>
+    <p><strong>Resultado de suite:</strong> 10 suites aprobadas, 90 tests aprobados, 0 fallos.</p>
     <p><strong>Comando:</strong> <code>npm test -- --runInBand --json --outputFile=manual\test-results.json</code></p>
     <p><strong>Cobertura:</strong> <code>npm run test:coverage -- --runInBand</code></p>
     <p><strong>Artefactos:</strong> <code>manual\test-results.json</code> y carpeta <code>coverage\</code></p>

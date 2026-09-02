@@ -114,6 +114,7 @@
     <li>Gestión de medicamentos</li>
     <li>Historial de salud</li>
     <li>Gestión de usuarios del sistema (solo administradores)</li>
+    <li>Configuración de notificaciones (solo administradores)</li>
     <li>Roles y permisos</li>
     <li>Procesos automáticos del sistema</li>
     <li>Preguntas frecuentes y solución de problemas</li>
@@ -132,6 +133,7 @@
   <li>Registrar y controlar los medicamentos que toma cada persona, con horarios y días específicos.</li>
   <li>Llevar un historial de salud (padecimientos, lesiones, hábitos y operaciones).</li>
   <li>Visualizar un panel de inicio con un resumen de los medicamentos que corresponden en el día.</li>
+  <li>Configurar o apagar las notificaciones automáticas de medicamentos por correo (solo administradores).</li>
   <li>Administrar los usuarios que tienen acceso al sistema (solo administradores).</li>
   <li>Recibir automáticamente por correo un reporte diario de medicamentos.</li>
   <li>Contar con respaldos automáticos semanales de la información.</li>
@@ -444,40 +446,91 @@
 </table>
 </section>
 
-<!-- 8. ROLES -->
+<!-- 8. NOTIFICACIONES -->
 <section>
-<h1 class="section-title">8. Roles y permisos</h1>
+<h1 class="section-title">8. Configuración de notificaciones</h1>
+<p><strong>Disponible únicamente para usuarios con rol "Admin".</strong> Se accede desde la opción <strong>"Notificaciones"</strong> del menú lateral.</p>
+
+<h2>8.1 ¿Para qué sirve esta pantalla?</h2>
+<p>Permite controlar si el sistema debe enviar o no el correo automático diario con el detalle de medicamentos por paciente. También permite definir el correo destino y los días exactos en que ese correo puede salir.</p>
+
+<figure>
+  <img src="img/14-notificaciones-apagadas.png" alt="Pantalla de configuración de notificaciones">
+  <figcaption>Módulo de notificaciones con el envío automático desactivado</figcaption>
+</figure>
+
+<h2>8.2 Activar o apagar notificaciones</h2>
+<p>En la tarjeta <strong>"Notificación de medicamentos por paciente"</strong> hay un interruptor llamado <strong>"Recibir notificación de medicamentos por correo"</strong>.</p>
+<ul>
+  <li>Si el interruptor está activado, el sistema puede enviar el correo automático según la configuración.</li>
+  <li>Si el interruptor está apagado, el sistema omite el envío del reporte diario de medicamentos.</li>
+</ul>
+
+<h2>8.3 Configurar correo y días de envío</h2>
+<p>Cuando las notificaciones están activas, la pantalla muestra:</p>
+<ul>
+  <li>Campo <strong>"Correo de destino"</strong> para definir a qué dirección llega el reporte.</li>
+  <li>Sección <strong>"Días de envío"</strong> con dos opciones: <strong>"Todos los días"</strong> o <strong>"Días específicos"</strong>.</li>
+  <li>Si elegís <strong>"Días específicos"</strong>, podés marcar Lunes a Domingo individualmente.</li>
+</ul>
+
+<h2>8.4 Guardar la configuración</h2>
+<div class="step"><div class="num">1</div><div>Ajustá el interruptor según necesités recibir o apagar las notificaciones.</div></div>
+<div class="step"><div class="num">2</div><div>Si la función queda activa, ingresá el correo destino y elegí los días de envío.</div></div>
+<div class="step"><div class="num">3</div><div>Hacé clic en <strong>"Guardar"</strong>.</div></div>
+
+<table>
+<tr><th>Situación</th><th>Mensaje</th></tr>
+<tr><td>Guardado exitoso</td><td class="msg-ok">"Configuración guardada correctamente."</td></tr>
+<tr><td>Correo inválido</td><td class="msg-err">"Ingresá un correo electrónico válido."</td></tr>
+<tr><td>Modo específico sin días marcados</td><td class="msg-err">"Seleccioná al menos un día de la semana."</td></tr>
+<tr><td>Error al guardar</td><td class="msg-err">"Error al guardar la configuración."</td></tr>
+</table>
+
+<div class="box">Cuando corresponde enviarlo, el correo sale siempre a las 8:00 a.m., hora de Costa Rica. Ese horario es fijo y no se modifica desde esta pantalla.</div>
+</section>
+
+<!-- 9. ROLES -->
+<section>
+<h1 class="section-title">9. Roles y permisos</h1>
 <table>
 <tr><th>Funcionalidad</th><th>Admin</th><th>Colaborador</th></tr>
 <tr><td>Panel de inicio</td><td>Sí</td><td>Sí</td></tr>
 <tr><td>Registrar / editar / eliminar adultos mayores</td><td>Sí</td><td>Sí</td></tr>
 <tr><td>Registrar / editar / eliminar medicamentos</td><td>Sí</td><td>Sí</td></tr>
 <tr><td>Consultar / editar historial de salud</td><td>Sí</td><td>Sí</td></tr>
+<tr><td>Configurar o apagar notificaciones automáticas</td><td>Sí</td><td>No</td></tr>
 <tr><td>Administrar usuarios del sistema</td><td>Sí</td><td>No</td></tr>
 <tr><td>Cerrar sesión</td><td>Sí</td><td>Sí</td></tr>
 </table>
 <div class="box">El sistema exige que exista siempre al menos un usuario con rol <strong>Admin</strong> activo, para evitar que el centro quede sin acceso administrativo.</div>
 </section>
 
-<!-- 9. AUTOMATIZACIONES -->
+<!-- 10. AUTOMATIZACIONES -->
 <section>
-<h1 class="section-title">9. Procesos automáticos del sistema</h1>
+<h1 class="section-title">10. Procesos automáticos del sistema</h1>
 
-<h2>9.1 Reporte diario de medicamentos por correo</h2>
-<p>Todos los días, el sistema envía automáticamente un correo electrónico con el listado completo de adultos mayores, sus medicamentos, dosis, horarios y días de administración, a la dirección de correo configurada para notificaciones.</p>
+<h2>10.1 Reporte diario de medicamentos por correo</h2>
+<p>Todos los días, el sistema puede enviar automáticamente un correo electrónico con el listado completo de adultos mayores, sus medicamentos, dosis, horarios y días de administración, a la dirección configurada en el módulo de notificaciones.</p>
+<p>Este envío depende de tres condiciones:</p>
+<ul>
+  <li>Que la opción de notificaciones esté activada.</li>
+  <li>Que el día actual esté habilitado en la configuración.</li>
+  <li>Que exista un correo destino válido.</li>
+</ul>
 
-<h2>9.2 Respaldo semanal de la información</h2>
+<h2>10.2 Respaldo semanal de la información</h2>
 <p>Una vez por semana el sistema genera un respaldo (backup) de la información de adultos mayores, medicamentos, historial de salud y usuarios (sin contraseñas), almacenándolo de forma segura. Se conservan los respaldos de las últimas 6 semanas.</p>
 
-<h2>9.3 Actualización automática del panel de inicio</h2>
+<h2>10.3 Actualización automática del panel de inicio</h2>
 <p>La tabla de medicamentos del día en el Panel de inicio se actualiza automáticamente cada 10 minutos, sin necesidad de recargar la página manualmente.</p>
 
 <div class="box">Estos procesos son completamente automáticos y no requieren ninguna acción por parte del personal del centro.</div>
 </section>
 
-<!-- 10. FAQ -->
+<!-- 11. FAQ -->
 <section>
-<h1 class="section-title">10. Preguntas frecuentes y solución de problemas</h1>
+<h1 class="section-title">11. Preguntas frecuentes y solución de problemas</h1>
 
 <h3>¿Qué hago si olvidé mi contraseña?</h3>
 <p>Hacé clic en "¿Olvidaste tu contraseña?" en la pantalla de inicio de sesión y seguí los pasos indicados en la sección 2.2 de este manual.</p>
@@ -493,6 +546,9 @@
 
 <h3>No veo el ícono de administración de usuarios</h3>
 <p>Ese ícono solo aparece para usuarios con rol <strong>Admin</strong>. Si necesitás realizar cambios de usuarios, solicitalo a un administrador del sistema.</p>
+
+<h3>¿Cómo apago el correo automático de medicamentos?</h3>
+<p>Entrá al módulo <strong>"Notificaciones"</strong>, apagá el interruptor <strong>"Recibir notificación de medicamentos por correo"</strong> y presioná <strong>"Guardar"</strong>. Desde ese momento, el envío diario se omite hasta que vuelvas a activarlo.</p>
 
 <h3>¿Cómo cierro sesión de forma segura?</h3>
 <p>Hacé clic en "Salir" (menú lateral) o en "Cerrar sesión" (pie del menú), confirmá en la ventana emergente y el sistema te llevará nuevamente a la pantalla de inicio de sesión.</p>
