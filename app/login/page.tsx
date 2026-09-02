@@ -122,6 +122,7 @@ function LoginPageContent() {
         </form>
         <Link
           href="/forgot-password"
+          prefetch={false}
           style={{ display: 'block', fontSize: '12px', color: '#14B8A6', textAlign: 'center', marginTop: '16px', textDecoration: 'none', fontWeight: 500 }}
         >
           ¿Olvidaste tu contraseña?
