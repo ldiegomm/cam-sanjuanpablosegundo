@@ -5,7 +5,7 @@
       "schedule": "0 14 * * *"
     },
     {
-      "path": "/api/cron/backup-quincenal",
+      "path": "/api/cron/backup-semanal",
       "schedule": "0 16 * * 0"
     }
   ]

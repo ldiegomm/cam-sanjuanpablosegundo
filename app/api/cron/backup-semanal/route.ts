@@ -7,8 +7,8 @@ const CAMPOS_EXCLUIDOS: Partial<Record<(typeof TABLAS_BACKUP)[number], string[]>
   usuarios: ['password_hash'],
 }
 const BUCKET_BACKUPS = 'backups'
-const RETENCION_SEMANAS = 8
-const INTERVALO_MINIMO_DIAS = 15
+const RETENCION_SEMANAS = 6
+const INTERVALO_MINIMO_DIAS = 7
 const TAMANO_PAGINA = 1000
 const PATRON_NOMBRE_BACKUP = /^backup-(\d{4}-\d{2}-\d{2})\.sql$/
 
