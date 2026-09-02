@@ -64,6 +64,25 @@ describe('/api/configuracion-notificaciones', () => {
       expect(data.success).toBe(true)
       expect(data.configuracion).toEqual(configuracion)
     })
+
+    it('debe retornar 500 si falla la consulta a Supabase', async () => {
+      ;(getSession as jest.Mock).mockResolvedValue({ userId: '1', rol: 'admin' })
+
+      const mockQuery = {
+        select: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        maybeSingle: jest.fn().mockResolvedValue({ data: null, error: { message: 'db down' } }),
+      }
+
+      ;(supabaseAdmin.from as jest.Mock).mockReturnValue(mockQuery)
+
+      const response = await GET()
+      const data = await response.json()
+
+      expect(response.status).toBe(500)
+      expect(data.success).toBe(false)
+      expect(data.message).toBe('Error al obtener la configuración de notificaciones.')
+    })
   })
 
   describe('PUT', () => {
@@ -147,6 +166,89 @@ describe('/api/configuracion-notificaciones', () => {
       expect(response.status).toBe(400)
       expect(data.success).toBe(false)
       expect(data.message).toBe('El correo destino no es válido.')
+    })
+
+    it('debe retornar 400 si falta el campo activo', async () => {
+      ;(getSession as jest.Mock).mockResolvedValue({ userId: '1', rol: 'admin' })
+
+      const request = {
+        json: jest.fn().mockResolvedValue({
+          correo_destino: 'avisos@centro.com',
+          domingo: true,
+          lunes: true,
+          martes: true,
+          miercoles: true,
+          jueves: true,
+          viernes: true,
+          sabado: true,
+        }),
+      } as unknown as Request
+
+      const response = await PUT(request)
+      const data = await response.json()
+
+      expect(response.status).toBe(400)
+      expect(data.success).toBe(false)
+      expect(data.message).toBe('El campo activo es requerido y debe ser verdadero o falso.')
+    })
+
+    it('debe retornar 400 si falta un campo de día de la semana', async () => {
+      ;(getSession as jest.Mock).mockResolvedValue({ userId: '1', rol: 'admin' })
+
+      const request = {
+        json: jest.fn().mockResolvedValue({
+          activo: true,
+          correo_destino: 'avisos@centro.com',
+          domingo: true,
+          lunes: true,
+          martes: true,
+          miercoles: true,
+          jueves: true,
+          viernes: true,
+          // falta "sabado"
+        }),
+      } as unknown as Request
+
+      const response = await PUT(request)
+      const data = await response.json()
+
+      expect(response.status).toBe(400)
+      expect(data.success).toBe(false)
+      expect(data.message).toBe('El campo sabado es requerido y debe ser verdadero o falso.')
+    })
+
+    it('debe retornar 500 si falla la actualización en Supabase', async () => {
+      ;(getSession as jest.Mock).mockResolvedValue({ userId: '1', rol: 'admin' })
+
+      const request = {
+        json: jest.fn().mockResolvedValue({
+          activo: true,
+          correo_destino: 'avisos@centro.com',
+          domingo: true,
+          lunes: true,
+          martes: true,
+          miercoles: true,
+          jueves: true,
+          viernes: true,
+          sabado: true,
+        }),
+      } as unknown as Request
+
+      const mockQuery = {
+        update: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        single: jest.fn().mockResolvedValue({ data: null, error: { message: 'db down' } }),
+      }
+
+      ;(supabaseAdmin.from as jest.Mock).mockReturnValue(mockQuery)
+
+      const response = await PUT(request)
+      const data = await response.json()
+
+      expect(response.status).toBe(500)
+      expect(data.success).toBe(false)
+      expect(data.message).toBe('Error al actualizar la configuración de notificaciones.')
     })
   })
 })
