@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Documentacion de Pruebas Unitarias - CAM San Juan Pablo II</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #232323;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  h1, h2, h3 {
+    color: #0f766e;
+    margin: 0 0 10px 0;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 18px;
+    margin-top: 24px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #14b8a6;
+  }
+  h3 {
+    font-size: 14px;
+    margin-top: 18px;
+  }
+  p {
+    margin: 7px 0;
+  }
+  ul {
+    margin: 8px 0 12px 20px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px 0;
+    font-size: 11px;
+  }
+  th, td {
+    border: 1px solid #d8d6cf;
+    padding: 7px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #ecfdf5;
+    color: #115e59;
+  }
+  tr:nth-child(even) td {
+    background: #fafaf8;
+  }
+  .cover {
+    min-height: 250mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+  }
+  .badge {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #14b8a6, #0f766e);
+    color: white;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  .subtitle {
+    font-size: 16px;
+    color: #525252;
+  }
+  .muted {
+    color: #6b7280;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 14px 0 16px 0;
+  }
+  .card {
+    border: 1px solid #d6d3d1;
+    border-radius: 8px;
+    padding: 12px;
+    background: #fff;
+  }
+  .metric {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f766e;
+  }
+  .box {
+    border: 1px solid #d6d3d1;
+    border-left: 4px solid #14b8a6;
+    background: #f8fafc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 12px 0;
+  }
+  .warn {
+    border-left-color: #d97706;
+    background: #fffbeb;
+  }
+  code {
+    font-family: Consolas, monospace;
+    background: #f3f4f6;
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  .small {
+    font-size: 10px;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+  <div class="cover">
+    <div class="badge">UT</div>
+    <h1>Documentacion de Pruebas Unitarias</h1>
+    <p class="subtitle">Centro Adulto Mayor San Juan Pablo II</p>
+    <p class="muted">Proyecto Next.js con Jest y React Testing Library</p>
+    <p class="muted">Generado el 02/09/2026</p>
+  </div>
+
+  <h2>1. Resumen ejecutivo</h2>
+  <p>Esta documentacion describe el estado actual de las pruebas unitarias del proyecto, las areas cubiertas, la configuracion de ejecucion, los mocks utilizados y las brechas de cobertura detectadas al momento de generar el reporte.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="muted">Suites ejecutadas</div>
+      <div class="metric">8 / 8</div>
+      <div>Todas las suites pasaron.</div>
+    </div>
+    <div class="card">
+      <div class="muted">Tests ejecutados</div>
+      <div class="metric">83 / 83</div>
+      <div>No hay tests fallando ni pendientes.</div>
+    </div>
+    <div class="card">
+      <div class="muted">Tiempo total</div>
+      <div class="metric">6.17 s</div>
+      <div>Ejecucion con <code>--runInBand</code>.</div>
+    </div>
+  </div>
+
+  <div class="box">
+    El estado funcional de la suite es bueno: todas las pruebas automatizadas pasan. El principal punto debil no es estabilidad, sino alcance: la cobertura total es baja porque gran parte del frontend y varias rutas API aun no tienen pruebas directas.
+  </div>
+
+  <h2>2. Stack y configuracion</h2>
+  <ul>
+    <li>Framework de pruebas: <code>jest</code></li>
+    <li>Preset TypeScript: <code>ts-jest</code></li>
+    <li>Entorno DOM: <code>jsdom</code></li>
+    <li>Pruebas de UI: <code>@testing-library/react</code> y <code>@testing-library/jest-dom</code></li>
+    <li>Setup global: <code>jest.setup.ts</code></li>
+    <li>Alias de imports: <code>@/</code> mapeado a <code>&lt;rootDir&gt;/</code></li>
+  </ul>
+
+  <table>
+    <tr>
+      <th>Configuracion</th>
+      <th>Valor actual</th>
+      <th>Impacto</th>
+    </tr>
+    <tr>
+      <td>Preset</td>
+      <td>ts-jest</td>
+      <td>Permite ejecutar tests TypeScript sin build previo.</td>
+    </tr>
+    <tr>
+      <td>Coverage provider</td>
+      <td>v8</td>
+      <td>Genera el reporte de cobertura usado en este documento.</td>
+    </tr>
+    <tr>
+      <td>Test environment</td>
+      <td>jsdom</td>
+      <td>Necesario para hooks y componentes React.</td>
+    </tr>
+    <tr>
+      <td>Setup file</td>
+      <td>jest.setup.ts</td>
+      <td>Centraliza polyfills y mocks globales.</td>
+    </tr>
+    <tr>
+      <td>Patron de pruebas</td>
+      <td><code>*.test.ts</code> y <code>*.test.tsx</code></td>
+      <td>Detecta pruebas junto al codigo fuente.</td>
+    </tr>
+  </table>
+
+  <h2>3. Comandos de uso</h2>
+  <table>
+    <tr>
+      <th>Objetivo</th>
+      <th>Comando</th>
+    </tr>
+    <tr>
+      <td>Ejecutar toda la suite</td>
+      <td><code>npm test</code></td>
+    </tr>
+    <tr>
+      <td>Ejecutar pruebas en orden secuencial</td>
+      <td><code>npm test -- --runInBand</code></td>
+    </tr>
+    <tr>
+      <td>Modo watch para desarrollo</td>
+      <td><code>npm run test:watch</code></td>
+    </tr>
+    <tr>
+      <td>Generar cobertura</td>
+      <td><code>npm run test:coverage -- --runInBand</code></td>
+    </tr>
+  </table>
+
+  <h2>4. Inventario actual de suites</h2>
+  <table>
+    <tr>
+      <th>Archivo de prueba</th>
+      <th>Tipo</th>
+      <th>Casos</th>
+      <th>Enfoque principal</th>
+    </tr>
+    <tr>
+      <td>app/(main)/components/ErrorState.test.tsx</td>
+      <td>UI</td>
+      <td>10</td>
+      <td>Render, iconos, descripcion, boton de accion y estilos.</td>
+    </tr>
+    <tr>
+      <td>app/(main)/components/useEscapeKey.test.ts</td>
+      <td>Hook</td>
+      <td>6</td>
+      <td>Escape, activacion, limpieza y rerender.</td>
+    </tr>
+    <tr>
+      <td>app/api/adultos/route.test.ts</td>
+      <td>API</td>
+      <td>8</td>
+      <td>Autenticacion, listado, agrupacion de historial y alta de adulto.</td>
+    </tr>
+    <tr>
+      <td>app/api/auth/login/route.test.ts</td>
+      <td>API</td>
+      <td>9</td>
+      <td>Login, validaciones, cookie de sesion y ultimo acceso.</td>
+    </tr>
+    <tr>
+      <td>app/api/medicamentos/route.test.ts</td>
+      <td>API</td>
+      <td>12</td>
+      <td>Lectura, validaciones y creacion de prescripciones.</td>
+    </tr>
+    <tr>
+      <td>BD/Acceso.test.ts</td>
+      <td>Datos</td>
+      <td>17</td>
+      <td>RPC, consultas, inserciones, updates y deletes sobre Supabase.</td>
+    </tr>
+    <tr>
+      <td>lib/auth.test.ts</td>
+      <td>Utilidad</td>
+      <td>7</td>
+      <td>Lectura de sesion y guard de autenticacion.</td>
+    </tr>
+    <tr>
+      <td>lib/userRoles.test.ts</td>
+      <td>Utilidad</td>
+      <td>14</td>
+      <td>Normalizacion de roles y valores invalidos.</td>
+    </tr>
+  </table>
+
+  <h2>5. Cobertura actual</h2>
+  <p>La cobertura fue regenerada durante la preparacion de este documento. El resumen general es el siguiente:</p>
+
+  <table>
+    <tr>
+      <th>Metric</th>
+      <th>Valor</th>
+      <th>Lectura</th>
+    </tr>
+    <tr>
+      <td>Statements</td>
+      <td>7.76%</td>
+      <td>Muy baja por gran volumen de pantallas y rutas sin tests.</td>
+    </tr>
+    <tr>
+      <td>Branches</td>
+      <td>76.03%</td>
+      <td>Razonable dentro del codigo que si esta siendo ejercitado.</td>
+    </tr>
+    <tr>
+      <td>Functions</td>
+      <td>36%</td>
+      <td>Intermedia, concentrada en utilidades y APIs cubiertas.</td>
+    </tr>
+    <tr>
+      <td>Lines</td>
+      <td>7.76%</td>
+      <td>Baja por el mismo motivo que statements.</td>
+    </tr>
+  </table>
+
+  <h3>Archivos con cobertura completa o casi completa</h3>
+  <table>
+    <tr>
+      <th>Archivo</th>
+      <th>Statements</th>
+      <th>Branches</th>
+      <th>Functions</th>
+      <th>Lines</th>
+    </tr>
+    <tr>
+      <td>BD/Acceso.ts</td>
+      <td>100%</td>
+      <td>96.55%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>app/(main)/components/ErrorState.tsx</td>
+      <td>100%</td>
+      <td>85.71%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>app/(main)/components/useEscapeKey.ts</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>app/api/adultos/route.ts</td>
+      <td>100%</td>
+      <td>90.47%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>app/api/auth/login/route.ts</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>app/api/medicamentos/route.ts</td>
+      <td>100%</td>
+      <td>80.82%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>lib/auth.ts</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td>lib/userRoles.ts</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td>100%</td>
+    </tr>
+  </table>
+
+  <h3>Areas sin cobertura relevante</h3>
+  <ul>
+    <li>Pantallas principales del frontend: login, home, adultos, historial, medicamentos, forgot-password y reset-password.</li>
+    <li>Layouts de aplicacion y comportamiento de navegacion.</li>
+    <li>Componente grande de administracion: <code>UserManagementModal.tsx</code>.</li>
+    <li>Rutas API no cubiertas: dashboard, historial, usuarios, logout, session, backup semanal, reporte diario, test-connection y varias rutas con <code>[id]</code>.</li>
+    <li>Utilidades no cubiertas: <code>fecha.ts</code>, <code>supabase.ts</code> y <code>EnumeradoSPs.ts</code>.</li>
+  </ul>
+
+  <div class="box warn">
+    La cifra global de cobertura puede parecer peor de lo que realmente esta el nucleo probado, porque <code>collectCoverageFrom</code> incluye una porcion grande del proyecto que hoy no tiene suite dedicada. El problema no es que los tests actuales sean malos; es que faltan mas pruebas sobre interfaces y rutas secundarias.
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>6. Alcance detallado por suite</h2>
+
+  <h3>6.1 ErrorState.test.tsx</h3>
+  <ul>
+    <li>Verifica render del titulo.</li>
+    <li>Comprueba icono por defecto y personalizado.</li>
+    <li>Valida presencia y ausencia de descripcion.</li>
+    <li>Valida que el boton solo aparezca si existen <code>actionLabel</code> y <code>onAction</code>.</li>
+    <li>Confirma ejecucion del callback al hacer click.</li>
+    <li>Comprueba estilos base del componente.</li>
+  </ul>
+
+  <h3>6.2 useEscapeKey.test.ts</h3>
+  <ul>
+    <li>Valida que Escape dispare el callback cuando el hook esta activo.</li>
+    <li>Confirma que otras teclas no disparan la accion.</li>
+    <li>Prueba cambios de estado activo via rerender.</li>
+    <li>Prueba sustitucion de callback en rerender.</li>
+    <li>Verifica limpieza del event listener al desmontar.</li>
+  </ul>
+
+  <h3>6.3 lib/auth.test.ts</h3>
+  <ul>
+    <li>Prueba lectura de la cookie de sesion cuando existe y cuando no existe.</li>
+    <li>Valida manejo de JSON invalido o malformado.</li>
+    <li>Verifica que <code>requireAuth()</code> retorne la sesion o lance <code>No autenticado</code>.</li>
+  </ul>
+
+  <h3>6.4 lib/userRoles.test.ts</h3>
+  <ul>
+    <li>Prueba normalizacion de <code>admin</code> y <code>colaborador</code>.</li>
+    <li>Valida mayusculas, capitalizacion y espacios.</li>
+    <li>Verifica comportamiento con roles invalidos, vacios, null y undefined.</li>
+    <li>Comprueba que <code>USER_ROLES</code> solo contenga los dos roles esperados.</li>
+  </ul>
+
+  <h3>6.5 BD/Acceso.test.ts</h3>
+  <ul>
+    <li>Cubre <code>executeSupabaseQuery()</code> para exito, parametros y error.</li>
+    <li>Cubre <code>getFromTable()</code> con filtros, orden, limite y error.</li>
+    <li>Cubre <code>insertIntoTable()</code> para insercion simple, multiple y error.</li>
+    <li>Cubre <code>updateTable()</code> con filtro simple, multiple y error.</li>
+    <li>Cubre <code>deleteFromTable()</code> con filtro simple, multiple y error.</li>
+  </ul>
+
+  <h3>6.6 app/api/adultos/route.test.ts</h3>
+  <ul>
+    <li>Valida respuesta 401 cuando no hay sesion.</li>
+    <li>Valida lectura de adultos con historial agrupado.</li>
+    <li>Valida manejo de error de consulta.</li>
+    <li>Valida creacion de adulto mayor y persistencia de campos opcionales.</li>
+  </ul>
+
+  <h3>6.7 app/api/auth/login/route.test.ts</h3>
+  <ul>
+    <li>Valida campos requeridos de email y contrasena.</li>
+    <li>Valida credenciales incorrectas y usuario inexistente.</li>
+    <li>Prueba autenticacion correcta con limpieza de <code>password_hash</code> en la respuesta.</li>
+    <li>Verifica actualizacion de <code>ultimo_acceso</code>.</li>
+    <li>Verifica creacion de cookie <code>user_session</code> con atributos de seguridad.</li>
+    <li>Prueba errores de base de datos y excepciones no controladas.</li>
+  </ul>
+
+  <h3>6.8 app/api/medicamentos/route.test.ts</h3>
+  <ul>
+    <li>Valida 401 sin sesion.</li>
+    <li>Valida lectura conjunta de adultos y prescripciones.</li>
+    <li>Valida error cuando falla la consulta de adultos o prescripciones.</li>
+    <li>Valida entrada incorrecta para <code>id_adulto_mayor</code>.</li>
+    <li>Valida nombre requerido del medicamento.</li>
+    <li>Prueba normalizacion de espacios.</li>
+    <li>Prueba valores por defecto para horarios no enviados.</li>
+    <li>Valida error de insercion y alta exitosa.</li>
+  </ul>
+
+  <h2>7. Mocks y entorno de prueba</h2>
+  <p>La suite depende de una capa de mocks relativamente fuerte, lo cual permite aislar el comportamiento de la UI y de las rutas sin conectarse a Supabase real ni a APIs de Next.js en tiempo de ejecucion.</p>
+  <table>
+    <tr>
+      <th>Mock o polyfill</th>
+      <th>Ubicacion</th>
+      <th>Proposito</th>
+    </tr>
+    <tr>
+      <td>TextEncoder / TextDecoder</td>
+      <td>jest.setup.ts</td>
+      <td>Compatibilidad con APIs usadas por Next.js y librerias.</td>
+    </tr>
+    <tr>
+      <td>fetch global</td>
+      <td>jest.setup.ts</td>
+      <td>Aislar llamadas remotas.</td>
+    </tr>
+    <tr>
+      <td>Headers, Request y Response</td>
+      <td>jest.setup.ts</td>
+      <td>Simular entorno de rutas API.</td>
+    </tr>
+    <tr>
+      <td>next/navigation</td>
+      <td>jest.setup.ts</td>
+      <td>Mock del router y hooks de navegacion.</td>
+    </tr>
+    <tr>
+      <td>next/headers</td>
+      <td>jest.setup.ts y tests puntuales</td>
+      <td>Mock de cookies y headers de servidor.</td>
+    </tr>
+    <tr>
+      <td>@/lib/supabase</td>
+      <td>Tests de datos y API</td>
+      <td>Simular consultas y mutaciones sin tocar la BD.</td>
+    </tr>
+    <tr>
+      <td>bcryptjs.compare</td>
+      <td>Login</td>
+      <td>Controlar resultado de verificacion de contrasena.</td>
+    </tr>
+  </table>
+
+  <h2>8. Riesgos y limites actuales</h2>
+  <ul>
+    <li>No hay pruebas automatizadas sobre las pantallas completas del usuario final.</li>
+    <li>No se estan cubriendo flujos complejos con estado local, formularios extensos o navegacion entre pantallas.</li>
+    <li>No hay cobertura sobre rutas criticas como usuarios, historial, dashboard, logout o reset de contrasena.</li>
+    <li>La cobertura de ramas es buena en el codigo probado, pero todavia no protege regresiones en la mayor parte de la aplicacion.</li>
+  </ul>
+
+  <h2>9. Prioridades recomendadas</h2>
+  <table>
+    <tr>
+      <th>Prioridad</th>
+      <th>Area</th>
+      <th>Motivo</th>
+    </tr>
+    <tr>
+      <td>Alta</td>
+      <td>app/api/usuarios y app/api/historial</td>
+      <td>Son rutas de negocio importantes hoy sin cobertura.</td>
+    </tr>
+    <tr>
+      <td>Alta</td>
+      <td>UserManagementModal.tsx</td>
+      <td>Es un componente grande con permisos, formularios y acciones sensibles.</td>
+    </tr>
+    <tr>
+      <td>Alta</td>
+      <td>Formularios de adultos y medicamentos</td>
+      <td>Concentran validaciones y mayor probabilidad de regresion visual/funcional.</td>
+    </tr>
+    <tr>
+      <td>Media</td>
+      <td>Dashboard y utilidades de fecha</td>
+      <td>Importan para calculos diarios y reportes, pero hoy no estan protegidos.</td>
+    </tr>
+    <tr>
+      <td>Media</td>
+      <td>Forgot/reset password y logout/session</td>
+      <td>Ayudan a cubrir autenticacion de punta a punta.</td>
+    </tr>
+  </table>
+
+  <h2>10. Evidencia de ejecucion usada</h2>
+  <div class="box">
+    <p><strong>Resultado de suite:</strong> 8 suites aprobadas, 83 tests aprobados, 0 fallos.</p>
+    <p><strong>Comando:</strong> <code>npm test -- --runInBand --json --outputFile=manual\test-results.json</code></p>
+    <p><strong>Cobertura:</strong> <code>npm run test:coverage -- --runInBand</code></p>
+    <p><strong>Artefactos:</strong> <code>manual\test-results.json</code> y carpeta <code>coverage\</code></p>
+  </div>
+
+  <p class="small muted">Documento generado automaticamente a partir de la configuracion Jest del proyecto, el inventario real de archivos .test.ts/.test.tsx y la ejecucion de la suite en fecha 02/09/2026.</p>
+</body>
+</html>
