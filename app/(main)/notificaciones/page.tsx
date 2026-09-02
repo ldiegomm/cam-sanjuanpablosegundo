@@ -342,7 +342,7 @@ export default function NotificacionesPage() {
                 </div>
 
                 <div className={`${modalStyles.banner} ${modalStyles.bannerSuccess}`} style={{ marginBottom: 0 }}>
-                  Cuando corresponda enviarlo, el correo sale siempre a las 8:00 a.m., hora de Costa Rica. Este horario es fijo y no se puede configurar desde esta pantalla.
+                  El correo se envía siempre a las 8:00 a.m. (hora de Costa Rica); este horario está fijo en el sistema y no se puede configurar desde esta pantalla.
                 </div>
               </>
             )}
