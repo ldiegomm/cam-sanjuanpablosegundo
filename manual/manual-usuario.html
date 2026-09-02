@@ -82,6 +82,12 @@
   .msg-ok { color: #0f7a3d; font-weight: 600; }
   .msg-err { color: #b91c1c; font-weight: 600; }
   .footer-note { font-size: 10.5px; color: #8a8880; margin-top: 30px; border-top: 1px solid #e2e0d6; padding-top: 8px;}
+  figure { margin: 14px 0; text-align: center; page-break-inside: avoid; }
+  figure img {
+    max-width: 92%; max-height: 320px; border: 1px solid #d8d6cf; border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  figcaption { font-size: 10.5px; color: #6b6a63; margin-top: 5px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -154,6 +160,11 @@
 <div class="step"><div class="num">2</div><div>Escribí tu <strong>contraseña</strong>.</div></div>
 <div class="step"><div class="num">3</div><div>Hacé clic en el botón <strong>"Iniciar sesión"</strong>.</div></div>
 
+<figure>
+  <img src="img/00-login.png" alt="Pantalla de inicio de sesión">
+  <figcaption>Pantalla de inicio de sesión</figcaption>
+</figure>
+
 <p>Mientras el sistema valida los datos, el botón muestra el texto <em>"Iniciando sesión..."</em> y queda deshabilitado.</p>
 
 <table>
@@ -167,6 +178,11 @@
 
 <h2>2.2 Recuperar contraseña olvidada</h2>
 <p>Si no recordás tu contraseña, hacé clic en el enlace <strong>"¿Olvidaste tu contraseña?"</strong> ubicado debajo del botón de inicio de sesión.</p>
+
+<figure>
+  <img src="img/11-forgot-password.png" alt="Pantalla de recuperación de contraseña">
+  <figcaption>Pantalla "Recuperar contraseña"</figcaption>
+</figure>
 
 <div class="step"><div class="num">1</div><div>Ingresá el correo electrónico con el que estás registrado en el sistema.</div></div>
 <div class="step"><div class="num">2</div><div>Hacé clic en <strong>"Enviar link de recuperación"</strong>.</div></div>
@@ -194,6 +210,11 @@
 <section>
 <h1 class="section-title">3. Panel de inicio (Dashboard)</h1>
 <p>Es la primera pantalla que se ve después de iniciar sesión (<code>/home</code>). Muestra un resumen general del centro y de los medicamentos que corresponden en el día actual.</p>
+
+<figure>
+  <img src="img/02-dashboard.png" alt="Panel de inicio">
+  <figcaption>Panel de inicio con métricas y medicamentos del día (datos de prueba)</figcaption>
+</figure>
 
 <h2>3.1 Encabezado</h2>
 <p>Se muestra el título <strong>"Panel de inicio"</strong> y la fecha del día, por ejemplo: <em>"Resumen del día — martes 18 de septiembre"</em>.</p>
@@ -233,6 +254,11 @@
 
 <h2>4.1 Lista de adultos mayores (<code>/adultos</code>)</h2>
 <p>Muestra el listado completo de personas registradas, con un contador "X persona(s) registrada(s)".</p>
+
+<figure>
+  <img src="img/01-adultos-lista.png" alt="Lista de adultos mayores">
+  <figcaption>Lista de adultos mayores (datos de prueba)</figcaption>
+</figure>
 <ul>
   <li><strong>Buscador:</strong> permite filtrar en tiempo real por nombre o número de cédula.</li>
   <li><strong>Botón "+ Nuevo registro":</strong> abre el formulario para registrar una nueva persona.</li>
@@ -244,8 +270,18 @@
 <strong>Eliminar un registro es una acción irreversible.</strong> Al presionar "Eliminar" se solicita confirmación con el mensaje: <em>"¿Eliminar paciente? Esta acción eliminará a [nombre] junto con todo su historial y medicamentos. No se puede deshacer."</em> Se debe confirmar con el botón "Sí, eliminar".
 </div>
 
+<figure>
+  <img src="img/09-eliminar-confirmacion.png" alt="Confirmación de eliminación">
+  <figcaption>Ventana de confirmación antes de eliminar un registro</figcaption>
+</figure>
+
 <h2>4.2 Perfil del adulto mayor (<code>/adultos/[id]</code>)</h2>
 <p>Muestra toda la información de la persona: datos personales, dirección, familiar solicitante y contacto de emergencia.</p>
+
+<figure>
+  <img src="img/03-adulto-perfil.png" alt="Perfil del adulto mayor">
+  <figcaption>Perfil de un adulto mayor (datos de prueba)</figcaption>
+</figure>
 <ul>
   <li><strong>Botón "Editar":</strong> abre el formulario de edición de datos.</li>
   <li><strong>Botón "Ver historial":</strong> lleva directamente al historial de salud de esta persona.</li>
@@ -267,6 +303,11 @@
 <tr><td>Recibe pensión IVM</td><td>No</td><td>Sí / No</td></tr>
 <tr><td>Provincia, Cantón, Distrito, Barrio</td><td>No</td><td>Dirección de residencia</td></tr>
 </table>
+
+<figure>
+  <img src="img/08-adulto-nuevo-top.png" alt="Formulario de nuevo registro">
+  <figcaption>Formulario "Nuevo registro" — sección Datos personales</figcaption>
+</figure>
 
 <h3>Familiar solicitante (opcional)</h3>
 <p>Nombre completo, cédula, teléfono y dirección del familiar que solicitó el ingreso.</p>
@@ -296,6 +337,11 @@
 <h1 class="section-title">5. Gestión de medicamentos</h1>
 <p>Pantalla <code>/medicamentos</code>. Permite registrar y controlar los medicamentos de cada persona con sus horarios y días de administración.</p>
 
+<figure>
+  <img src="img/06-medicamentos-tabla.png" alt="Tabla de medicamentos">
+  <figcaption>Medicamentos de una persona, con horarios por columna (datos de prueba)</figcaption>
+</figure>
+
 <h2>5.1 Seleccionar una persona</h2>
 <p>Usá el buscador <strong>"Seleccionar persona"</strong> para encontrar al paciente por nombre. Se puede navegar la lista con las flechas del teclado y confirmar con Enter.</p>
 
@@ -312,6 +358,11 @@
 <tr><td>Sin días seleccionados</td><td class="msg-err">"Seleccioná al menos un día de la semana."</td></tr>
 <tr><td>Guardado exitoso</td><td class="msg-ok">"Medicamento agregado correctamente." / "Medicamento actualizado correctamente."</td></tr>
 </table>
+
+<figure>
+  <img src="img/07-medicamento-agregar.png" alt="Modal agregar medicamento">
+  <figcaption>Ventana para agregar un medicamento, con horarios y días específicos</figcaption>
+</figure>
 
 <h2>5.3 Editar o eliminar un medicamento</h2>
 <p>En la tabla de medicamentos de la persona seleccionada, cada fila tiene los botones <strong>"Editar"</strong> y <strong>"Eliminar"</strong>. Al eliminar se solicita confirmación y, al finalizar, se muestra <span class="msg-ok">"Medicamento eliminado correctamente."</span></p>
@@ -336,12 +387,22 @@
 </table>
 <p>Si la persona no tiene historial cargado, se muestra el mensaje: <em>"Sin historial registrado. No hay información de salud guardada para esta persona."</em></p>
 
+<figure>
+  <img src="img/04-historial.png" alt="Historial de salud">
+  <figcaption>Vista de lectura del historial de salud (datos de prueba)</figcaption>
+</figure>
+
 <h2>6.2 Editar el historial</h2>
 <div class="step"><div class="num">1</div><div>Con la persona seleccionada, hacé clic en <strong>"Editar historial"</strong>.</div></div>
 <div class="step"><div class="num">2</div><div>Completá los padecimientos y lesiones separando cada uno por comas.</div></div>
 <div class="step"><div class="num">3</div><div>Marcá las casillas "Fuma" y/o "Consume licor" si corresponde, e indicá las veces de ejercicio por semana (0 a 7).</div></div>
 <div class="step"><div class="num">4</div><div>Completá las operaciones realizadas, si las hay.</div></div>
 <div class="step"><div class="num">5</div><div>Hacé clic en <strong>"Guardar cambios"</strong>. El sistema confirma con <span class="msg-ok">"Historial actualizado correctamente."</span></div></div>
+
+<figure>
+  <img src="img/05-historial-editar.png" alt="Edición del historial de salud">
+  <figcaption>Formulario de edición del historial de salud</figcaption>
+</figure>
 
 <div class="box">Al igual que en el registro de adultos, si salís de la pantalla con cambios sin guardar, el sistema pedirá confirmación antes de continuar.</div>
 </section>
@@ -355,6 +416,12 @@
 <p>Se abre la ventana <strong>"Usuarios del sistema"</strong>, mostrando la lista de usuarios con su nombre, correo, rol, estado (Activo/Inactivo) y fecha del último acceso.</p>
 
 <h2>7.2 Crear un nuevo usuario</h2>
+
+<figure>
+  <img src="img/10-usuario-crear.png" alt="Formulario crear usuario">
+  <figcaption>Formulario para crear un nuevo usuario del sistema</figcaption>
+</figure>
+
 <div class="step"><div class="num">1</div><div>Hacé clic en <strong>"+ Nuevo usuario"</strong>.</div></div>
 <div class="step"><div class="num">2</div><div>Completá nombre, apellidos, correo electrónico y una contraseña (mínimo 6 caracteres).</div></div>
 <div class="step"><div class="num">3</div><div>Seleccioná el rol: <strong>Admin</strong> o <strong>Colaborador</strong>.</div></div>
@@ -429,6 +496,16 @@
 
 <h3>¿Cómo cierro sesión de forma segura?</h3>
 <p>Hacé clic en "Salir" (menú lateral) o en "Cerrar sesión" (pie del menú), confirmá en la ventana emergente y el sistema te llevará nuevamente a la pantalla de inicio de sesión.</p>
+
+<figure>
+  <img src="img/12-logout-confirm.png" alt="Confirmación de cierre de sesión">
+  <figcaption>Confirmación antes de cerrar sesión</figcaption>
+</figure>
+
+<figure>
+  <img src="img/13-logout-banner.png" alt="Sesión cerrada correctamente">
+  <figcaption>Aviso de sesión cerrada correctamente en la pantalla de inicio de sesión</figcaption>
+</figure>
 
 <div class="footer-note">
 Manual de Usuario — Sistema de Gestión del Centro Adulto Mayor San Juan Pablo II. Documento de referencia para el personal administrativo y colaboradores del centro.
