@@ -270,18 +270,16 @@ function MedicamentosPageContent() {
 
   const handleDiasModoChange = (modo: 'todos' | 'especificos') => {
     setDiasModo(modo)
-    if (modo === 'todos') {
-      setForm(prev => ({
-        ...prev,
-        lunes: true,
-        martes: true,
-        miercoles: true,
-        jueves: true,
-        viernes: true,
-        sabado: true,
-        domingo: true,
-      }))
-    }
+    setForm(prev => ({
+      ...prev,
+      lunes: modo === 'todos',
+      martes: modo === 'todos',
+      miercoles: modo === 'todos',
+      jueves: modo === 'todos',
+      viernes: modo === 'todos',
+      sabado: modo === 'todos',
+      domingo: modo === 'todos',
+    }))
   }
 
   const cerrarModal = () => {
