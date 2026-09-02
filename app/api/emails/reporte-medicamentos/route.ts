@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { supabaseAdmin } from '@/lib/supabase';
-import { obtenerDiaSemanaCR, formatearFechaLarga } from '@/lib/fecha';
+import { obtenerDiaSemanaCR, formatearFechaLarga, type DiaSemana } from '@/lib/fecha';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -37,6 +37,18 @@ type PacienteRow = {
   prescripciones: Prescripcion[];
 };
 
+type ConfiguracionNotificaciones = {
+  activo: boolean;
+  correo_destino: string | null;
+  domingo: boolean;
+  lunes: boolean;
+  martes: boolean;
+  miercoles: boolean;
+  jueves: boolean;
+  viernes: boolean;
+  sabado: boolean;
+};
+
 const MOMENTOS_DIA: { key: keyof Prescripcion; label: string }[] = [
   { key: 'ayunas', label: 'Ayunas' },
   { key: 'desayuno', label: 'Desayuno' },
@@ -65,17 +77,54 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!process.env.EMAIL_NOTIFICACIONES) {
-      console.warn('EMAIL_NOTIFICACIONES no configurado, se omite el envío del reporte de medicamentos');
+    const { fecha } = await request.json();
+    const diaSemana: DiaSemana = obtenerDiaSemanaCR(fecha);
+
+    // 1. Consultar la configuración de notificaciones
+    const { data: configuracion, error: configuracionError } = await supabaseAdmin
+      .from('configuracion_notificaciones')
+      .select('activo, correo_destino, domingo, lunes, martes, miercoles, jueves, viernes, sabado')
+      .eq('id', 1)
+      .maybeSingle<ConfiguracionNotificaciones>();
+
+    if (configuracionError) {
+      console.error('Error Supabase (configuración de notificaciones):', configuracionError);
+      return NextResponse.json({
+        error: configuracionError.message
+      }, { status: 500 });
+    }
+
+    if (!configuracion) {
       return NextResponse.json({
         success: true,
-        message: 'EMAIL_NOTIFICACIONES no está configurado, se omite el envío del correo'
+        message: 'No se encontró la configuración de notificaciones, se omite el envío del correo'
       });
     }
 
-    const { fecha } = await request.json();
+    if (!configuracion.activo) {
+      return NextResponse.json({
+        success: true,
+        message: 'Las notificaciones de medicamentos están desactivadas'
+      });
+    }
 
-    // 1. Query de adultos mayores con sus prescripciones
+    if (!configuracion[diaSemana]) {
+      return NextResponse.json({
+        success: true,
+        message: 'Hoy no corresponde enviar el reporte según la configuración'
+      });
+    }
+
+    const correoDestino = configuracion.correo_destino;
+
+    if (!correoDestino) {
+      return NextResponse.json({
+        success: true,
+        message: 'Falta configurar el correo destino de las notificaciones, se omite el envío del correo'
+      });
+    }
+
+    // 2. Query de adultos mayores con sus prescripciones
     const { data: pacientes, error } = await supabaseAdmin
       .from('adultos_mayores')
       .select(`
@@ -110,8 +159,6 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
 
-    const diaSemana = obtenerDiaSemanaCR(fecha);
-
     const pacientesConMedicamentos = ((pacientes ?? []) as PacienteRow[])
       .map((paciente) => ({
         ...paciente,
@@ -126,7 +173,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // 2. Generar HTML del email
+    // 3. Generar HTML del email
     const fechaFormateada = formatearFechaLarga(fecha);
 
     let emailHTML = `
@@ -173,10 +220,10 @@ export async function POST(request: Request) {
       <p style="color: #9ca3af; font-size: 12px; margin-top: 8px;">Esta es una notificación automática, no es necesario responderla.</p>
     `;
 
-    // 3. Enviar email
+    // 4. Enviar email
     const info = await transporter.sendMail({
       from: `"Centro Adulto Mayor San Juan Pablo II" <${process.env.GMAIL_USER}>`,
-      to: [process.env.EMAIL_NOTIFICACIONES],
+      to: [correoDestino],
       subject: `Reporte de Medicamentos - ${fechaFormateada}`,
       html: emailHTML
     });
