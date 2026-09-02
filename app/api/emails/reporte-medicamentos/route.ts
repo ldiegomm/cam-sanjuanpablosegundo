@@ -66,9 +66,11 @@ export async function POST(request: Request) {
     }
 
     if (!process.env.EMAIL_NOTIFICACIONES) {
+      console.warn('EMAIL_NOTIFICACIONES no configurado, se omite el envío del reporte de medicamentos');
       return NextResponse.json({
-        error: 'EMAIL_NOTIFICACIONES no está configurado'
-      }, { status: 500 });
+        success: true,
+        message: 'EMAIL_NOTIFICACIONES no está configurado, se omite el envío del correo'
+      });
     }
 
     const { fecha } = await request.json();
