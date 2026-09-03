@@ -111,7 +111,7 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 500;
-  background: #14B8A6;
+  background: #0F766E;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -120,7 +120,7 @@
   transition: background 0.15s;
 }
 
-.btnLogin:hover { background: #0F766E; }
+.btnLogin:hover { background: #0c5f58; }
 
 .btnLogin:disabled {
   opacity: 0.5;

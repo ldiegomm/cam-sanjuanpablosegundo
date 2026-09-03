@@ -73,6 +73,8 @@ function LoginPageContent() {
           <img
             src="/logoPAM.jpeg"
             alt="Logo PAM"
+            width={1800}
+            height={1200}
             className={styles.logoImage}
           />
         </div>

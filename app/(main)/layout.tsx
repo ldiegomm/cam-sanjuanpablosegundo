@@ -308,7 +308,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <button onClick={closeLogoutConfirmModal}>Cancelar</button>
               <button
                 onClick={confirmLogout}
-                style={{ background: '#14B8A6', color: '#fff', borderColor: '#14B8A6' }}
+                style={{ background: '#0F766E', color: '#fff', borderColor: '#0F766E' }}
               >
                 Sí, cerrar sesión
               </button>

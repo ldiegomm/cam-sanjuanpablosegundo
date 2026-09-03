@@ -495,7 +495,7 @@ function MedicamentosPageContent() {
       ) : !adultoSeleccionado ? (
         <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
           <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No hay persona seleccionada</p>
-          <p style={{ fontSize: '12px', color: '#7a7970' }}>Buscá y seleccioná un adulto mayor para ver o gestionar sus medicamentos.</p>
+          <p style={{ fontSize: '12px', color: '#6b6a63' }}>Buscá y seleccioná un adulto mayor para ver o gestionar sus medicamentos.</p>
         </div>
       ) : (
         <>

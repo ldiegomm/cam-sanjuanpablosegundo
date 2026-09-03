@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude code local skills/agents (impeccable, etc.)
+/.claude
+/.impeccable
+/PRODUCT.md
+/DESIGN.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -557,7 +557,7 @@ export default function UserManagementModal({
                   <button
                     type="submit"
                     disabled={submitting}
-                    style={{ background: '#14B8A6', color: '#fff', borderColor: '#14B8A6' }}
+                    style={{ background: '#0F766E', color: '#fff', borderColor: '#0F766E' }}
                   >
                     {submitting ? 'Guardando...' : editingUserId ? 'Guardar cambios' : 'Crear usuario'}
                   </button>

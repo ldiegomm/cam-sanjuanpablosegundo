@@ -12,7 +12,7 @@ type ErrorStateProps = {
 }
 
 const defaultIcon = (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7a7970" strokeWidth="1.5">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6b6a63" strokeWidth="1.5">
     <circle cx="12" cy="12" r="10" />
     <line x1="12" y1="8" x2="12" y2="13" />
     <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -27,7 +27,7 @@ export default function ErrorState({ icon, title, description, actionLabel, onAc
       </div>
       <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>{title}</p>
       {description && (
-        <p style={{ fontSize: '12px', color: '#7a7970', marginBottom: actionLabel ? '1rem' : 0 }}>
+        <p style={{ fontSize: '12px', color: '#6b6a63', marginBottom: actionLabel ? '1rem' : 0 }}>
           {description}
         </p>
       )}

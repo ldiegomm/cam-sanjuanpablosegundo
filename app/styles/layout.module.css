@@ -67,7 +67,7 @@
 
 .navItemActive {
   background: #fff;
-  border-left: 3px solid #14B8A6;
+  border-left: 3px solid #14B8A6; /* impeccable-disable-line side-tab -- sidebar nav active-state indicator, not a decorative card border */
 }
 
 .navItemActive svg { color: #14B8A6; }
