@@ -35,6 +35,12 @@ function getInitials(nombre?: string) {
   return (partes[0][0] + (partes[1]?.[0] || '')).toUpperCase()
 }
 
+function formatRolLabel(rol?: string) {
+  if (rol === 'admin') return 'Administrador'
+  if (rol === 'colaborador') return 'Colaborador'
+  return 'Sin rol'
+}
+
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -217,7 +223,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <div className={styles.sidebarFooterUserRow}>
                 <div>
                   <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
-                  <p style={{ fontSize: '11px', color: '#6b6a63' }}>{currentUser?.rol || 'Sin rol'}</p>
+                  <p style={{ fontSize: '11px', color: '#6b6a63' }}>{formatRolLabel(currentUser?.rol)}</p>
                 </div>
                 {isAdmin && (
                   <button
@@ -252,7 +258,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <div className={styles.avatar}>{getInitials(currentUser?.nombre)}</div>
         <div style={{ flex: 1, marginLeft: '8px' }}>
           <p style={{ fontSize: '12px', fontWeight: 500 }}>{currentUser?.nombre || 'Usuario'}</p>
-          <p style={{ fontSize: '11px', color: '#6b6a63' }}>{currentUser?.rol || 'Sin rol'}</p>
+          <p style={{ fontSize: '11px', color: '#6b6a63' }}>{formatRolLabel(currentUser?.rol)}</p>
         </div>
         <button
           type="button"

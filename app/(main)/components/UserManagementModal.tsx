@@ -71,6 +71,10 @@ function isAdminRole(role: string | null | undefined) {
   return String(role || '').toLowerCase() === 'admin'
 }
 
+function formatRolLabel(role: string | null | undefined) {
+  return role === 'admin' ? 'Administrador' : 'Colaborador'
+}
+
 function scrollContainerToElement(container: HTMLElement | null, target: HTMLElement | null, offset = 16) {
   if (!container || !target) return
 
@@ -429,7 +433,7 @@ export default function UserManagementModal({
                                 <span>{getFullName(usuario)}</span>
                             </div>
                           </td>
-                          <td>{usuario.rol}</td>
+                          <td>{formatRolLabel(usuario.rol)}</td>
                           <td>
                             <span className={usuario.activo ? componentStyles.badgeGreen : componentStyles.badgeYellow}>
                               {usuario.activo ? 'Activo' : 'Inactivo'}
@@ -534,7 +538,7 @@ export default function UserManagementModal({
                     >
                       {USER_ROLES.map(role => (
                         <option key={role} value={role}>
-                          {role === 'admin' ? 'Admin' : 'Colaborador'}
+                          {formatRolLabel(role)}
                         </option>
                       ))}
                     </select>

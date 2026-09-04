@@ -157,11 +157,11 @@ export default function HomePage() {
         </div>
         <div style={{ padding: '0 1.25rem' }}>
           {loading ? (
-            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>Cargando...</p>
+            <p style={{ fontSize: '14px', textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>Cargando...</p>
           ) : error ? (
-            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No se pudo cargar la información.</p>
+            <p style={{ fontSize: '14px', textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No se pudo cargar la información.</p>
           ) : pacientesConMedsHoy.length === 0 ? (
-            <p style={{ textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No hay medicamentos programados para hoy.</p>
+            <p style={{ fontSize: '14px', textAlign: 'center', color: '#6b6a63', padding: '2rem 0' }}>No hay medicamentos programados para hoy.</p>
           ) : pacientesConMedsHoy.map((paciente, i) => (
             <div key={i} className={styles.medsPaciente}>
               <p className={styles.medsPacienteNombre}>{paciente.nombre}</p>

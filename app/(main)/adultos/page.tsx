@@ -151,7 +151,19 @@ export default function AdultosPage() {
           onAction={reintentarCargarAdultos}
         />
       ) : filtrados.length === 0 ? (
-        <p className={utilStyles.muted} style={{ fontSize: '13px' }}>No se encontraron resultados.</p>
+        <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
+          {adultos.length === 0 ? (
+            <>
+              <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>Todavía no hay personas registradas</p>
+              <p style={{ fontSize: '12px', color: '#6b6a63' }}>Hacé clic en &quot;+ Nuevo registro&quot; para agregar a la primera persona.</p>
+            </>
+          ) : (
+            <>
+              <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No se encontraron resultados</p>
+              <p style={{ fontSize: '12px', color: '#6b6a63' }}>Probá con otro nombre o número de cédula.</p>
+            </>
+          )}
+        </div>
       ) : (
         filtrados.map((adulto) => (
           <div key={adulto.id} className={styles.personItem}>

@@ -426,8 +426,17 @@ function HistorialPageContent() {
         <>
           {!adultoSeleccionado ? (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No hay persona seleccionada</p>
-              <p style={{ fontSize: '12px', color: '#6b6a63' }}>Buscá y seleccioná un adulto mayor para ver o editar su historial.</p>
+              {adultos.length === 0 ? (
+                <>
+                  <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>Todavía no hay personas registradas</p>
+                  <p style={{ fontSize: '12px', color: '#6b6a63' }}>Registrá a un adulto mayor desde la sección &quot;Adultos&quot; para ver su historial acá.</p>
+                </>
+              ) : (
+                <>
+                  <p style={{ fontSize: '14px', color: '#6b6a63', marginBottom: '6px' }}>No hay persona seleccionada</p>
+                  <p style={{ fontSize: '12px', color: '#6b6a63' }}>Buscá y seleccioná un adulto mayor para ver o editar su historial.</p>
+                </>
+              )}
             </div>
           ) : (
             <>
